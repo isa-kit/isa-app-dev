@@ -1,0 +1,758 @@
+{
+ "districts": [
+  {
+   "name": "district",
+   "type": "text",
+   "label": {
+    "en": "District",
+    "ko": "자치구"
+   }
+  },
+  {
+   "name": "district_kr",
+   "type": "text",
+   "label": {
+    "en": "District (Korean)",
+    "ko": "자치구(한글)"
+   }
+  },
+  {
+   "name": "travel_ease_score",
+   "type": "number",
+   "label": {
+    "en": "Travel-ease score",
+    "ko": "여행 편의성 점수"
+   },
+   "rules": {
+    "meter": true,
+    "max": 100
+   }
+  },
+  {
+   "name": "travel_ease_tier",
+   "type": "enum",
+   "label": {
+    "en": "Travel-ease tier",
+    "ko": "여행 편의성 등급"
+   },
+   "options": [
+    "very-low",
+    "low",
+    "mid",
+    "high",
+    "very-high",
+    "no-data"
+   ]
+  },
+  {
+   "name": "walk_ease_mean",
+   "type": "number",
+   "label": {
+    "en": "Walk-ease (mean)",
+    "ko": "도보 편의성(평균)"
+   }
+  },
+  {
+   "name": "area_centrality_score",
+   "type": "number",
+   "label": {
+    "en": "Area-centrality score",
+    "ko": "지역 중심성 점수"
+   },
+   "rules": {
+    "meter": true,
+    "max": 100
+   }
+  },
+  {
+   "name": "area_centrality_tier",
+   "type": "enum",
+   "label": {
+    "en": "Area-centrality tier",
+    "ko": "지역 중심성 등급"
+   },
+   "options": [
+    "very-low",
+    "low",
+    "mid",
+    "high",
+    "very-high",
+    "no-data"
+   ]
+  },
+  {
+   "name": "station_count",
+   "type": "number",
+   "label": {
+    "en": "Stations in district",
+    "ko": "자치구 내 역 수"
+   }
+  },
+  {
+   "name": "inbound_mean_m",
+   "type": "number",
+   "label": {
+    "en": "Avg minutes arriving here",
+    "ko": "타 지역 출발 평균 도착 시간(분)"
+   }
+  },
+  {
+   "name": "inbound_access_score",
+   "type": "number",
+   "label": {
+    "en": "Destination-access score",
+    "ko": "목적지 접근성 점수"
+   },
+   "rules": {
+    "meter": true,
+    "max": 100
+   }
+  },
+  {
+   "name": "best_spots_score",
+   "type": "number",
+   "label": {
+    "en": "Best-spots score",
+    "ko": "추천 지역 점수"
+   },
+   "rules": {
+    "meter": true,
+    "max": 100
+   }
+  },
+  {
+   "name": "best_spots_tier",
+   "type": "enum",
+   "label": {
+    "en": "Best-spots tier",
+    "ko": "추천 지역 등급"
+   },
+   "options": [
+    "very-low",
+    "low",
+    "mid",
+    "high",
+    "very-high"
+   ]
+  },
+  {
+   "name": "best_spots_rank",
+   "type": "number",
+   "label": {
+    "en": "Best-spots rank",
+    "ko": "추천 지역 순위"
+   }
+  }
+ ],
+ "dong": [
+  {
+   "name": "dong",
+   "type": "text",
+   "label": {
+    "en": "Neighborhood (dong)",
+    "ko": "동(로마자)"
+   }
+  },
+  {
+   "name": "dong_kr",
+   "type": "text",
+   "label": {
+    "en": "Neighborhood (Korean)",
+    "ko": "동(한글)"
+   }
+  },
+  {
+   "name": "station_count",
+   "type": "number",
+   "label": {
+    "en": "Stations in dong",
+    "ko": "동 내 역 수"
+   }
+  },
+  {
+   "name": "travel_ease_score",
+   "type": "number",
+   "label": {
+    "en": "Travel-ease score",
+    "ko": "여행 편의성 점수"
+   },
+   "rules": {
+    "meter": true,
+    "max": 100
+   }
+  },
+  {
+   "name": "travel_ease_tier",
+   "type": "enum",
+   "label": {
+    "en": "Travel-ease tier",
+    "ko": "여행 편의성 등급"
+   },
+   "options": [
+    "very-low",
+    "low",
+    "mid",
+    "high",
+    "very-high",
+    "no-data"
+   ]
+  },
+  {
+   "name": "area_centrality_score",
+   "type": "number",
+   "label": {
+    "en": "Area-centrality score",
+    "ko": "지역 중심성 점수"
+   },
+   "rules": {
+    "meter": true,
+    "max": 100
+   }
+  },
+  {
+   "name": "area_centrality_tier",
+   "type": "enum",
+   "label": {
+    "en": "Area-centrality tier",
+    "ko": "지역 중심성 등급"
+   },
+   "options": [
+    "very-low",
+    "low",
+    "mid",
+    "high",
+    "very-high",
+    "no-data"
+   ]
+  },
+  {
+   "name": "osm_id",
+   "type": "number",
+   "label": {
+    "en": "OSM boundary id (join key)",
+    "ko": "OSM 경계 ID(조인 키)"
+   }
+  }
+ ],
+ "stations": [
+  {
+   "name": "sid",
+   "type": "text",
+   "label": {
+    "en": "Station id",
+    "ko": "역 ID"
+   }
+  },
+  {
+   "name": "name",
+   "type": "text",
+   "label": {
+    "en": "Station",
+    "ko": "역"
+   }
+  },
+  {
+   "name": "name_ko",
+   "type": "text",
+   "label": {
+    "en": "Station (Korean)",
+    "ko": "역명(한글)"
+   }
+  },
+  {
+   "name": "district",
+   "type": "text",
+   "label": {
+    "en": "District",
+    "ko": "자치구"
+   }
+  },
+  {
+   "name": "lat",
+   "type": "number",
+   "label": {
+    "en": "Latitude",
+    "ko": "위도"
+   }
+  },
+  {
+   "name": "lng",
+   "type": "number",
+   "label": {
+    "en": "Longitude",
+    "ko": "경도"
+   }
+  },
+  {
+   "name": "transit_stress_score",
+   "type": "number",
+   "label": {
+    "en": "Transit-stress score",
+    "ko": "교통 스트레스 점수"
+   },
+   "rules": {
+    "meter": true,
+    "max": 100
+   }
+  },
+  {
+   "name": "transit_stress_tier",
+   "type": "enum",
+   "label": {
+    "en": "Transit-stress tier",
+    "ko": "교통 스트레스 등급"
+   },
+   "options": [
+    "very-low",
+    "low",
+    "mid",
+    "high",
+    "very-high"
+   ]
+  }
+ ],
+ "best_spots": [
+  {
+   "name": "district",
+   "type": "text",
+   "label": {
+    "en": "District",
+    "ko": "자치구"
+   }
+  },
+  {
+   "name": "best_spots_score",
+   "type": "number",
+   "label": {
+    "en": "Best-spots score",
+    "ko": "추천 지역 점수"
+   },
+   "rules": {
+    "meter": true,
+    "max": 100
+   }
+  },
+  {
+   "name": "best_spots_tier",
+   "type": "enum",
+   "label": {
+    "en": "Best-spots tier",
+    "ko": "추천 지역 등급"
+   },
+   "options": [
+    "very-low",
+    "low",
+    "mid",
+    "high",
+    "very-high"
+   ]
+  },
+  {
+   "name": "best_spots_rank",
+   "type": "number",
+   "label": {
+    "en": "Rank",
+    "ko": "순위"
+   }
+  },
+  {
+   "name": "best_spots_rank_key",
+   "type": "text",
+   "label": {
+    "en": "Rank key (sort)",
+    "ko": "순위 키(정렬용)"
+   }
+  },
+  {
+   "name": "rank_label",
+   "type": "text",
+   "label": {
+    "en": "Rank + district (display)",
+    "ko": "순위+자치구(표시용)"
+   }
+  },
+  {
+   "name": "inbound_access_score",
+   "type": "number",
+   "label": {
+    "en": "Destination-access score",
+    "ko": "목적지 접근성 점수"
+   },
+   "rules": {
+    "meter": true,
+    "max": 100
+   }
+  },
+  {
+   "name": "inbound_mean_m",
+   "type": "number",
+   "label": {
+    "en": "Avg minutes arriving here",
+    "ko": "타 지역 출발 평균 도착 시간(분)"
+   }
+  },
+  {
+   "name": "area_centrality_score",
+   "type": "number",
+   "label": {
+    "en": "Area-centrality score",
+    "ko": "지역 중심성 점수"
+   },
+   "rules": {
+    "meter": true,
+    "max": 100
+   }
+  },
+  {
+   "name": "travel_ease_score",
+   "type": "number",
+   "label": {
+    "en": "Overall travel-ease score",
+    "ko": "종합 여행 편의성 점수"
+   },
+   "rules": {
+    "meter": true,
+    "max": 100
+   }
+  },
+  {
+   "name": "travel_ease_tier",
+   "type": "enum",
+   "label": {
+    "en": "Overall travel-ease tier",
+    "ko": "종합 여행 편의성 등급"
+   },
+   "options": [
+    "very-low",
+    "low",
+    "mid",
+    "high",
+    "very-high",
+    "no-data"
+   ]
+  },
+  {
+   "name": "lat",
+   "type": "number",
+   "label": {
+    "en": "District centre latitude",
+    "ko": "자치구 중심 위도"
+   }
+  },
+  {
+   "name": "lon",
+   "type": "number",
+   "label": {
+    "en": "District centre longitude",
+    "ko": "자치구 중심 경도"
+   }
+  }
+ ],
+ "events": [
+  {
+   "name": "title",
+   "type": "text",
+   "label": {
+    "en": "Event",
+    "ko": "행사"
+   },
+   "required": true
+  },
+  {
+   "name": "start_date",
+   "type": "date",
+   "label": {
+    "en": "Start date",
+    "ko": "시작일"
+   },
+   "required": true
+  },
+  {
+   "name": "end_date",
+   "type": "date",
+   "label": {
+    "en": "End date",
+    "ko": "종료일"
+   }
+  },
+  {
+   "name": "start_display",
+   "type": "text",
+   "label": {
+    "en": "Start date (display)",
+    "ko": "시작일(표시용)"
+   },
+   "rules": {
+    "date": true
+   }
+  },
+  {
+   "name": "end_display",
+   "type": "text",
+   "label": {
+    "en": "End date (display)",
+    "ko": "종료일(표시용)"
+   },
+   "rules": {
+    "date": true
+   }
+  },
+  {
+   "name": "month",
+   "type": "enum",
+   "label": {
+    "en": "Month",
+    "ko": "월"
+   },
+   "options": [
+    "aug",
+    "sep",
+    "oct"
+   ]
+  },
+  {
+   "name": "city",
+   "type": "text",
+   "label": {
+    "en": "City",
+    "ko": "도시"
+   }
+  },
+  {
+   "name": "category",
+   "type": "text",
+   "label": {
+    "en": "Category",
+    "ko": "분류"
+   }
+  },
+  {
+   "name": "genre",
+   "type": "enum",
+   "label": {
+    "en": "Genre",
+    "ko": "장르"
+   },
+   "options": [
+    "music",
+    "culture",
+    "food",
+    "film",
+    "fireworks",
+    "sport",
+    "seasonal",
+    "other"
+   ]
+  },
+  {
+   "name": "url",
+   "type": "text",
+   "label": {
+    "en": "Link",
+    "ko": "링크"
+   }
+  },
+  {
+   "name": "source_note",
+   "type": "text",
+   "label": {
+    "en": "Source note",
+    "ko": "출처 메모"
+   }
+  }
+ ],
+ "kr_cities": [
+  {
+   "name": "slug",
+   "type": "text",
+   "label": {
+    "en": "Slug",
+    "ko": "슬러그"
+   }
+  },
+  {
+   "name": "name_en",
+   "type": "text",
+   "label": {
+    "en": "City",
+    "ko": "도시"
+   }
+  },
+  {
+   "name": "name_kr",
+   "type": "text",
+   "label": {
+    "en": "City (KR)",
+    "ko": "도시(한글)"
+   }
+  },
+  {
+   "name": "n",
+   "type": "integer",
+   "label": {
+    "en": "Bus stops",
+    "ko": "버스 정류장 수"
+   }
+  },
+  {
+   "name": "url",
+   "type": "text",
+   "label": {
+    "en": "Slice URL",
+    "ko": "슬라이스 URL"
+   }
+  },
+  {
+   "name": "center_lat",
+   "type": "number",
+   "label": {
+    "en": "Center latitude",
+    "ko": "중심 위도"
+   }
+  },
+  {
+   "name": "center_lon",
+   "type": "number",
+   "label": {
+    "en": "Center longitude",
+    "ko": "중심 경도"
+   }
+  },
+  {
+   "name": "zoom",
+   "type": "number",
+   "label": {
+    "en": "Camera zoom",
+    "ko": "카메라 확대 수준"
+   }
+  }
+ ],
+ "reach_origins": [
+  {
+   "name": "label",
+   "type": "text",
+   "label": {
+    "en": "Label",
+    "ko": "라벨"
+   },
+   "required": true
+  }
+ ],
+ "reach_budgets": [
+  {
+   "name": "label",
+   "type": "text",
+   "label": {
+    "en": "Label",
+    "ko": "라벨"
+   },
+   "required": true
+  }
+ ],
+ "reach_shapes": [
+  {
+   "name": "label",
+   "type": "text",
+   "label": {
+    "en": "Label",
+    "ko": "라벨"
+   },
+   "required": true
+  }
+ ],
+ "reach_sizes": [
+  {
+   "name": "label",
+   "type": "text",
+   "label": {
+    "en": "Label",
+    "ko": "라벨"
+   },
+   "required": true
+  }
+ ],
+ "map_cards": [
+  {
+   "name": "label",
+   "type": "text",
+   "label": {
+    "en": "Label",
+    "ko": "라벨"
+   },
+   "required": true
+  },
+  {
+   "name": "state",
+   "type": "text",
+   "label": {
+    "en": "State",
+    "ko": "상태"
+   },
+   "required": true
+  },
+  {
+   "name": "metric",
+   "type": "text",
+   "label": {
+    "en": "Area metric",
+    "ko": "지역 지표"
+   }
+  },
+  {
+   "name": "tier",
+   "type": "text",
+   "label": {
+    "en": "Tier filter",
+    "ko": "등급 필터"
+   }
+  },
+  {
+   "name": "month",
+   "type": "text",
+   "label": {
+    "en": "Month filter",
+    "ko": "월 필터"
+   }
+  },
+  {
+   "name": "outlines",
+   "type": "text",
+   "label": {
+    "en": "District outlines",
+    "ko": "자치구 경계"
+   }
+  },
+  {
+   "name": "help",
+   "type": "text",
+   "label": {
+    "en": "Help disclosure",
+    "ko": "도움말 표시"
+   }
+  },
+  {
+   "name": "walkMode",
+   "type": "text",
+   "label": {
+    "en": "Walk overlay mode",
+    "ko": "도보 오버레이 모드"
+   }
+  },
+  {
+   "name": "section",
+   "type": "text",
+   "label": {
+    "en": "Active section",
+    "ko": "활성 구역"
+   }
+  },
+  {
+   "name": "size",
+   "type": "text",
+   "label": {
+    "en": "Pane size",
+    "ko": "패널 크기"
+   }
+  }
+ ]
+}

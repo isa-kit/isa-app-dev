@@ -1,0 +1,327 @@
+{
+  "board": {
+    "name": "Architecture"
+  },
+  "screens": [
+    {
+      "id": "archit_0_workflow",
+      "name": "Claude workflow",
+      "device": "phone",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "id": "archit_1_updates",
+      "name": "What's new",
+      "device": "phone",
+      "x": 440,
+      "y": 0
+    },
+    {
+      "id": "archit_2_arch",
+      "name": "The package stack",
+      "device": "phone",
+      "x": 880,
+      "y": 0
+    },
+    {
+      "id": "archit_3_classes",
+      "name": "Widget map",
+      "device": "phone",
+      "x": 1320,
+      "y": 0
+    },
+    {
+      "id": "archit_4_ref",
+      "name": "Widget reference",
+      "device": "phone",
+      "x": 0,
+      "y": 900
+    },
+    {
+      "id": "archit_5_data",
+      "name": "Packages & dependencies",
+      "device": "phone",
+      "x": 440,
+      "y": 900
+    }
+  ],
+  "widgets": [
+    {
+      "id": "archit_0_workflow_title",
+      "screen": "archit_0_workflow",
+      "kind": "titlebar",
+      "label": "Claude workflow",
+      "region": "top",
+      "order": 0
+    },
+    {
+      "id": "archit_0_workflow_w0",
+      "screen": "archit_0_workflow",
+      "kind": "text",
+      "label": "How this app gets built",
+      "region": "body",
+      "order": 0
+    },
+    {
+      "id": "archit_0_workflow_w1",
+      "screen": "archit_0_workflow",
+      "kind": "text",
+      "label": "One task is split across many AI agents working in parallel.",
+      "region": "body",
+      "order": 1
+    },
+    {
+      "id": "archit_0_workflow_w2",
+      "screen": "archit_0_workflow",
+      "kind": "list",
+      "label": "title",
+      "region": "body",
+      "order": 2
+    },
+    {
+      "id": "archit_0_workflow_nav",
+      "screen": "archit_0_workflow",
+      "kind": "bottomnav",
+      "label": "Claude workflow · What's new · Architecture · Widgets · Reference · Packages",
+      "region": "bottom",
+      "order": 0
+    },
+    {
+      "id": "archit_1_updates_title",
+      "screen": "archit_1_updates",
+      "kind": "titlebar",
+      "label": "What's new",
+      "region": "top",
+      "order": 0
+    },
+    {
+      "id": "archit_1_updates_w0",
+      "screen": "archit_1_updates",
+      "kind": "text",
+      "label": "What's new",
+      "region": "body",
+      "order": 0
+    },
+    {
+      "id": "archit_1_updates_w1",
+      "screen": "archit_1_updates",
+      "kind": "text",
+      "label": "Recent features, grouped by area.",
+      "region": "body",
+      "order": 1
+    },
+    {
+      "id": "archit_1_updates_w2",
+      "screen": "archit_1_updates",
+      "kind": "list",
+      "label": "title",
+      "region": "body",
+      "order": 2
+    },
+    {
+      "id": "archit_1_updates_nav",
+      "screen": "archit_1_updates",
+      "kind": "bottomnav",
+      "label": "Claude workflow · What's new · Architecture · Widgets · Reference · Packages",
+      "region": "bottom",
+      "order": 0
+    },
+    {
+      "id": "archit_2_arch_title",
+      "screen": "archit_2_arch",
+      "kind": "titlebar",
+      "label": "The package stack",
+      "region": "top",
+      "order": 0
+    },
+    {
+      "id": "archit_2_arch_w0",
+      "screen": "archit_2_arch",
+      "kind": "text",
+      "label": "The isan package stack —",
+      "region": "body",
+      "order": 0
+    },
+    {
+      "id": "archit_2_arch_w1",
+      "screen": "archit_2_arch",
+      "kind": "card",
+      "label": "Canvas",
+      "region": "body",
+      "order": 1
+    },
+    {
+      "id": "archit_2_arch_w2",
+      "screen": "archit_2_arch",
+      "kind": "buttonrow",
+      "label": "New package",
+      "region": "body",
+      "order": 2
+    },
+    {
+      "id": "archit_2_arch_nav",
+      "screen": "archit_2_arch",
+      "kind": "bottomnav",
+      "label": "Claude workflow · What's new · Architecture · Widgets · Reference · Packages",
+      "region": "bottom",
+      "order": 0
+    },
+    {
+      "id": "archit_3_classes_title",
+      "screen": "archit_3_classes",
+      "kind": "titlebar",
+      "label": "Widget map",
+      "region": "top",
+      "order": 0
+    },
+    {
+      "id": "archit_3_classes_w0",
+      "screen": "archit_3_classes",
+      "kind": "text",
+      "label": "flutterboard widgets and what each depends on.",
+      "region": "body",
+      "order": 0
+    },
+    {
+      "id": "archit_3_classes_w1",
+      "screen": "archit_3_classes",
+      "kind": "card",
+      "label": "Canvas",
+      "region": "body",
+      "order": 1
+    },
+    {
+      "id": "archit_3_classes_w2",
+      "screen": "archit_3_classes",
+      "kind": "buttonrow",
+      "label": "New widget node",
+      "region": "body",
+      "order": 2
+    },
+    {
+      "id": "archit_3_classes_nav",
+      "screen": "archit_3_classes",
+      "kind": "bottomnav",
+      "label": "Claude workflow · What's new · Architecture · Widgets · Reference · Packages",
+      "region": "bottom",
+      "order": 0
+    },
+    {
+      "id": "archit_4_ref_title",
+      "screen": "archit_4_ref",
+      "kind": "titlebar",
+      "label": "Widget reference",
+      "region": "top",
+      "order": 0
+    },
+    {
+      "id": "archit_4_ref_w0",
+      "screen": "archit_4_ref",
+      "kind": "text",
+      "label": "Every flutterboard widget and its options.",
+      "region": "body",
+      "order": 0
+    },
+    {
+      "id": "archit_4_ref_w1",
+      "screen": "archit_4_ref",
+      "kind": "list",
+      "label": "attr",
+      "region": "body",
+      "order": 1
+    },
+    {
+      "id": "archit_4_ref_nav",
+      "screen": "archit_4_ref",
+      "kind": "bottomnav",
+      "label": "Claude workflow · What's new · Architecture · Widgets · Reference · Packages",
+      "region": "bottom",
+      "order": 0
+    },
+    {
+      "id": "archit_5_data_title",
+      "screen": "archit_5_data",
+      "kind": "titlebar",
+      "label": "Packages & dependencies",
+      "region": "top",
+      "order": 0
+    },
+    {
+      "id": "archit_5_data_w0",
+      "screen": "archit_5_data",
+      "kind": "text",
+      "label": "Packages",
+      "region": "body",
+      "order": 0
+    },
+    {
+      "id": "archit_5_data_w1",
+      "screen": "archit_5_data",
+      "kind": "text",
+      "label": "One row per package in the stack. Tap to edit its name or position.",
+      "region": "body",
+      "order": 1
+    },
+    {
+      "id": "archit_5_data_w2",
+      "screen": "archit_5_data",
+      "kind": "list",
+      "label": "Table",
+      "region": "body",
+      "order": 2
+    },
+    {
+      "id": "archit_5_data_nav",
+      "screen": "archit_5_data",
+      "kind": "bottomnav",
+      "label": "Claude workflow · What's new · Architecture · Widgets · Reference · Packages",
+      "region": "bottom",
+      "order": 0
+    }
+  ],
+  "flows": [
+    {
+      "id": "archit_flow_0",
+      "fromWidget": "archit_0_workflow_nav",
+      "toScreen": "archit_1_updates",
+      "transition": "push"
+    },
+    {
+      "id": "archit_flow_1",
+      "fromWidget": "archit_1_updates_nav",
+      "toScreen": "archit_2_arch",
+      "transition": "push"
+    },
+    {
+      "id": "archit_flow_2",
+      "fromWidget": "archit_2_arch_nav",
+      "toScreen": "archit_3_classes",
+      "transition": "push"
+    },
+    {
+      "id": "archit_flow_3",
+      "fromWidget": "archit_3_classes_nav",
+      "toScreen": "archit_4_ref",
+      "transition": "push"
+    },
+    {
+      "id": "archit_flow_4",
+      "fromWidget": "archit_4_ref_nav",
+      "toScreen": "archit_5_data",
+      "transition": "push"
+    },
+    {
+      "id": "archit_flow_5",
+      "fromWidget": "archit_5_data_nav",
+      "toScreen": "archit_0_workflow",
+      "transition": "push"
+    },
+    {
+      "id": "archit_flow_extra",
+      "fromWidget": "archit_0_workflow_w2",
+      "toScreen": "archit_1_updates",
+      "transition": "push"
+    }
+  ]
+}

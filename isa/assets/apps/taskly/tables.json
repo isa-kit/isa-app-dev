@@ -1,0 +1,16 @@
+{
+  "tables": [
+    {
+      "name": "entries",
+      "label": { "en": "Entries", "ko": "항목" },
+      "icon": "check_circle",
+      "description": "The universal node for this agenda — the agenda itself (kind=board, one root row), a person (kind=member), a task, an event, or a note. ONE table because the multiuser share pipeline only syncs tables literally named `entries`/`relations`/`users` (isan lib/src/sync/share_scope.dart; custom table names are silently dropped on invite), so v1's tasks/notes/profiles/templates tables could never be shared. Shape copied from `tripboard`/`krtravelplan` rather than reinvented. This table is FIRST on purpose: the host's ICS-import menu item picks its target table by sniffing for a `scheduledStart` column and falls back to the first table."
+    },
+    {
+      "name": "relations",
+      "label": { "en": "Relations", "ko": "연결" },
+      "icon": "hub",
+      "description": "The edges of the graph, mirroring tripboard/krtravelplan/Dispatch exactly: each row links two entries {fromId, toId, type}. type `contains` is the structural agenda-root -> item edge that the share pipeline's subtree closure walks; there are no other edge types."
+    }
+  ]
+}

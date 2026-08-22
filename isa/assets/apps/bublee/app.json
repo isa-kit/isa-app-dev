@@ -1,0 +1,13 @@
+{
+  "id": "bublee",
+  "name": "bublie",
+  "category": "Creative",
+  "description": "Idea boards: bubbles on a board, an ideas table and attached files.",
+  "icon": "bubble_chart",
+  "store": {
+    "type": "sqflite",
+    "namespace": "isan_bublee"
+  },
+  "seedVersion": "2026-08-18.linklabel",
+  "seedContent": "initial-only"
+}

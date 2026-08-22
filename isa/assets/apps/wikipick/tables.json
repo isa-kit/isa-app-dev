@@ -1,0 +1,94 @@
+{
+  "tables": [
+    {
+      "name": "articles",
+      "label": "Library",
+      "icon": "menu_book",
+      "description": "Wikipedia articles cached for offline reading — images are optional per save. Includes seeds you picked directly and articles reached by crawling links."
+    },
+    {
+      "name": "links",
+      "label": "Links",
+      "icon": "link",
+      "description": "Outgoing links discovered on a cached article, and whether the target article has been fetched yet."
+    },
+    {
+      "name": "crawl_queue",
+      "label": "Crawl queue",
+      "icon": "hourglass_bottom",
+      "description": "Articles discovered by a crawl and their fetch status — pending, fetched or failed. Lets a crawl pause and resume."
+    },
+    {
+      "name": "crawls",
+      "label": "Crawls",
+      "icon": "route",
+      "description": "One row per crawl run — its seed article, wiki, depth cap and status. Multiple crawls can overlap the same cached pages; see crawl_members."
+    },
+    {
+      "name": "crawl_members",
+      "label": "Crawl membership",
+      "icon": "workspaces",
+      "description": "Which pages belong to which crawl, and at what depth — the shared-cache join: one articles row can be a member of several crawls without being re-downloaded."
+    },
+    {
+      "name": "searchResults",
+      "label": "Search results",
+      "icon": "search",
+      "description": "Live Wikipedia search results for the current query — transient, cleared and replaced on every search. Tap a row to save it into Library."
+    },
+    {
+      "name": "searchStatus",
+      "label": "Search status",
+      "icon": "hourglass_empty",
+      "description": "Single-row status flag (idle/loading/empty/results) driving the search screen's loading and empty states."
+    },
+    {
+      "name": "readerStatus",
+      "label": "Reader status",
+      "icon": "menu_book",
+      "description": "Single-row scratch state for the reader screen — which article is open, and whether its cache is stale enough to prompt a check for updates."
+    },
+    {
+      "name": "liveArticle",
+      "label": "Reading now",
+      "icon": "auto_stories",
+      "description": "Reader v2 (R5, read-first): single-row scratch holding whatever is CURRENTLY open in the reader — a live (unsaved) fetch, or a copy of a saved Library row. Nothing here is Library content; only an explicit \"Save offline\" tap ever inserts into articles."
+    },
+    {
+      "name": "sections",
+      "label": "Sections",
+      "icon": "toc",
+      "description": "Reader v2 (R3): the heading outline of whatever liveArticle currently holds — recomputed every time liveArticle changes. Drives the reader's sections index chip row."
+    },
+    {
+      "name": "linkChoiceStatus",
+      "label": "Link choice",
+      "icon": "link",
+      "description": "Reader v2 (R2): single-row scratch holding an in-article wikilink's target while the reader shows the \"not cached yet\" choice screen (Save & read / Queue for caching / Open on Wikipedia)."
+    },
+    {
+      "name": "recentReads",
+      "label": "Recently read",
+      "icon": "history",
+      "description": "v3a (W1): a short trail of articles opened in the reader, live or cached, most recent first — feeds the home screen's \"Recently read\" list. Not the Library; nothing here implies the article is saved offline."
+    },
+    {
+      "name": "queueStatus",
+      "label": "Queue status",
+      "icon": "hourglass_bottom",
+      "description": "polish1-0818: single-row scratch state driving the Crawl queue screen's Resume control. \"interrupted\" only ever appears once per boot — pending rows found already queued before this session ever touched them, since a crawl run is an in-memory fiber that cannot survive a page reload."
+    },
+    {
+      "name": "articleImages",
+      "label": "Article images",
+      "icon": "image",
+      "description": "W2 (v3b design of record): one lead-image payload per saved article, local base64 bytes only, never fetched over the network at render time — an article's extractText references its row as `![alt](local:<id>)`. Never re-encoded or re-fetched; deleted together with its owning article."
+    },
+    {
+      "name": "saveOptions",
+      "label": "Save options",
+      "icon": "tune",
+      "description": "W7: single-row scratch holding the CURRENT per-save choices (include images, cache depth) — read by the save action at the moment \"Save offline\"/\"+ Save\" is tapped, not stored per-article afterward."
+    }
+  ]
+}

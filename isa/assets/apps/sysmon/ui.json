@@ -1,0 +1,255 @@
+{
+  "app": {
+    "title": "System Monitor",
+    "primaryColor": "#1F4E79"
+  },
+  "nav": [
+    { "id": "now", "label": "Now", "icon": "speed", "screen": "now" },
+    { "id": "cost", "label": "Prompt cost", "icon": "format_list_bulleted", "screen": "cost" },
+    { "id": "history", "label": "History", "icon": "show_chart", "screen": "history" },
+    { "id": "about", "label": "About", "icon": "info", "screen": "about" }
+  ],
+  "screens": {
+    "now": {
+      "title": "Now",
+      "body": {
+        "type": "column",
+        "children": [
+          {
+            "type": "header",
+            "eyebrow": "the machine",
+            "title": "Can it take more work right now?",
+            "subtitle": "Spare cores is the number to read. Above zero means there is room to start something. Zero means anything you start will queue behind what is already running.",
+            "icon": "speed"
+          },
+          {
+            "type": "button",
+            "label": "Refresh",
+            "icon": "refresh",
+            "action": {
+              "parallel": [
+                {
+                  "fn": "http",
+                  "onError": "continue",
+                  "args": {
+                    "url": "https://167.233.64.97/fleet/snapshot.json",
+                    "method": "GET",
+                    "into": { "table": "headline", "path": "headline", "mode": "replace" },
+                    "timeoutMs": 15000
+                  }
+                },
+                {
+                  "fn": "http",
+                  "onError": "continue",
+                  "args": {
+                    "url": "https://167.233.64.97/fleet/snapshot.json",
+                    "method": "GET",
+                    "into": { "table": "sessions", "path": "sessions", "mode": "replace" },
+                    "timeoutMs": 15000
+                  }
+                },
+                {
+                  "fn": "http",
+                  "onError": "continue",
+                  "args": {
+                    "url": "https://167.233.64.97/fleet/snapshot.json",
+                    "method": "GET",
+                    "into": { "table": "agents", "path": "agents", "mode": "replace" },
+                    "timeoutMs": 15000
+                  }
+                },
+                {
+                  "fn": "http",
+                  "onError": "continue",
+                  "args": {
+                    "url": "https://167.233.64.97/fleet/snapshot.json",
+                    "method": "GET",
+                    "into": { "table": "prompts", "path": "prompts", "mode": "replace" },
+                    "timeoutMs": 15000
+                  }
+                },
+                {
+                  "fn": "http",
+                  "onError": "continue",
+                  "args": {
+                    "url": "https://167.233.64.97/fleet/snapshot.json",
+                    "method": "GET",
+                    "into": { "table": "history", "path": "history", "mode": "replace" },
+                    "timeoutMs": 15000
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "row",
+            "children": [
+              { "type": "stat", "table": "headline", "agg": "sum", "valueColumn": "headroom", "label": "Spare cores", "color": "green", "format": "number", "decimals": 1 },
+              { "type": "stat", "table": "headline", "agg": "sum", "valueColumn": "load1", "label": "Load", "color": "coral", "format": "number", "decimals": 1 },
+              { "type": "stat", "table": "headline", "agg": "sum", "valueColumn": "cores", "label": "Cores", "color": "blue" },
+              { "type": "stat", "table": "headline", "agg": "max", "valueColumn": "iso", "format": "relative", "label": "Snapshot age", "color": "amber" }
+            ]
+          },
+          {
+            "type": "row",
+            "children": [
+              { "type": "stat", "table": "headline", "agg": "sum", "valueColumn": "agents_live", "label": "Agents running", "color": "purple" },
+              { "type": "stat", "table": "headline", "agg": "sum", "valueColumn": "sessions_active", "label": "Sessions", "color": "blue" },
+              { "type": "stat", "table": "headline", "agg": "sum", "valueColumn": "prompts_queued", "label": "Prompts queued", "color": "amber" }
+            ]
+          },
+          {
+            "type": "row",
+            "children": [
+              { "type": "stat", "table": "headline", "agg": "sum", "valueColumn": "claude_procs", "label": "Claude processes", "color": "blue" },
+              { "type": "stat", "table": "headline", "agg": "sum", "valueColumn": "gates", "label": "Test gates", "color": "coral" },
+              { "type": "stat", "table": "headline", "agg": "sum", "valueColumn": "testers", "label": "Test processes", "color": "amber" }
+            ]
+          },
+          {
+            "type": "cards",
+            "table": "headline",
+            "title": "state",
+            "subtitle": "updated",
+            "expandable": true,
+            "expandFields": [
+              { "column": "pressure", "label": "Load per core" },
+              { "column": "mem_gb", "label": "Memory (GB)" },
+              { "column": "disk_free_gb", "label": "Disk free (GB)" },
+              { "column": "uptime_h", "label": "Uptime (h)" },
+              { "column": "iso", "label": "Snapshot taken" }
+            ]
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": "State reads idle below 0.7 load per core, busy to 1.2, saturated to 2.0, overloaded above. Saturated is not broken — it means test gates and agents are already competing, so a new gate will run slow and may be killed by the machine rather than by your code."
+          },
+          { "type": "divider" },
+          { "type": "text", "style": "subtitle", "value": "Sessions in the last 15 minutes" },
+          {
+            "type": "table",
+            "table": "sessions",
+            "columns": ["n", "model", "status", "queued", "idle_s"],
+            "height": 200,
+            "overflow": "cards"
+          },
+          { "type": "spacer" },
+          { "type": "text", "style": "subtitle", "value": "Agents that wrote in the last 10 minutes" },
+          {
+            "type": "table",
+            "table": "agents",
+            "columns": ["n", "running_min", "idle_s"],
+            "height": 200,
+            "overflow": "cards"
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": "The tiles above read zero until the first Refresh — a zero before any refresh means no data yet, not an idle machine. Refresh reads the last snapshot the Mac pushed; it does not reach into the Mac itself. Ask Claude for a fresh reading; if Updated does not move, either no new snapshot has been taken since, or that refresh did not reach the server."
+          }
+        ]
+      }
+    },
+    "cost": {
+      "title": "Prompt cost",
+      "body": {
+        "type": "column",
+        "children": [
+          {
+            "type": "header",
+            "eyebrow": "what work costs",
+            "title": "What did each prompt actually cost?",
+            "subtitle": "Total written is the honest number: what the main session wrote plus what every agent it spawned wrote. Prompt length predicts almost nothing — the expensive ones are long back-and-forth builds, and a short question that fans out to many agents can join them.",
+            "icon": "format_list_bulleted"
+          },
+          {
+            "type": "barchart",
+            "table": "prompts",
+            "labelColumn": "when",
+            "valueColumn": "total_out",
+            "label": "Tokens written per prompt (largest first)",
+            "limit": 25
+          },
+          {
+            "type": "table",
+            "table": "prompts",
+            "columns": ["when", "total_out", "out", "agent_out", "agents_spawned", "dur_min", "chars"],
+            "height": "fill",
+            "overflow": "cards"
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": "Prompt length is the character count of what you typed — the point of showing it next to cost is that the two are barely related. Prompt text itself never leaves the Mac; the full ledger, with the text, stays in _claude/health/prompts.jsonl for reading there."
+          }
+        ]
+      }
+    },
+    "history": {
+      "title": "History",
+      "body": {
+        "type": "column",
+        "children": [
+          {
+            "type": "header",
+            "eyebrow": "over time",
+            "title": "Is the machine getting more or less crowded?",
+            "subtitle": "One reading per snapshot, oldest first, in the table below. Load climbing while agents stay flat means something heavy is running that is not an agent — usually test gates.",
+            "icon": "show_chart"
+          },
+          {
+            "type": "table",
+            "table": "history",
+            "columns": ["when", "load1", "pressure", "agents", "sessions", "queued", "out_tokens"],
+            "height": "fill",
+            "overflow": "cards"
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": "This is the light tail of the log — the last 240 readings. The complete history stays on the Mac in _claude/health/history.jsonl and is never uploaded, because it grows without limit and nothing here needs all of it."
+          }
+        ]
+      }
+    },
+    "about": {
+      "title": "About",
+      "body": {
+        "type": "column",
+        "children": [
+          {
+            "type": "header",
+            "eyebrow": "how it works",
+            "title": "A snapshot the Mac pushes, not a probe of the Mac",
+            "subtitle": "This applet has no way to reach your machine. It reads one small file that your machine chose to publish.",
+            "icon": "info"
+          },
+          { "type": "text", "style": "subtitle", "value": "Where the numbers come from" },
+          {
+            "type": "text",
+            "value": "A Claude session on the Mac runs _claude/scripts/fleet-snapshot.sh. That script reads the machine's own counters (cores, load, running processes) and the Claude Code transcripts already on disk, then writes a snapshot locally and uploads a cleaned copy to https://167.233.64.97/fleet/snapshot.json.\n\nThis applet reads that one file. It holds no credentials and can change nothing — not on the server, not on the Mac."
+          },
+          { "type": "divider" },
+          { "type": "text", "style": "subtitle", "value": "What stays on the Mac" },
+          {
+            "type": "text",
+            "value": "The full efficiency log, the full per-prompt ledger, and every prompt's text stay local and are never uploaded.\n\nWhat is uploaded carries no prompt text, no session identifiers, no file paths and no repository names — sessions and agents are numbered, not named. It is counts, timings and token totals — a few kilobytes."
+          },
+          { "type": "divider" },
+          { "type": "text", "style": "subtitle", "value": "How fresh it is" },
+          {
+            "type": "text",
+            "value": "The snapshot updates when a session on the Mac takes one — there is no background process and nothing on a timer. Updated on the Now screen is the moment of that reading, not the moment you tapped Refresh.\n\nSo the honest reading of a stale Updated is 'nobody has asked the Mac recently', not 'the Mac is quiet'."
+          },
+          { "type": "divider" },
+          { "type": "text", "style": "subtitle", "value": "Known limits" },
+          {
+            "type": "text",
+            "value": "Prompts queued is counted from queue events, and some of those events go missing when a session is interrupted or resumed. A session that has gone quiet is reset to zero, so an idle machine reads zero — but a session that is still active can carry a small overcount from earlier in its own run. Read it as a strong hint, not an exact depth.\n\nAgent cost is attributed by timestamp: an agent's tokens go to whichever prompt was open when the agent wrote them. Spend that predates any known prompt boundary is set aside as unattributed rather than guessed onto a prompt.\n\nCost is shown in tokens written, not in money. Tokens read from cache are shown separately and are far cheaper per token — a prompt with a large cache-read number is not necessarily an expensive one."
+          }
+        ]
+      }
+    }
+  }
+}

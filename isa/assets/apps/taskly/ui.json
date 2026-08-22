@@ -1,0 +1,1122 @@
+{
+  "app": {
+    "appDataTools": true,
+    "appUndoRedo": false,
+    "title": { "en": "Taskly", "ko": "태스클리" },
+    "primaryColor": "#0F766E",
+    "languages": ["en", "ko"],
+    "translatable": true,
+    "settings": [
+      {
+        "label": { "en": "Agenda settings…", "ko": "일정 설정…" },
+        "hint": { "en": "Boards, sharing, and calendar files", "ko": "보드, 공유, 캘린더 파일" },
+        "icon": "settings",
+        "action": "goto",
+        "args": { "screen": "settings" }
+      }
+    ]
+  },
+  "nav": [
+    { "id": "today", "label": { "en": "Today", "ko": "오늘" }, "icon": "calendar_today", "screen": "today", "color": "#0F766E" },
+    { "id": "upcoming", "label": { "en": "Upcoming", "ko": "예정" }, "icon": "checklist", "screen": "upcoming", "color": "#B45309" },
+    { "id": "calendar", "label": { "en": "Calendar", "ko": "달력" }, "icon": "event_note", "screen": "calendar", "color": "#3B5570" },
+    { "id": "map", "label": { "en": "Map", "ko": "지도" }, "icon": "map", "screen": "map", "color": "#15803D" },
+    { "id": "notes", "label": { "en": "Notes", "ko": "메모" }, "icon": "sticky_note", "screen": "notes", "color": "#0369A1" },
+    { "id": "boards", "label": { "en": "Boards", "ko": "보드" }, "icon": "dashboard", "screen": "boards", "color": "#0F766E" },
+    { "id": "people", "label": { "en": "People", "ko": "사람" }, "icon": "people", "screen": "people", "color": "#44403C" },
+    { "id": "activity", "label": { "en": "Activity", "ko": "활동" }, "icon": "history", "screen": "activity", "color": "#BE185D" },
+    { "id": "settings", "label": { "en": "Settings", "ko": "설정" }, "icon": "settings", "screen": "settings", "color": "#475569" }
+  ],
+  "screens": {
+    "today": {
+      "title": { "en": "Today", "ko": "오늘" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Today", "ko": "오늘" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Everything with a day on it, in time order, newest day headings first in plain words. Anything overdue stays visible above today rather than quietly disappearing. Tick a row to finish it; a repeating row makes its next occurrence as soon as you do.",
+              "ko": "날짜가 있는 모든 항목을 시간순으로 보여 줍니다. 날짜 제목은 '오늘', '내일'처럼 표시되고, 기한이 지난 항목은 사라지지 않고 오늘 위에 남습니다. 항목을 체크하면 완료되며, 반복 항목은 바로 다음 일정이 만들어집니다."
+            }
+          },
+          {
+            "type": "row",
+            "wrap": true,
+            "children": [
+              {
+                "type": "button",
+                "label": { "en": "New task today", "ko": "오늘 할 일 추가" },
+                "icon": "add",
+                "action": {
+                  "fn": "addRow",
+                  "args": {
+                    "table": "entries",
+                    "values": { "kind": "task", "status": "todo", "type": "note", "source": "local", "scheduledStart": "today", "author": "$setting:tasklyMemberId", "board": "$setting:tasklyCurrentBoard", "createdBy": "$playerId" },
+                    "link": { "table": "relations", "fromId": "$setting:tasklyCurrentBoard", "type": "contains" }
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "label": { "en": "New event today", "ko": "오늘 일정 추가" },
+                "icon": "event",
+                "action": {
+                  "fn": "addRow",
+                  "args": {
+                    "table": "entries",
+                    "values": { "kind": "event", "status": "todo", "type": "note", "source": "local", "scheduledStart": "today", "author": "$setting:tasklyMemberId", "board": "$setting:tasklyCurrentBoard", "createdBy": "$playerId" },
+                    "link": { "table": "relations", "fromId": "$setting:tasklyCurrentBoard", "type": "contains" }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "agenda",
+            "table": "entries",
+            "dateColumns": ["scheduledStart", "due"],
+            "titleColumn": "title",
+            "statusColumn": "status",
+            "doneValue": "done",
+            "relativeHeaders": true,
+            "timeColumn": "time",
+            "filterable": true,
+            "filter": [{ "column": "kind", "in": ["task", "event"] }, { "column": "board", "value": "$setting:tasklyCurrentBoard" }],
+            "action": { "fn": "editRow" },
+            "onToggle": {
+              "fn": "toggleDone",
+              "args": {
+                "table": "entries", "statusColumn": "status", "doneValue": "done", "openValue": "todo", "repeatColumn": "repeat",
+                "link": { "table": "relations", "inherit": true, "type": "contains" }
+              }
+            },
+            "swipeActions": [
+              "edit",
+              {
+                "label": { "en": "Details", "ko": "자세히" },
+                "icon": "info",
+                "action": { "chain": [{ "fn": "selectRow", "args": { "table": "entries" } }, { "fn": "goto", "args": { "screen": "item" } }] }
+              },
+              {
+                "label": { "en": "Show on map", "ko": "지도에서 보기" },
+                "icon": "place",
+                "action": { "chain": [{ "fn": "focusRow" }, { "fn": "goto", "args": { "screen": "map" } }] }
+              },
+              {
+                "label": { "en": "Move", "ko": "옮기기" },
+                "icon": "dashboard",
+                "action": { "chain": [{ "fn": "selectRow", "args": { "table": "entries" } }, { "fn": "goto", "args": { "screen": "move" } }] }
+              },
+              "delete"
+            ],
+            "emptyIcon": "calendar_today",
+            "emptyTitle": { "en": "Nothing scheduled", "ko": "예정된 일이 없습니다" },
+            "emptyText": { "en": "Add a task or an event with a day on it and it will show up here.", "ko": "날짜가 있는 할 일이나 일정을 추가하면 여기에 표시됩니다." },
+            "emptyActionLabel": { "en": "New task today", "ko": "오늘 할 일 추가" },
+            "emptyActionIcon": "add",
+            "emptyAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "task", "status": "todo", "type": "note", "source": "local", "scheduledStart": "today", "author": "$setting:tasklyMemberId", "board": "$setting:tasklyCurrentBoard", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "$setting:tasklyCurrentBoard", "type": "contains" }
+              }
+            }
+          },
+          { "type": "divider" },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": { "en": "Undated things live under Upcoming, in the \"No date\" group.", "ko": "날짜가 없는 항목은 '예정' 화면의 '날짜 없음' 그룹에 있습니다." }
+          },
+          {
+            "type": "button",
+            "label": { "en": "Open Upcoming", "ko": "예정 열기" },
+            "icon": "checklist",
+            "action": { "fn": "goto", "args": { "screen": "upcoming" } }
+          }
+        ]
+      }
+    },
+    "upcoming": {
+      "title": { "en": "Upcoming", "ko": "예정" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Upcoming", "ko": "예정" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "The load view: how much is overdue, due today, landing this week, and waiting further out — plus everything with no date at all, which is where anything you jotted down without deciding when ends up.",
+              "ko": "업무량을 보는 화면입니다. 기한이 지난 항목, 오늘, 이번 주, 그 이후로 나뉘며 날짜가 없는 항목도 따로 모입니다."
+            }
+          },
+          {
+            "type": "buckets",
+            "table": "entries",
+            "dateColumns": ["scheduledStart", "due"],
+            "titleColumn": "title",
+            "subtitleColumns": ["category", "place"],
+            "statusColumn": "status",
+            "doneValue": "done",
+            "openValue": "todo",
+            "filter": [{ "column": "kind", "in": ["task", "event"] }, { "column": "board", "value": "$setting:tasklyCurrentBoard" }],
+            "action": { "fn": "editRow" },
+            "onToggle": {
+              "fn": "toggleDone",
+              "args": {
+                "table": "entries", "statusColumn": "status", "doneValue": "done", "openValue": "todo", "repeatColumn": "repeat",
+                "link": { "table": "relations", "inherit": true, "type": "contains" }
+              }
+            },
+            "swipeActions": [
+              "edit",
+              {
+                "label": { "en": "Details", "ko": "자세히" },
+                "icon": "info",
+                "action": { "chain": [{ "fn": "selectRow", "args": { "table": "entries" } }, { "fn": "goto", "args": { "screen": "item" } }] }
+              },
+              {
+                "label": { "en": "Move", "ko": "옮기기" },
+                "icon": "dashboard",
+                "action": { "chain": [{ "fn": "selectRow", "args": { "table": "entries" } }, { "fn": "goto", "args": { "screen": "move" } }] }
+              },
+              "delete"
+            ],
+            "emptyIcon": "checklist",
+            "emptyTitle": { "en": "Nothing to do yet", "ko": "아직 할 일이 없습니다" },
+            "emptyText": { "en": "Add a task — with or without a date — and it will be grouped here.", "ko": "날짜가 있든 없든 할 일을 추가하면 여기에서 묶여 표시됩니다." },
+            "emptyActionLabel": { "en": "New task", "ko": "할 일 추가" },
+            "emptyActionIcon": "add",
+            "emptyAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "task", "status": "todo", "type": "note", "source": "local", "author": "$setting:tasklyMemberId", "board": "$setting:tasklyCurrentBoard", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "$setting:tasklyCurrentBoard", "type": "contains" }
+              }
+            }
+          },
+          {
+            "type": "button",
+            "label": { "en": "New task (no date)", "ko": "할 일 추가 (날짜 없음)" },
+            "icon": "add",
+            "action": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "task", "status": "todo", "type": "note", "source": "local", "author": "$setting:tasklyMemberId", "board": "$setting:tasklyCurrentBoard", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "$setting:tasklyCurrentBoard", "type": "contains" }
+              }
+            }
+          },
+          { "type": "divider" },
+          {
+            "type": "button",
+            "label": { "en": "See the long view", "ko": "장기 계획 보기" },
+            "icon": "timeline",
+            "action": { "fn": "goto", "args": { "screen": "longterm" } }
+          }
+        ]
+      }
+    },
+    "calendar": {
+      "title": { "en": "Calendar", "ko": "달력" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Calendar", "ko": "달력" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "The month at a glance — how busy each day is, and where the empty days are. Tap a day to add something already dated to it; tap an item to open it.",
+              "ko": "한 달을 한눈에 봅니다. 어느 날이 바쁜지, 어느 날이 비어 있는지 알 수 있습니다. 날짜를 누르면 그 날짜로 항목이 추가되고, 항목을 누르면 열립니다."
+            }
+          },
+          {
+            "type": "calendar",
+            "table": "entries",
+            "titleColumn": "title",
+            "dateColumns": ["scheduledStart", "due"],
+            "dateColumn": "scheduledStart",
+            "statusColumn": "status",
+            "doneValue": "done",
+            "initialView": "today",
+            "weekStart": "monday",
+            "filter": [{ "column": "kind", "in": ["task", "event"] }, { "column": "board", "value": "$setting:tasklyCurrentBoard" }],
+            "action": { "fn": "editRow" },
+            "addAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "task", "status": "todo", "type": "note", "source": "local", "author": "$setting:tasklyMemberId", "board": "$setting:tasklyCurrentBoard", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "$setting:tasklyCurrentBoard", "type": "contains" }
+              }
+            }
+          },
+          { "type": "divider" },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": { "en": "Everything dated, most recent first — swipe a row to edit or delete it.", "ko": "날짜가 있는 모든 항목을 최신순으로 봅니다. 항목을 밀면 편집하거나 삭제할 수 있습니다." }
+          },
+          {
+            "type": "cards",
+            "table": "entries",
+            "filter": [{ "column": "kind", "in": ["task", "event"] }, { "column": "board", "value": "$setting:tasklyCurrentBoard" }],
+            "sortBy": "scheduledStart",
+            "sortDir": "desc",
+            "title": "title",
+            "subtitle": "place",
+            "tags": [{ "column": "time" }, { "column": "status" }, { "column": "author" }],
+            "accentColumn": "status",
+            "accentColors": { "todo": "gray", "doing": "amber", "done": "green" },
+            "expandable": true,
+            "expandChevron": true,
+            "expandFields": [
+              { "column": "scheduledStart", "label": { "en": "Starts", "ko": "시작" } },
+              { "column": "time", "label": { "en": "Time", "ko": "시간" } },
+              { "column": "endDate", "label": { "en": "Ends", "ko": "종료" } },
+              { "column": "due", "label": { "en": "Due", "ko": "마감" } },
+              { "column": "repeat", "label": { "en": "Repeats", "ko": "반복" } },
+              { "column": "category", "label": { "en": "Category", "ko": "분류" } },
+              { "column": "place", "label": { "en": "Place", "ko": "장소" } },
+              { "column": "notes", "label": { "en": "Notes", "ko": "메모" } },
+              { "column": "author", "label": { "en": "Added by", "ko": "추가한 사람" } }
+            ],
+            "action": { "fn": "editRow" },
+            "swipeActions": [
+              "edit",
+              {
+                "label": { "en": "Details", "ko": "자세히" },
+                "icon": "info",
+                "action": { "chain": [{ "fn": "selectRow", "args": { "table": "entries" } }, { "fn": "goto", "args": { "screen": "item" } }] }
+              },
+              {
+                "label": { "en": "Show on map", "ko": "지도에서 보기" },
+                "icon": "place",
+                "action": { "chain": [{ "fn": "focusRow" }, { "fn": "goto", "args": { "screen": "map" } }] }
+              },
+              {
+                "label": { "en": "Move", "ko": "옮기기" },
+                "icon": "dashboard",
+                "action": { "chain": [{ "fn": "selectRow", "args": { "table": "entries" } }, { "fn": "goto", "args": { "screen": "move" } }] }
+              },
+              "delete"
+            ],
+            "tableView": false,
+            "emptyIcon": "event_note",
+            "emptyTitle": { "en": "Nothing on the calendar", "ko": "달력에 아무것도 없습니다" },
+            "emptyText": { "en": "Tap a day above to put the first thing on it.", "ko": "위의 날짜를 눌러 첫 항목을 추가하세요." }
+          }
+        ]
+      }
+    },
+    "longterm": {
+      "title": { "en": "Long view", "ko": "장기 계획" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Long view", "ko": "장기 계획" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Things that run over days or weeks, drawn as bars against a timeline with a marker on today — so you can see what overlaps and what is about to collide. Give an item a start and an end and it becomes a bar.",
+              "ko": "며칠 또는 몇 주에 걸친 항목을 시간 막대로 보여 주고 오늘 위치를 표시합니다. 무엇이 겹치는지 한눈에 알 수 있습니다. 시작일과 종료일을 넣으면 막대가 됩니다."
+            }
+          },
+          {
+            "type": "gantt",
+            "table": "entries",
+            "startColumn": "scheduledStart",
+            "endColumn": "endDate",
+            "dueColumn": "due",
+            "statusColumn": "status",
+            "doneValue": "done",
+            "filter": [{ "column": "kind", "in": ["task", "event"] }, { "column": "board", "value": "$setting:tasklyCurrentBoard" }],
+            "label": { "en": "Timeline", "ko": "타임라인" },
+            "fillPhone": true
+          },
+          { "type": "divider" },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Someday — anything you wrote down without deciding when. These have no date, so they never appear above; they wait in the \"No date\" group under Upcoming.",
+              "ko": "언젠가 할 일 — 날짜를 정하지 않고 적어 둔 항목입니다. 날짜가 없어 위 타임라인에는 나타나지 않고, '예정' 화면의 '날짜 없음' 그룹에서 기다립니다."
+            }
+          },
+          {
+            "type": "button",
+            "label": { "en": "Open the No-date group", "ko": "날짜 없음 그룹 열기" },
+            "icon": "checklist",
+            "action": { "fn": "goto", "args": { "screen": "upcoming" } }
+          }
+        ]
+      }
+    },
+    "map": {
+      "title": { "en": "Map", "ko": "지도" },
+      "body": {
+        "type": "column",
+        "crossAxis": "stretch",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Map", "ko": "지도" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Anything with a location, on one map — useful when a day's errands are spread around town and the order you do them in matters. Items without a location are simply not shown.",
+              "ko": "위치가 있는 항목을 한 지도에서 봅니다. 하루의 여러 볼일이 흩어져 있을 때 순서를 정하는 데 좋습니다. 위치가 없는 항목은 표시되지 않습니다."
+            }
+          },
+          {
+            "type": "button",
+            "label": { "en": "Show all pins", "ko": "모든 위치 보기" },
+            "icon": "explore",
+            "action": { "fn": "clearFocus" }
+          },
+          {
+            "type": "map",
+            "table": "entries",
+            "latColumn": "lat",
+            "lonColumn": "lon",
+            "labelColumn": "title",
+            "listSubtitleColumn": "place",
+            "listTagColumn": "category",
+            "filter": [{ "column": "kind", "in": ["task", "event"] }, { "column": "board", "value": "$setting:tasklyCurrentBoard" }],
+            "fillPhone": true,
+            "action": { "fn": "editRow" }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "To put something on the map, open it and use the Pick on map button next to Place.",
+              "ko": "지도에 표시하려면 항목을 열고 '장소' 옆의 지도에서 선택 버튼을 사용하세요."
+            }
+          }
+        ]
+      }
+    },
+    "boards": {
+      "title": { "en": "Boards", "ko": "보드" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Boards", "ko": "보드" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Keep separate agendas side by side — a personal one, and a board per trip, project, or group. Tap a board to switch to it: Today, Upcoming, Calendar, Map and Notes then show that board only, and anything you add goes into it. The long view (reached from Upcoming) follows the same board.",
+              "ko": "여러 일정을 나란히 관리합니다 — 개인 일정과 여행·프로젝트·모임별 보드. 보드를 누르면 전환됩니다. '오늘', '예정', '달력', '지도', '메모'는 해당 보드만 보여 주고, 새로 추가하는 항목도 그 보드에 들어갑니다. '예정'에서 열 수 있는 '장기 계획'도 같은 보드를 따릅니다."
+            }
+          },
+          {
+            "type": "button",
+            "label": { "en": "New board", "ko": "보드 추가" },
+            "icon": "add",
+            "action": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "board", "type": "note", "source": "local", "createdBy": "$playerId" }
+              }
+            }
+          },
+          {
+            "type": "text",
+            "style": "subtitle",
+            "value": { "en": "Current board:", "ko": "현재 보드:" }
+          },
+          {
+            "type": "record",
+            "table": "entries",
+            "readOnly": true,
+            "compact": true,
+            "layout": "chips",
+            "rowId": "$selected:tasklyCurrentBoard",
+            "fields": ["title"],
+            "emptyText": "No board picked — tap one below."
+          },
+          {
+            "type": "cards",
+            "table": "entries",
+            "filter": { "column": "kind", "value": "board" },
+            "title": "title",
+            "subtitle": "notes",
+            "density": "row",
+            "accentColumn": "kind",
+            "accentColors": { "board": "teal" },
+            "action": {
+              "chain": [
+                { "fn": "setSetting", "args": { "key": "tasklyCurrentBoard" } },
+                { "fn": "selectRow", "args": { "table": "tasklyCurrentBoard" } }
+              ]
+            },
+            "confirmDelete": true,
+            "builtinDelete": false,
+            "swipeActions": [
+              "edit",
+              {
+                "label": { "en": "Open today", "ko": "오늘 열기" },
+                "icon": "calendar_today",
+                "action": {
+                  "chain": [
+                    { "fn": "setSetting", "args": { "key": "tasklyCurrentBoard" } },
+                    { "fn": "selectRow", "args": { "table": "tasklyCurrentBoard" } },
+                    { "fn": "goto", "args": { "screen": "today" } }
+                  ]
+                }
+              },
+              {
+                "label": { "en": "Delete board…", "ko": "보드 삭제…" },
+                "icon": "delete_outline",
+                "action": { "fn": "hostCall", "args": { "name": "tasklyDeleteBoard" } }
+              }
+            ],
+            "tableView": false,
+            "emptyIcon": "dashboard",
+            "emptyTitle": { "en": "No boards yet", "ko": "아직 보드가 없습니다" },
+            "emptyText": { "en": "Add a board above to get started.", "ko": "위에서 보드를 추가해 시작하세요." },
+            "emptyActionLabel": { "en": "New board", "ko": "보드 추가" },
+            "emptyActionIcon": "add",
+            "emptyAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "board", "type": "note", "source": "local", "createdBy": "$playerId" }
+              }
+            }
+          },
+          { "type": "divider" },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "A board someone shared with you appears here too, as its own board — switching to it never mixes its items into your personal agenda. People and Activity are shared across all your boards. Sharing always applies to the board you are currently on. To delete a board, swipe the board left and tap \"Delete board…\": it removes the board AND everything in it, tells you how many items that is first, and refuses while the board is still shared with other people or while it is your only board. To move one item between boards, swipe it in a list and tap Move (or open its Details and tap \"Move to board…\").",
+              "ko": "다른 사람이 공유한 보드도 여기에 별도의 보드로 나타나며, 전환해도 개인 일정과 섞이지 않습니다. '사람'과 '활동'은 모든 보드에 공통입니다. 공유는 항상 현재 보드에 적용됩니다. 보드를 지우려면 보드를 왼쪽으로 밀어 '보드 삭제…'를 누르세요. 보드와 그 안의 항목을 모두 지우며, 먼저 항목 수를 알려 주고, 다른 사람과 공유 중이거나 마지막 남은 보드일 때는 지워지지 않습니다. 항목 하나만 다른 보드로 옮기려면 목록에서 밀어 '옮기기'를 누르거나, '자세히'에서 '보드 옮기기…'를 누르세요."
+            }
+          }
+        ]
+      }
+    },
+    "people": {
+      "title": { "en": "People", "ko": "사람" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "People", "ko": "사람" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "No sign-in and no account — add a card, then tap it to say that one is you. From then on everything you add carries your badge, so a shared agenda shows who put what on it.",
+              "ko": "로그인도 계정도 필요 없습니다. 카드를 추가한 뒤 눌러서 '내 카드'로 지정하세요. 그때부터 추가하는 모든 항목에 배지가 붙어, 공유된 일정에서 누가 무엇을 넣었는지 알 수 있습니다."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Your name is visible to everyone who can see this agenda, so treat it as shared information rather than a private setting. Leaving it blank is fine — your items just read as unattributed. The badge fills itself in from the name and stays editable.",
+              "ko": "입력한 이름은 이 일정을 볼 수 있는 모두에게 보이므로 개인 설정이 아니라 공유 정보로 생각하세요. 비워 두어도 괜찮습니다 — 항목이 '작성자 없음'으로 표시될 뿐입니다. 배지는 이름에서 자동으로 채워지며 직접 수정할 수 있습니다."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Everyone you add shows up here whichever board you are on. Sharing works a little differently: a person's card travels with the board that was current when you added them, so someone you added on another board still appears in this list but will not be carried into this board's share. If a name is missing for the people you share this board with, add them again while you are on it.",
+              "ko": "추가한 사람은 어느 보드에 있든 모두 이 목록에 표시됩니다. 다만 공유는 조금 다릅니다 — 사람 카드는 추가할 당시의 보드와 함께 전달되므로, 다른 보드에서 추가한 사람은 목록에는 보이지만 이 보드를 공유할 때는 함께 전달되지 않습니다. 이 보드를 공유한 사람들에게 이름이 보이지 않는다면, 이 보드에 있는 상태에서 다시 추가하세요."
+            }
+          },
+          {
+            "type": "button",
+            "label": { "en": "Add a person", "ko": "사람 추가" },
+            "icon": "person_add",
+            "action": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "member", "type": "note", "source": "local", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "$setting:tasklyCurrentBoard", "type": "contains" }
+              }
+            }
+          },
+          {
+            "type": "text",
+            "style": "subtitle",
+            "value": { "en": "You are:", "ko": "내 카드:" }
+          },
+          {
+            "type": "record",
+            "table": "entries",
+            "readOnly": true,
+            "compact": true,
+            "layout": "chips",
+            "rowId": "$selected:tasklyMemberId",
+            "fields": ["title"],
+            "emptyText": "Not picked yet — tap a card below."
+          },
+          {
+            "type": "cards",
+            "table": "entries",
+            "filter": { "column": "kind", "value": "member" },
+            "title": "title",
+            "density": "row",
+            "dotColumn": "color",
+            "colors": {
+              "blue": "blue", "pink": "pink", "teal": "teal", "green": "green",
+              "purple": "purple", "gray": "gray", "amber": "amber", "coral": "coral", "red": "red"
+            },
+            "tags": [{ "column": "initials" }],
+            "accentColumn": "color",
+            "accentColors": {
+              "blue": "blue", "pink": "pink", "teal": "teal", "green": "green",
+              "purple": "purple", "gray": "gray", "amber": "amber", "coral": "coral", "red": "red"
+            },
+            "action": {
+              "chain": [
+                { "fn": "setSetting", "args": { "key": "tasklyMemberId" } },
+                { "fn": "selectRow", "args": { "table": "tasklyMemberId" } }
+              ]
+            },
+            "swipeActions": ["edit", "delete"],
+            "tableView": false,
+            "emptyIcon": "people",
+            "emptyTitle": { "en": "Nobody yet", "ko": "아직 아무도 없습니다" },
+            "emptyText": { "en": "Add a card above, then tap it to say it is you.", "ko": "위에서 카드를 추가한 뒤 눌러서 '내 카드'로 지정하세요." },
+            "emptyActionLabel": { "en": "Add a person", "ko": "사람 추가" },
+            "emptyActionIcon": "person_add",
+            "emptyAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "member", "type": "note", "source": "local", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "$setting:tasklyCurrentBoard", "type": "contains" }
+              }
+            }
+          },
+          { "type": "divider" },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": { "en": "Tapping a card is what makes it \"you\" — editing a card only renames it.", "ko": "카드를 누르면 '내 카드'가 됩니다. 카드를 편집하면 이름만 바뀝니다." }
+          }
+        ]
+      }
+    },
+    "activity": {
+      "title": { "en": "Activity", "ko": "활동" },
+      "body": {
+        "type": "column",
+        "crossAxis": "stretch",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Activity", "ko": "활동" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "The shared log for the board you are on: write down WHY something moved, not just that it did. Comments here belong to that board as a whole — switch boards to read another board's log; for a note about one specific item, open that item's own log from its Details menu.",
+              "ko": "현재 보드의 공유 기록입니다. 무엇이 바뀌었는지뿐 아니라 '왜' 바뀌었는지 적어 두세요. 여기의 댓글은 해당 보드 전체에 대한 것이며, 다른 보드의 기록은 보드를 전환해 확인합니다. 특정 항목에 대한 메모는 그 항목의 '자세히' 메뉴에서 남기세요."
+            }
+          },
+          {
+            "type": "column",
+            "bindRow": true,
+            "rowId": "$selected:tasklyCurrentBoard",
+            "crossAxis": "stretch",
+            "children": [
+              {
+                "type": "entrythread",
+                "surface": true,
+                "table": "entries",
+                "edgesTable": "relations",
+                "edgeFrom": "fromId",
+                "edgeTo": "toId",
+                "edgeType": "type",
+                "containsType": "contains",
+                "titleColumn": "title",
+                "subtitleColumn": "comment",
+                "orderColumn": "order",
+                "titleless": true,
+                "editable": true,
+                "allowAdd": true,
+                "logEntryColumn": "isLogEntry",
+                "timeColumn": "postedAt",
+                "authorColumn": "author",
+                "authorTable": "entries",
+                "authorNameColumn": "title",
+                "authorPicker": true,
+                "defaultAuthor": "$setting:tasklyMemberId",
+                "authorFilter": { "column": "kind", "value": "member" },
+                "editedByColumn": "editedBy",
+                "editedAtColumn": "editedAt",
+                "parentEditedAtColumn": "editedAt",
+                "excludeTypes": [],
+                "addHint": { "en": "Write what changed and why…", "ko": "무엇이 왜 바뀌었는지 적어 주세요…" },
+                "emptyText": { "en": "No log yet — add the first note about how this agenda is going.", "ko": "아직 기록이 없습니다 — 이 일정이 어떻게 진행되는지 첫 메모를 남겨 보세요." },
+                "removeLabel": { "en": "Remove from the log", "ko": "기록에서 제거" },
+                "caption": "Agenda log",
+                "action": { "fn": "editRow", "args": { "table": "entries" } }
+              }
+            ]
+          },
+          { "type": "divider" },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": { "en": "Recently touched — what has actually changed lately, most recent first. This list spans ALL your boards, not just the one you are on.", "ko": "최근에 바뀐 항목 — 가장 최근 순입니다. 이 목록은 현재 보드뿐 아니라 모든 보드를 함께 보여 줍니다." }
+          },
+          {
+            "type": "cards",
+            "table": "entries",
+            "filter": { "column": "kind", "in": ["task", "event", "note", "member"] },
+            "sortBy": "editedAt",
+            "sortDir": "desc",
+            "title": "title",
+            "subtitle": "kind",
+            "density": "row",
+            "tags": [{ "column": "author" }, { "column": "editedBy" }, { "column": "editedAt" }],
+            "accentColumn": "kind",
+            "accentColors": { "task": "amber", "event": "purple", "note": "blue", "member": "gray" },
+            "action": { "fn": "editRow" },
+            "swipeActions": [
+              "edit",
+              {
+                "label": { "en": "Details", "ko": "자세히" },
+                "icon": "info",
+                "action": { "chain": [{ "fn": "selectRow", "args": { "table": "entries" } }, { "fn": "goto", "args": { "screen": "item" } }] }
+              },
+              {
+                "label": { "en": "Move", "ko": "옮기기" },
+                "icon": "dashboard",
+                "action": { "chain": [{ "fn": "selectRow", "args": { "table": "entries" } }, { "fn": "goto", "args": { "screen": "move" } }] }
+              },
+              "delete"
+            ],
+            "tableView": false,
+            "emptyIcon": "history",
+            "emptyTitle": { "en": "Nothing has changed yet", "ko": "아직 변경된 항목이 없습니다" },
+            "emptyText": { "en": "Add or edit something and it will be listed here.", "ko": "항목을 추가하거나 수정하면 여기에 표시됩니다." }
+          }
+        ]
+      }
+    },
+    "item": {
+      "title": { "en": "Details", "ko": "자세히" },
+      "body": {
+        "type": "column",
+        "bindRow": true,
+        "rowId": "$selected:entries",
+        "crossAxis": "stretch",
+        "scroll": true,
+        "children": [
+          {
+            "type": "text",
+            "style": "caption",
+            "value": { "en": "One item, its fields, and its own log — the place to record why this particular thing changed.", "ko": "항목 하나의 내용과 기록입니다. 이 항목이 왜 바뀌었는지 남기는 곳입니다." }
+          },
+          {
+            "type": "record",
+            "table": "entries",
+            "readOnly": true,
+            "compact": true,
+            "layout": "chips",
+            "fields": [
+              "title", "kind", "board", "status", "scheduledStart", "time", "endDate", "endTime",
+              "due", "repeat", "category", "place", "notes", "author",
+              "completed", "editedBy", "editedAt", "source"
+            ],
+            "statusColumn": "status",
+            "doneStatus": "done",
+            "finishedAtColumn": "completed",
+            "editedByColumn": "editedBy",
+            "editedAtColumn": "editedAt"
+          },
+          {
+            "type": "entrythread",
+            "surface": true,
+            "table": "entries",
+            "edgesTable": "relations",
+            "edgeFrom": "fromId",
+            "edgeTo": "toId",
+            "edgeType": "type",
+            "containsType": "contains",
+            "titleColumn": "title",
+            "subtitleColumn": "comment",
+            "orderColumn": "order",
+            "titleless": true,
+            "editable": true,
+            "allowAdd": true,
+            "logEntryColumn": "isLogEntry",
+            "timeColumn": "postedAt",
+            "authorColumn": "author",
+            "authorTable": "entries",
+            "authorNameColumn": "title",
+            "authorPicker": true,
+            "defaultAuthor": "$setting:tasklyMemberId",
+            "authorFilter": { "column": "kind", "value": "member" },
+            "editedByColumn": "editedBy",
+            "editedAtColumn": "editedAt",
+            "parentEditedAtColumn": "editedAt",
+            "addHint": { "en": "Why did this change?…", "ko": "왜 바뀌었나요?…" },
+            "emptyText": { "en": "No log for this item yet.", "ko": "이 항목에는 아직 기록이 없습니다." },
+            "removeLabel": { "en": "Remove from the log", "ko": "기록에서 제거" },
+            "caption": "Item log",
+            "action": { "fn": "editRow", "args": { "table": "entries" } }
+          },
+          {
+            "type": "button",
+            "label": { "en": "Move to board…", "ko": "보드 옮기기…" },
+            "icon": "dashboard",
+            "action": { "fn": "goto", "args": { "screen": "move" } }
+          },
+          {
+            "type": "button",
+            "label": { "en": "Back to today", "ko": "오늘로 돌아가기" },
+            "icon": "calendar_today",
+            "action": { "fn": "goto", "args": { "screen": "today" } }
+          }
+        ]
+      }
+    },
+    "move": {
+      "title": { "en": "Move to board", "ko": "보드 옮기기" },
+      "body": {
+        "type": "column",
+        "crossAxis": "stretch",
+        "scroll": true,
+        "children": [
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Pick the board this item should live in. Moving it takes it out of its current board completely — out of that board's lists AND out of what that board's members can see — and puts it in the one you tap. Tap a board below to move it right away.",
+              "ko": "이 항목을 둘 보드를 고르세요. 옮기면 현재 보드에서 완전히 빠집니다 — 그 보드의 목록에서도, 그 보드를 함께 쓰는 사람들이 보는 내용에서도 사라지고, 누른 보드로 들어갑니다. 아래에서 보드를 누르면 바로 옮겨집니다."
+            }
+          },
+          {
+            "type": "record",
+            "table": "entries",
+            "readOnly": true,
+            "compact": true,
+            "layout": "chips",
+            "rowId": "$selected:entries",
+            "fields": ["title", "kind", "board"],
+            "emptyText": "No item picked — open an item's Details first."
+          },
+          {
+            "type": "cards",
+            "table": "entries",
+            "filter": { "column": "kind", "value": "board" },
+            "title": "title",
+            "subtitle": "notes",
+            "density": "row",
+            "accentColumn": "kind",
+            "accentColors": { "board": "teal" },
+            "builtinDelete": false,
+            "action": {
+              "fn": "hostCall",
+              "args": { "name": "tasklyMoveToBoard", "itemId": "$selected:entries" }
+            },
+            "tableView": false,
+            "emptyIcon": "dashboard",
+            "emptyTitle": { "en": "No boards yet", "ko": "아직 보드가 없습니다" },
+            "emptyText": { "en": "Add a board on the Boards screen first.", "ko": "먼저 '보드' 화면에서 보드를 추가하세요." }
+          },
+          {
+            "type": "button",
+            "label": { "en": "Cancel", "ko": "취소" },
+            "icon": "close",
+            "action": { "fn": "goto", "args": { "screen": "item" } }
+          }
+        ]
+      }
+    },
+    "notes": {
+      "title": { "en": "Notes", "ko": "메모" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Notes", "ko": "메모" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Written things that are not tasks and have no day — reference, decisions, lists you keep coming back to. They stay out of the agenda so they never look overdue.",
+              "ko": "할 일도 아니고 날짜도 없는 기록입니다. 참고 사항, 결정, 자주 다시 보는 목록 등. 일정 화면에는 나타나지 않으므로 기한이 지난 것처럼 보이지 않습니다."
+            }
+          },
+          {
+            "type": "button",
+            "label": { "en": "New note", "ko": "메모 추가" },
+            "icon": "note_add",
+            "action": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "note", "type": "note", "source": "local", "author": "$setting:tasklyMemberId", "board": "$setting:tasklyCurrentBoard", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "$setting:tasklyCurrentBoard", "type": "contains" }
+              }
+            }
+          },
+          {
+            "type": "cards",
+            "table": "entries",
+            "filter": [{ "column": "kind", "value": "note" }, { "column": "board", "value": "$setting:tasklyCurrentBoard" }],
+            "groupByOptions": [
+              { "label": { "en": "Category", "ko": "분류" }, "column": "category" },
+              { "label": { "en": "Added by", "ko": "추가한 사람" }, "column": "author" }
+            ],
+            "sortBy": "updatedAt",
+            "sortDir": "desc",
+            "title": "title",
+            "subtitle": "notes",
+            "tags": [{ "column": "category" }, { "column": "author" }],
+            "expandable": true,
+            "expandChevron": true,
+            "expandFields": [
+              { "column": "notes", "label": { "en": "Notes", "ko": "메모" } },
+              { "column": "category", "label": { "en": "Category", "ko": "분류" } },
+              { "column": "author", "label": { "en": "Added by", "ko": "추가한 사람" } }
+            ],
+            "action": { "fn": "editRow" },
+            "swipeActions": [
+              "edit",
+              {
+                "label": { "en": "Details", "ko": "자세히" },
+                "icon": "info",
+                "action": { "chain": [{ "fn": "selectRow", "args": { "table": "entries" } }, { "fn": "goto", "args": { "screen": "item" } }] }
+              },
+              {
+                "label": { "en": "Move", "ko": "옮기기" },
+                "icon": "dashboard",
+                "action": { "chain": [{ "fn": "selectRow", "args": { "table": "entries" } }, { "fn": "goto", "args": { "screen": "move" } }] }
+              },
+              "delete"
+            ],
+            "tableView": false,
+            "emptyIcon": "sticky_note",
+            "emptyTitle": { "en": "No notes yet", "ko": "아직 메모가 없습니다" },
+            "emptyText": { "en": "Write down something you want to keep but do not need to do.", "ko": "해야 할 일은 아니지만 남겨 두고 싶은 내용을 적어 보세요." },
+            "emptyActionLabel": { "en": "New note", "ko": "메모 추가" },
+            "emptyActionIcon": "note_add",
+            "emptyAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "note", "type": "note", "source": "local", "author": "$setting:tasklyMemberId", "board": "$setting:tasklyCurrentBoard", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "$setting:tasklyCurrentBoard", "type": "contains" }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "settings": {
+      "title": { "en": "Settings", "ko": "설정" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Settings", "ko": "설정" } },
+          {
+            "type": "text",
+            "style": "subtitle",
+            "value": { "en": "Current board:", "ko": "현재 보드:" }
+          },
+          {
+            "type": "record",
+            "table": "entries",
+            "readOnly": true,
+            "compact": true,
+            "layout": "chips",
+            "rowId": "$selected:tasklyCurrentBoard",
+            "fields": ["title", "notes"],
+            "emptyText": "No board picked — open Boards and tap one."
+          },
+          {
+            "type": "button",
+            "label": { "en": "Switch or add a board", "ko": "보드 전환 또는 추가" },
+            "icon": "dashboard",
+            "action": { "fn": "goto", "args": { "screen": "boards" } }
+          },
+          {
+            "type": "card",
+            "padding": 16,
+            "radius": 12,
+            "child": {
+              "type": "column",
+              "children": [
+                { "type": "text", "style": "title", "value": { "en": "Sharing", "ko": "공유" } },
+                {
+                  "type": "text",
+                  "style": "caption",
+                  "value": {
+                    "en": "Sharing applies to the board you are currently on — the one named above. Switch boards first if you meant to share a different one; each board is shared, and joined, on its own.",
+                    "ko": "공유는 현재 보드(위에 표시된 보드)에만 적용됩니다. 다른 보드를 공유하려면 먼저 보드를 전환하세요. 보드는 각각 따로 공유되고 참여됩니다."
+                  }
+                },
+                {
+                  "type": "text",
+                  "style": "body",
+                  "value": {
+                    "en": "Everything you do here saves to this device right away — no account needed. Signing in only matters for a shared agenda: it lets your edits sync to everyone else on the board.",
+                    "ko": "여기서 하는 모든 작업은 계정 없이도 바로 이 기기에 저장됩니다. 로그인은 공유된 일정에서만 필요합니다 — 로그인해야 내 변경사항이 보드의 다른 사람들에게 동기화됩니다."
+                  }
+                },
+                {
+                  "type": "text",
+                  "style": "caption",
+                  "value": {
+                    "en": "This is the same agenda whether you open it at its own address or inside Devisant on this device — one set of tasks, not a separate copy per entry point.",
+                    "ko": "이 일정은 자체 주소로 열든 이 기기의 Devisant 안에서 열든 동일합니다 — 진입 경로마다 별도의 사본이 생기지 않습니다."
+                  }
+                },
+                {
+                  "type": "text",
+                  "style": "body",
+                  "value": {
+                    "en": "This agenda lives on your device until you share it. Sharing requires you, the owner, to sign in; the people you invite then get a copy that stays in sync. Removing someone stops NEW updates reaching them, but a copy they already synced stays on their device.",
+                    "ko": "이 일정은 공유하기 전까지 기기에만 저장됩니다. 공유하려면 소유자 본인이 로그인해야 하며, 초대한 사람은 동기화되는 사본을 받습니다. 누군가를 제거하면 새 업데이트는 전달되지 않지만 이미 동기화된 사본은 그 사람의 기기에 남습니다."
+                  }
+                },
+                {
+                  "type": "text",
+                  "style": "caption",
+                  "value": {
+                    "en": "An invited person who is not signed in gets a read-only link — there is currently no way for them to write back without the owner signing them in first.",
+                    "ko": "로그인하지 않은 초대 대상은 읽기 전용 링크만 받습니다. 소유자의 로그인 없이 직접 수정할 수 있는 방법은 아직 없습니다."
+                  }
+                },
+                {
+                  "type": "row",
+                  "wrap": true,
+                  "children": [
+                    {
+                      "type": "button",
+                      "label": { "en": "Share this board", "ko": "이 보드 공유하기" },
+                      "icon": "share",
+                      "action": { "fn": "shareProject", "args": { "table": "entries", "id": "$setting:tasklyCurrentBoard" } }
+                    },
+                    {
+                      "type": "button",
+                      "label": { "en": "Sharing settings", "ko": "공유 설정" },
+                      "icon": "settings",
+                      "action": { "fn": "projectSettings", "args": { "table": "entries", "id": "$setting:tasklyCurrentBoard" } }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "type": "card",
+            "padding": 16,
+            "radius": 12,
+            "child": {
+              "type": "column",
+              "children": [
+                { "type": "text", "style": "title", "value": { "en": "Calendar files", "ko": "캘린더 파일" } },
+                {
+                  "type": "text",
+                  "style": "body",
+                  "value": {
+                    "en": "Export writes everything dated to a .ics calendar file you can open in Apple Calendar, Google Calendar, or Outlook. Events are written as whole-day entries — the time of day you typed is not carried across, because the export format used here is all-day only.",
+                    "ko": "내보내기는 날짜가 있는 모든 항목을 .ics 캘린더 파일로 저장합니다. Apple 캘린더, Google 캘린더, Outlook에서 열 수 있습니다. 항목은 종일 일정으로 기록되며, 입력한 시각은 함께 저장되지 않습니다."
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": { "en": "Export to a calendar file", "ko": "캘린더 파일로 내보내기" },
+                  "icon": "download",
+                  "action": {
+                    "fn": "exportIcs",
+                    "args": {
+                      "table": "entries",
+                      "titleColumn": "title",
+                      "startColumn": "scheduledStart",
+                      "endColumn": "endDate",
+                      "dueColumn": "due",
+                      "notesColumn": "notes",
+                      "statusColumn": "status",
+                      "doneValue": "done",
+                      "calendarName": "Taskly agenda"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "style": "body",
+                  "value": {
+                    "en": "To bring a calendar IN, use \"Import calendar (.ics)\" in the app's own ⋮ menu at the top of the screen — importing needs a file picker, which lives in the app rather than in this page. Re-importing the same file is safe: an event already here is skipped.",
+                    "ko": "캘린더를 가져오려면 화면 상단의 앱 ⋮ 메뉴에서 '캘린더 가져오기 (.ics)'를 사용하세요. 가져오기에는 파일 선택기가 필요하며 이는 이 화면이 아니라 앱에 있습니다. 같은 파일을 다시 가져와도 안전합니다 — 이미 있는 항목은 건너뜁니다."
+                  }
+                },
+                {
+                  "type": "text",
+                  "style": "caption",
+                  "value": {
+                    "en": "Imported items become events on this agenda: they join Today, Upcoming, and the Calendar, and they are included when you share it. They arrive with no person attached, since the importer cannot know who added them — open one and save it to claim it as yours.",
+                    "ko": "가져온 항목은 이 일정의 일정(이벤트)이 됩니다 — '오늘', '예정', '달력'에 나타나고 공유할 때도 함께 포함됩니다. 다만 담당자는 비어 있습니다 (가져오기 기능은 이를 알 수 없습니다) — 항목을 열어 저장하면 내 것으로 표시할 수 있습니다."
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "card",
+            "padding": 16,
+            "radius": 12,
+            "child": {
+              "type": "column",
+              "children": [
+                { "type": "text", "style": "title", "value": { "en": "Where things are", "ko": "화면 안내" } },
+                {
+                  "type": "text",
+                  "style": "body",
+                  "value": {
+                    "en": "Today is the agenda. Upcoming groups by workload. Calendar is the month. The long view draws multi-day items as bars. Map plots anything with a location. People is who is collaborating. Activity is the shared log.",
+                    "ko": "'오늘'은 일정표, '예정'은 업무량별 묶음, '달력'은 한 달 보기, '장기 계획'은 여러 날에 걸친 항목의 막대 그래프, '지도'는 위치가 있는 항목, '사람'은 참여자, '활동'은 공유 기록입니다."
+                  }
+                },
+                {
+                  "type": "row",
+                  "wrap": true,
+                  "children": [
+                    { "type": "button", "label": { "en": "Long view", "ko": "장기 계획" }, "icon": "timeline", "action": { "fn": "goto", "args": { "screen": "longterm" } } },
+                    { "type": "button", "label": { "en": "Map", "ko": "지도" }, "icon": "map", "action": { "fn": "goto", "args": { "screen": "map" } } }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "style": "caption",
+                  "value": {
+                    "en": "Your data stays on this device unless you sign in and share. Names you type on the People screen are shared with everyone who can see this agenda.",
+                    "ko": "데이터는 로그인하고 공유하기 전까지 이 기기에만 저장됩니다. '사람' 화면에 입력한 이름은 이 일정을 볼 수 있는 모두에게 공유됩니다."
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

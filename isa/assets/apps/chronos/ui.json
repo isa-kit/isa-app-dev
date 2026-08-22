@@ -1,0 +1,863 @@
+{
+  "app": {
+    "appDataTools": true,
+    "title": "Chronos — history timelapse",
+    "primaryColor": "#7A4B3A",
+    "theme": "material"
+  },
+  "nav": [
+    {
+      "id": "map",
+      "label": "Map",
+      "icon": "public",
+      "screen": "map"
+    },
+    {
+      "id": "battles",
+      "label": "Battles",
+      "icon": "history",
+      "screen": "battles"
+    },
+    {
+      "id": "about",
+      "label": "About",
+      "icon": "info",
+      "screen": "about"
+    }
+  ],
+  "screens": {
+    "map": {
+      "title": "Chronos",
+      "maxContentWidth": 900,
+      "body": {
+        "type": "column",
+        "scroll": true,
+        "children": [
+          {
+            "type": "glmap",
+            "id": "chronos_map",
+            "height": 460,
+            "fillPhone": false,
+            "zoom": 2,
+            "center": [
+              20,
+              10
+            ],
+            "geojsonSources": {
+              "empires": "apps/chronos/empires_overview.geojson",
+              "battles": "apps/chronos/battles.geojson"
+            },
+            "sourceLayers": [
+              {
+                "id": "empire_fill",
+                "source": "empires",
+                "kind": "fill",
+                "title": "Territories",
+                "filter": [
+                  "all",
+                  [
+                    "<=",
+                    "yearFrom",
+                    1000
+                  ],
+                  [
+                    ">",
+                    "yearTo",
+                    1000
+                  ]
+                ],
+                "paint": {
+                  "colorProp": "color_key",
+                  "ramp": {
+                    "c0": "#B33951",
+                    "c1": "#3D5A80",
+                    "c2": "#E09F3E",
+                    "c3": "#588157",
+                    "c4": "#8338EC",
+                    "c5": "#FF6B6B",
+                    "c6": "#4CC9F0",
+                    "c7": "#F4A261",
+                    "c8": "#2A9D8F",
+                    "c9": "#9B5DE5",
+                    "c10": "#F15BB5",
+                    "c11": "#00BBF9",
+                    "c12": "#FEE440",
+                    "c13": "#606C38",
+                    "c14": "#BC6C25",
+                    "c15": "#6A4C93",
+                    "c16": "#EF476F",
+                    "c17": "#118AB2",
+                    "c18": "#FFD166",
+                    "c19": "#073B4C"
+                  },
+                  "opacity": 0.55,
+                  "antialias": false
+                },
+                "crossfadeMs": 600
+              },
+              {
+                "id": "empire_border",
+                "source": "empires",
+                "kind": "line",
+                "title": "Territory borders",
+                "filter": [
+                  "all",
+                  [
+                    "<=",
+                    "yearFrom",
+                    1000
+                  ],
+                  [
+                    ">",
+                    "yearTo",
+                    1000
+                  ]
+                ],
+                "paint": {
+                  "color": "#20201f",
+                  "width": 0.6,
+                  "opacity": 0.45
+                },
+                "crossfadeMs": 600
+              },
+              {
+                "id": "battle_points",
+                "source": "battles",
+                "kind": "circle",
+                "title": "Battles",
+                "filter": [
+                  "all",
+                  [
+                    "<=",
+                    "yearFrom",
+                    1000
+                  ],
+                  [
+                    ">",
+                    "yearTo",
+                    1000
+                  ]
+                ],
+                "paint": {
+                  "color": "#B33951",
+                  "radius": 5,
+                  "opacity": 0.9,
+                  "outline": "#ffffff"
+                }
+              }
+            ],
+            "layerPanel": {
+              "align": "topStart",
+              "title": "Layers"
+            },
+            "legend": {
+              "entries": {
+                "Territory (color = polity)": "#8338EC",
+                "Battle": "#B33951"
+              },
+              "title": "Legend",
+              "collapsible": true,
+              "startCollapsed": true
+            },
+            "tapLayers": [
+              "empire_fill",
+              "battle_points"
+            ],
+            "tapLayerDetails": {
+              "empire_fill": {
+                "titleField": "name",
+                "fields": [
+                  "name",
+                  "year"
+                ],
+                "labels": {
+                  "name": "Territory",
+                  "year": "Map snapshot year"
+                },
+                "note": "Approximate historical border — scholarly-approximate, not an authoritative boundary claim."
+              },
+              "battle_points": {
+                "titleField": "name",
+                "fields": [
+                  "name",
+                  "year",
+                  "war"
+                ],
+                "labels": {
+                  "name": "Battle",
+                  "year": "Year",
+                  "war": "Part of"
+                },
+                "note": "A curated sample of notable battles, not a complete record."
+              }
+            }
+          },
+          {
+            "type": "spacer",
+            "height": 8
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": "Era zones — jump the slider's range, then press play to sweep just that era:"
+          },
+          {
+            "type": "row",
+            "wrap": true,
+            "spacing": 6,
+            "runSpacing": 6,
+            "children": [
+              {
+                "type": "button",
+                "label": "All time",
+                "variant": "outlined",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    {
+                      "fn": "mapSetGeojsonSource",
+                      "args": {
+                        "node": "chronos_map",
+                        "source": "empires",
+                        "url": "apps/chronos/empires_overview.geojson"
+                      }
+                    },
+                    {
+                      "fn": "sliderSetRange",
+                      "args": {
+                        "node": "chronos_year_slider"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "Bronze & Iron Age",
+                "variant": "outlined",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    {
+                      "fn": "mapSetGeojsonSource",
+                      "args": {
+                        "node": "chronos_map",
+                        "source": "empires",
+                        "url": "apps/chronos/era_bronze.geojson"
+                      }
+                    },
+                    {
+                      "fn": "sliderSetRange",
+                      "args": {
+                        "node": "chronos_year_slider",
+                        "min": -2000,
+                        "max": -500
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "Classical",
+                "variant": "outlined",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    {
+                      "fn": "mapSetGeojsonSource",
+                      "args": {
+                        "node": "chronos_map",
+                        "source": "empires",
+                        "url": "apps/chronos/era_classical.geojson"
+                      }
+                    },
+                    {
+                      "fn": "sliderSetRange",
+                      "args": {
+                        "node": "chronos_year_slider",
+                        "min": -500,
+                        "max": 500
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "Medieval",
+                "variant": "outlined",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    {
+                      "fn": "mapSetGeojsonSource",
+                      "args": {
+                        "node": "chronos_map",
+                        "source": "empires",
+                        "url": "apps/chronos/era_medieval.geojson"
+                      }
+                    },
+                    {
+                      "fn": "sliderSetRange",
+                      "args": {
+                        "node": "chronos_year_slider",
+                        "min": 500,
+                        "max": 1500
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "Early modern",
+                "variant": "outlined",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    {
+                      "fn": "mapSetGeojsonSource",
+                      "args": {
+                        "node": "chronos_map",
+                        "source": "empires",
+                        "url": "apps/chronos/era_earlymodern.geojson"
+                      }
+                    },
+                    {
+                      "fn": "sliderSetRange",
+                      "args": {
+                        "node": "chronos_year_slider",
+                        "min": 1400,
+                        "max": 1800
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "Modern",
+                "variant": "outlined",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    {
+                      "fn": "mapSetGeojsonSource",
+                      "args": {
+                        "node": "chronos_map",
+                        "source": "empires",
+                        "url": "apps/chronos/era_modern.geojson"
+                      }
+                    },
+                    {
+                      "fn": "sliderSetRange",
+                      "args": {
+                        "node": "chronos_year_slider",
+                        "min": 1800,
+                        "max": 2010
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "spacer",
+            "height": 4
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": "Custom zone — pick a century-wide window (engine limitation: two picker values can't yet compose into one action, so this is century-granularity rather than free-typed years; see pipeline/build.py ENGINE NOTE):"
+          },
+          {
+            "type": "row",
+            "wrap": true,
+            "spacing": 6,
+            "runSpacing": 6,
+            "children": [
+              {
+                "type": "button",
+                "label": "2000-1900 BCE",
+                "variant": "text",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    { "fn": "mapSetGeojsonSource", "args": { "node": "chronos_map", "source": "empires", "url": "apps/chronos/era_bronze.geojson" } },
+                    { "fn": "sliderSetRange", "args": { "node": "chronos_year_slider", "min": -2000, "max": -1900 } }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "1500-1400 BCE",
+                "variant": "text",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    { "fn": "mapSetGeojsonSource", "args": { "node": "chronos_map", "source": "empires", "url": "apps/chronos/era_bronze.geojson" } },
+                    { "fn": "sliderSetRange", "args": { "node": "chronos_year_slider", "min": -1500, "max": -1400 } }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "1000-900 BCE",
+                "variant": "text",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    { "fn": "mapSetGeojsonSource", "args": { "node": "chronos_map", "source": "empires", "url": "apps/chronos/era_bronze.geojson" } },
+                    { "fn": "sliderSetRange", "args": { "node": "chronos_year_slider", "min": -1000, "max": -900 } }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "500-400 BCE",
+                "variant": "text",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    { "fn": "mapSetGeojsonSource", "args": { "node": "chronos_map", "source": "empires", "url": "apps/chronos/era_classical.geojson" } },
+                    { "fn": "sliderSetRange", "args": { "node": "chronos_year_slider", "min": -500, "max": -400 } }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "1-100 CE",
+                "variant": "text",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    { "fn": "mapSetGeojsonSource", "args": { "node": "chronos_map", "source": "empires", "url": "apps/chronos/era_classical.geojson" } },
+                    { "fn": "sliderSetRange", "args": { "node": "chronos_year_slider", "min": 1, "max": 100 } }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "500-600 CE",
+                "variant": "text",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    { "fn": "mapSetGeojsonSource", "args": { "node": "chronos_map", "source": "empires", "url": "apps/chronos/era_medieval.geojson" } },
+                    { "fn": "sliderSetRange", "args": { "node": "chronos_year_slider", "min": 500, "max": 600 } }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "1000-1100 CE",
+                "variant": "text",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    { "fn": "mapSetGeojsonSource", "args": { "node": "chronos_map", "source": "empires", "url": "apps/chronos/era_medieval.geojson" } },
+                    { "fn": "sliderSetRange", "args": { "node": "chronos_year_slider", "min": 1000, "max": 1100 } }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "1400-1500 CE",
+                "variant": "text",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    { "fn": "mapSetGeojsonSource", "args": { "node": "chronos_map", "source": "empires", "url": "apps/chronos/era_earlymodern.geojson" } },
+                    { "fn": "sliderSetRange", "args": { "node": "chronos_year_slider", "min": 1400, "max": 1500 } }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "1700-1800 CE",
+                "variant": "text",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    { "fn": "mapSetGeojsonSource", "args": { "node": "chronos_map", "source": "empires", "url": "apps/chronos/era_earlymodern.geojson" } },
+                    { "fn": "sliderSetRange", "args": { "node": "chronos_year_slider", "min": 1700, "max": 1800 } }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "label": "1900-2010 CE",
+                "variant": "text",
+                "dense": true,
+                "action": {
+                  "chain": [
+                    { "fn": "mapSetGeojsonSource", "args": { "node": "chronos_map", "source": "empires", "url": "apps/chronos/era_modern.geojson" } },
+                    { "fn": "sliderSetRange", "args": { "node": "chronos_year_slider", "min": 1900, "max": 2010 } }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "slider",
+            "id": "chronos_year_slider",
+            "min": -2000,
+            "max": 2010,
+            "step": 10,
+            "value": 1000,
+            "defaultValue": 1000,
+            "label": "Year (drag to travel through time — negative = BCE)",
+            "showValue": true,
+            "setting": "chronos_year",
+            "play": true,
+            "playIntervalMs": 900,
+            "playLoop": false,
+            "action": {
+              "chain": [
+                {
+                  "fn": "mapSetFilter",
+                  "args": {
+                    "node": "chronos_map",
+                    "layer": "empire_fill",
+                    "filter": [
+                      "all",
+                      [
+                        "<=",
+                        "yearFrom",
+                        "$value"
+                      ],
+                      [
+                        ">",
+                        "yearTo",
+                        "$value"
+                      ]
+                    ]
+                  }
+                },
+                {
+                  "fn": "mapSetFilter",
+                  "args": {
+                    "node": "chronos_map",
+                    "layer": "empire_border",
+                    "filter": [
+                      "all",
+                      [
+                        "<=",
+                        "yearFrom",
+                        "$value"
+                      ],
+                      [
+                        ">",
+                        "yearTo",
+                        "$value"
+                      ]
+                    ]
+                  }
+                },
+                {
+                  "fn": "mapSetFilter",
+                  "args": {
+                    "node": "chronos_map",
+                    "layer": "battle_points",
+                    "filter": [
+                      "all",
+                      [
+                        "<=",
+                        "yearFrom",
+                        "$value"
+                      ],
+                      [
+                        ">",
+                        "yearTo",
+                        "$value"
+                      ]
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": "Borders and battles both shift with the slider — territories swap to the nearest mapped snapshot year, battles show within ±25 years of the selected year. Press play to auto-sweep the slider's current range; a manual drag pauses playback."
+          }
+        ]
+      }
+    },
+    "battles": {
+      "title": "Battles",
+      "maxContentWidth": 900,
+      "body": {
+        "type": "column",
+        "scroll": true,
+        "children": [
+          {
+            "type": "header",
+            "eyebrow": "Recreations",
+            "title": "Battle recreations",
+            "subtitle": "Micro battle playback with terrain-aware unit movement — the first of a planned series.",
+            "icon": "history",
+            "size": "compact"
+          },
+          {
+            "type": "text",
+            "value": "Battle of Cannae — 2 August 216 BC. On the plain of the Aufidus (modern Ofanto) near Apulia, Hannibal's smaller Carthaginian army executed a double envelopment that annihilated a much larger Roman force — one of history's most studied tactical defeats."
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": "Reconstruction, not a record: positions and paths are approximate and disputed by historians. See the battle screen for the full provenance caveat and sources."
+          },
+          {
+            "type": "button",
+            "label": "Open Cannae",
+            "variant": "filled",
+            "action": {"fn": "goto", "args": {"screen": "cannae_battle"}}
+          }
+        ]
+      }
+    },
+    "cannae_battle": {
+      "title": "Cannae — 216 BC",
+      "maxContentWidth": 900,
+      "body": {
+        "type": "column",
+        "scroll": true,
+        "children": [
+          {
+            "type": "text",
+            "style": "caption",
+            "value": "Reconstruction based on Polybius and Livy — positions and unit paths are approximate, disputed by historians, and simplified for legibility. The river shown is a hand-authored trace of the modern valley, not the disputed 216 BC channel."
+          },
+          {
+            "type": "glmap",
+            "id": "cannae_map",
+            "height": 520,
+            "fillPhone": false,
+            "zoom": 13.3,
+            "center": [41.30, 16.13],
+            "geojsonSources": {
+              "cannae_bands": "apps/chronos/battles/cannae/terrain_bands.geojson",
+              "cannae_contours": "apps/chronos/battles/cannae/terrain_contours.geojson",
+              "cannae_river": "apps/chronos/battles/cannae/river.geojson",
+              "cannae_trails": "apps/chronos/battles/cannae/movement_trails.geojson",
+              "cannae_units": "apps/chronos/battles/cannae/units_ticks.geojson",
+              "cannae_captions": "apps/chronos/battles/cannae/phase_captions.geojson"
+            },
+            "sourceLayers": [
+              {
+                "id": "cannae_bands_fill",
+                "source": "cannae_bands",
+                "kind": "fill",
+                "title": "Elevation",
+                "paint": {
+                  "colorProp": "band",
+                  "ramp": {"c0": "#E8E0C8", "c1": "#D9CC9E", "c2": "#C6B378", "c3": "#AD9457"},
+                  "opacity": 0.35,
+                  "antialias": false
+                }
+              },
+              {
+                "id": "cannae_contour_lines",
+                "source": "cannae_contours",
+                "kind": "line",
+                "title": "Contours (10m)",
+                "paint": {"color": "#6B5A3A", "width": 0.5, "opacity": 0.35}
+              },
+              {
+                "id": "cannae_river_line",
+                "source": "cannae_river",
+                "kind": "line",
+                "title": "River (Ofanto)",
+                "paint": {"color": "#2E6F95", "width": 2.2, "opacity": 0.85}
+              },
+              {
+                "id": "cannae_trail_rome",
+                "source": "cannae_trails",
+                "kind": "line",
+                "title": "Rome movement",
+                "filter": ["all", ["==", "side", "rome"], ["<=", "tFrom", 0], [">", "tTo", 0]],
+                "paint": {"color": "#B33951", "width": 2, "opacity": 0.55},
+                "crossfadeMs": 500
+              },
+              {
+                "id": "cannae_trail_carthage",
+                "source": "cannae_trails",
+                "kind": "line",
+                "title": "Carthage movement",
+                "filter": ["all", ["==", "side", "carthage"], ["<=", "tFrom", 0], [">", "tTo", 0]],
+                "paint": {"color": "#3D5A80", "width": 2, "opacity": 0.55},
+                "crossfadeMs": 500
+              },
+              {
+                "id": "cannae_units_rome_infantry",
+                "source": "cannae_units",
+                "kind": "circle",
+                "title": "Rome infantry",
+                "filter": ["all", ["==", "side", "rome"], ["in", "type", "heavy_infantry", "light_infantry"], ["<=", "tFrom", 0], [">", "tTo", 0]],
+                "paint": {"color": "#B33951", "radius": 8, "opacity": 0.92, "outline": "#ffffff"}
+              },
+              {
+                "id": "cannae_units_rome_cavalry",
+                "source": "cannae_units",
+                "kind": "circle",
+                "title": "Rome cavalry",
+                "filter": ["all", ["==", "side", "rome"], ["in", "type", "heavy_cavalry", "light_cavalry"], ["<=", "tFrom", 0], [">", "tTo", 0]],
+                "paint": {"color": "#B33951", "radius": 6, "opacity": 0.92, "outline": "#ffffff"}
+              },
+              {
+                "id": "cannae_units_carthage_infantry",
+                "source": "cannae_units",
+                "kind": "circle",
+                "title": "Carthage infantry",
+                "filter": ["all", ["==", "side", "carthage"], ["in", "type", "heavy_infantry", "light_infantry"], ["<=", "tFrom", 0], [">", "tTo", 0]],
+                "paint": {"color": "#3D5A80", "radius": 8, "opacity": 0.92, "outline": "#ffffff"}
+              },
+              {
+                "id": "cannae_units_carthage_cavalry",
+                "source": "cannae_units",
+                "kind": "circle",
+                "title": "Carthage cavalry",
+                "filter": ["all", ["==", "side", "carthage"], ["in", "type", "heavy_cavalry", "light_cavalry"], ["<=", "tFrom", 0], [">", "tTo", 0]],
+                "paint": {"color": "#3D5A80", "radius": 6, "opacity": 0.92, "outline": "#ffffff"}
+              },
+              {
+                "id": "cannae_captions_label",
+                "source": "cannae_captions",
+                "kind": "symbol",
+                "title": "Phase captions",
+                "minzoom": 10,
+                "filter": ["all", ["<=", "tFrom", 0], [">", "tTo", 0]],
+                "label": "caption",
+                "paint": {
+                  "textSize": 11,
+                  "textColor": {"light": "#1F2937", "dark": "#F1F5F9"},
+                  "haloColor": {"light": "#FFFFFF", "dark": "#0B1220"},
+                  "haloWidth": 1.6
+                }
+              }
+            ],
+            "layerPanel": {"align": "topStart", "title": "Layers"},
+            "legend": {
+              "entries": {"Rome": "#B33951", "Carthage": "#3D5A80"},
+              "title": "Legend",
+              "collapsible": true,
+              "startCollapsed": true
+            },
+            "tapLayers": [
+              "cannae_units_rome_infantry",
+              "cannae_units_rome_cavalry",
+              "cannae_units_carthage_infantry",
+              "cannae_units_carthage_cavalry"
+            ],
+            "tapLayerDetails": {
+              "cannae_units_rome_infantry": {
+                "titleField": "name",
+                "fields": ["name", "side", "type", "strength"],
+                "labels": {"name": "Unit", "side": "Side", "type": "Class", "strength": "Estimated strength"},
+                "note": "Reconstruction — position and strength are approximate."
+              },
+              "cannae_units_rome_cavalry": {
+                "titleField": "name",
+                "fields": ["name", "side", "type", "strength"],
+                "labels": {"name": "Unit", "side": "Side", "type": "Class", "strength": "Estimated strength"},
+                "note": "Reconstruction — position and strength are approximate."
+              },
+              "cannae_units_carthage_infantry": {
+                "titleField": "name",
+                "fields": ["name", "side", "type", "strength"],
+                "labels": {"name": "Unit", "side": "Side", "type": "Class", "strength": "Estimated strength"},
+                "note": "Reconstruction — position and strength are approximate."
+              },
+              "cannae_units_carthage_cavalry": {
+                "titleField": "name",
+                "fields": ["name", "side", "type", "strength"],
+                "labels": {"name": "Unit", "side": "Side", "type": "Class", "strength": "Estimated strength"},
+                "note": "Reconstruction — position and strength are approximate."
+              }
+            }
+          },
+          {
+            "type": "slider",
+            "id": "cannae_time_slider",
+            "min": 0,
+            "max": 300,
+            "step": 2,
+            "value": 0,
+            "defaultValue": 0,
+            "label": "Battle time (minutes elapsed, 2 August 216 BC)",
+            "showValue": true,
+            "setting": "cannae_time",
+            "play": true,
+            "playIntervalMs": 700,
+            "playLoop": false,
+            "action": {
+              "chain": [
+                {"fn": "mapSetFilter", "args": {"node": "cannae_map", "layer": "cannae_trail_rome",
+                  "filter": ["all", ["==", "side", "rome"], ["<=", "tFrom", "$value"], [">", "tTo", "$value"]]}},
+                {"fn": "mapSetFilter", "args": {"node": "cannae_map", "layer": "cannae_trail_carthage",
+                  "filter": ["all", ["==", "side", "carthage"], ["<=", "tFrom", "$value"], [">", "tTo", "$value"]]}},
+                {"fn": "mapSetFilter", "args": {"node": "cannae_map", "layer": "cannae_units_rome_infantry",
+                  "filter": ["all", ["==", "side", "rome"], ["in", "type", "heavy_infantry", "light_infantry"], ["<=", "tFrom", "$value"], [">", "tTo", "$value"]]}},
+                {"fn": "mapSetFilter", "args": {"node": "cannae_map", "layer": "cannae_units_rome_cavalry",
+                  "filter": ["all", ["==", "side", "rome"], ["in", "type", "heavy_cavalry", "light_cavalry"], ["<=", "tFrom", "$value"], [">", "tTo", "$value"]]}},
+                {"fn": "mapSetFilter", "args": {"node": "cannae_map", "layer": "cannae_units_carthage_infantry",
+                  "filter": ["all", ["==", "side", "carthage"], ["in", "type", "heavy_infantry", "light_infantry"], ["<=", "tFrom", "$value"], [">", "tTo", "$value"]]}},
+                {"fn": "mapSetFilter", "args": {"node": "cannae_map", "layer": "cannae_units_carthage_cavalry",
+                  "filter": ["all", ["==", "side", "carthage"], ["in", "type", "heavy_cavalry", "light_cavalry"], ["<=", "tFrom", "$value"], [">", "tTo", "$value"]]}},
+                {"fn": "mapSetFilter", "args": {"node": "cannae_map", "layer": "cannae_captions_label",
+                  "filter": ["all", ["<=", "tFrom", "$value"], [">", "tTo", "$value"]]}}
+              ]
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": "Press play to watch the double envelopment unfold — Hasdrubal's cavalry routs the Roman right by the river, then rides behind the Roman line while the African veterans wheel onto both flanks. Tap a unit for detail; scrub the slider to replay any moment."
+          }
+        ]
+      }
+    },
+    "about": {
+      "title": "About",
+      "body": {
+        "type": "column",
+        "children": [
+          {
+            "type": "header",
+            "eyebrow": "Provenance",
+            "title": "What this map is (and isn't)",
+            "subtitle": "Two open datasets, scrubbed live — illustrative history, not a legal atlas.",
+            "icon": "history",
+            "size": "compact"
+          },
+          {
+            "type": "text",
+            "value": "Territories: 25 world-map snapshots from 2000 BCE to 2010 CE, merged into one file the year slider filters live — each shape is a coarse, scholarly-approximate border, not an authoritative or legally recognized boundary. Battles: a curated sample of notable battles from Wikidata, each tagged to a named war/conflict and ranked by how many Wikipedia language editions cover it — not a complete record of every battle in history."
+          },
+          {
+            "type": "table",
+            "table": "sources",
+            "overflow": "cards",
+            "columns": [
+              "layer",
+              "what",
+              "source",
+              "license",
+              "note"
+            ],
+            "height": 320
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": "No external links are shown in-app; the table above is seeded data you can inspect like any other applet table. Reproduce both datasets from scratch via apps/chronos/pipeline/build.py."
+          }
+        ]
+      }
+    }
+  }
+}

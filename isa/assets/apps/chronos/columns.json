@@ -1,0 +1,34 @@
+{
+  "sources": [
+    {
+      "name": "id",
+      "type": "text",
+      "hidden": true
+    },
+    {
+      "name": "layer",
+      "type": "text",
+      "label": "Map layer"
+    },
+    {
+      "name": "what",
+      "type": "text",
+      "label": "What it shows"
+    },
+    {
+      "name": "source",
+      "type": "text",
+      "label": "Source"
+    },
+    {
+      "name": "license",
+      "type": "text",
+      "label": "License"
+    },
+    {
+      "name": "note",
+      "type": "text",
+      "label": "Honest caveat"
+    }
+  ]
+}

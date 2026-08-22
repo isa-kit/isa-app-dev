@@ -1,0 +1,479 @@
+{
+  "app": {
+    "appDataTools": true,
+    "appUndoRedo": false,
+    "title": { "en": "Korea trip plan", "ko": "한국 여행 계획" },
+    "primaryColor": "#0F766E",
+    "theme": "neon",
+    "languages": ["en", "ko"],
+    "translatable": true
+  },
+  "nav": [
+    { "id": "start", "label": { "en": "Start here", "ko": "시작하기" }, "icon": "waving_hand", "screen": "start", "color": "#0F766E" },
+    { "id": "schedule", "label": { "en": "Schedule", "ko": "일정" }, "icon": "event_note", "screen": "schedule", "color": "#B45309" },
+    { "id": "research", "label": { "en": "Research", "ko": "조사" }, "icon": "travel_explore", "screen": "research", "color": "#6D28D9" },
+    { "id": "members", "label": { "en": "Who's here", "ko": "참여자" }, "icon": "people", "screen": "members", "color": "#44403C" }
+  ],
+  "screens": {
+    "start": {
+      "title": { "en": "Start here", "ko": "시작하기" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "title", "value": { "en": "Korea trip plan", "ko": "한국 여행 계획" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "One place for the trip's SCHEDULE (dated plan items) and RESEARCH (notes, links, and candidate places you're comparing) -- so what you learn about a place stays next to the plan, not in a separate app.",
+              "ko": "여행의 일정(날짜가 있는 계획 항목)과 조사(메모, 링크, 비교 중인 후보 장소)를 한곳에 모았습니다 -- 장소에 대해 알게 된 내용이 계획과 따로 흩어지지 않습니다."
+            }
+          },
+          {
+            "type": "card",
+            "padding": 16,
+            "radius": 12,
+            "child": {
+              "type": "column",
+              "children": [
+                { "type": "text", "style": "title", "value": { "en": "Schedule", "ko": "일정" } },
+                { "type": "text", "style": "body", "value": { "en": "Dated and timed plan items, laid out on a calendar.", "ko": "날짜와 시간이 있는 계획 항목을 달력으로 볼 수 있습니다." } },
+                { "type": "button", "label": { "en": "Open Schedule", "ko": "일정 열기" }, "icon": "event_note",
+                  "action": { "fn": "goto", "args": { "screen": "schedule" } } }
+              ]
+            }
+          },
+          {
+            "type": "card",
+            "padding": 16,
+            "radius": 12,
+            "child": {
+              "type": "column",
+              "children": [
+                { "type": "text", "style": "title", "value": { "en": "Research", "ko": "조사" } },
+                { "type": "text", "style": "body", "value": { "en": "Notes, links, and candidate places (stations, food, lodging) -- rate them while you compare.", "ko": "메모, 링크, 후보 장소(역, 식당, 숙소) -- 비교하면서 평가를 남기세요." } },
+                { "type": "button", "label": { "en": "Open Research", "ko": "조사 열기" }, "icon": "travel_explore",
+                  "action": { "fn": "goto", "args": { "screen": "research" } } }
+              ]
+            }
+          },
+          {
+            "type": "card",
+            "padding": 16,
+            "radius": 12,
+            "child": {
+              "type": "column",
+              "children": [
+                { "type": "text", "style": "title", "value": { "en": "Who's here", "ko": "참여자" } },
+                {
+                  "type": "text", "style": "body",
+                  "value": { "en": "No accounts, no passwords -- just tell it your name (or skip it) and every item you add carries a small badge.", "ko": "계정도 비밀번호도 없습니다 -- 이름만 알려주면(건너뛰어도 됩니다) 추가하는 모든 항목에 작은 배지가 표시됩니다." }
+                },
+                { "type": "button", "label": { "en": "Set who you are", "ko": "나를 설정하기" }, "icon": "people",
+                  "action": { "fn": "goto", "args": { "screen": "members" } } }
+              ]
+            }
+          },
+          { "type": "divider" },
+          {
+            "type": "card",
+            "padding": 16,
+            "radius": 12,
+            "child": {
+              "type": "column",
+              "children": [
+                { "type": "text", "style": "title", "value": { "en": "Planning the map", "ko": "지도로 계획하기" } },
+                { "type": "text", "style": "body", "value": { "en": "For live transit routes, stations, and reach around Korea, jump to the Korea travel access map -- a separate app that stays in sync with the live data.", "ko": "실시간 대중교통 노선, 역, 도달 범위를 보려면 한국 여행 접근성 지도로 이동하세요 -- 실시간 데이터와 동기화되는 별도의 앱입니다." } },
+                { "type": "button", "label": { "en": "Open Korea travel access", "ko": "한국 여행 접근성 열기" }, "icon": "train",
+                  "action": { "fn": "hostCall", "args": { "name": "openApplet", "appId": "krtravel", "title": "Korea travel access" } } }
+              ]
+            }
+          },
+          {
+            "type": "card",
+            "padding": 16,
+            "radius": 12,
+            "child": {
+              "type": "column",
+              "children": [
+                { "type": "text", "style": "title", "value": { "en": "How sharing works today", "ko": "현재 공유 방식" } },
+                {
+                  "type": "text",
+                  "style": "body",
+                  "value": {
+                    "en": "This plan lives on your device until you share it. Sharing requires you (the owner) to sign in; once shared, the people you invite get a copy that stays in sync. Removing someone stops NEW updates reaching them, but a copy they already synced stays on their device.",
+                    "ko": "이 계획은 공유하기 전까지 기기에만 저장됩니다. 공유하려면 소유자(본인)가 로그인해야 합니다. 공유되면 초대한 사람들은 동기화되는 사본을 받습니다. 누군가를 제거하면 새 업데이트는 전달되지 않지만, 이미 동기화된 사본은 그 사람의 기기에 남습니다."
+                  }
+                },
+                {
+                  "type": "text",
+                  "style": "caption",
+                  "value": {
+                    "en": "There is currently no way for an invited person to write to the plan WITHOUT the owner signing them in first -- an invited person who isn't signed in only gets a read-only link.",
+                    "ko": "초대받은 사람이 소유자의 로그인 없이 계획에 직접 쓸 수 있는 방법은 아직 없습니다 -- 로그인하지 않은 초대 대상은 읽기 전용 링크만 받습니다."
+                  }
+                },
+                { "type": "button", "label": { "en": "Open the Trip screen", "ko": "여행 화면 열기" }, "icon": "flight_takeoff",
+                  "action": { "fn": "goto", "args": { "screen": "trip" } } }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "trip": {
+      "title": { "en": "Trip", "ko": "여행" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Trip", "ko": "여행" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Sharing this plan requires signing in. Once shared, invitees get a copy that stays in sync -- removing someone later stops NEW updates reaching them, but a copy already synced can't be recalled.",
+              "ko": "이 계획을 공유하려면 로그인이 필요합니다. 공유되면 초대받은 사람은 동기화되는 사본을 받습니다 -- 나중에 제거해도 이미 동기화된 사본은 회수할 수 없습니다."
+            }
+          },
+          {
+            "type": "cards",
+            "table": "entries",
+            "filter": { "column": "kind", "value": "trip" },
+            "title": "title",
+            "subtitle": "body",
+            "accentColumn": "kind",
+            "accentColors": { "trip": "teal" },
+            "expandable": true,
+            "expandChevron": true,
+            "expandFields": [
+              { "column": "body", "label": { "en": "Notes", "ko": "메모" } }
+            ],
+            "action": { "fn": "editRow" },
+            "tableView": false
+          },
+          {
+            "type": "row",
+            "wrap": true,
+            "children": [
+              {
+                "type": "button",
+                "label": { "en": "Share this plan", "ko": "계획 공유하기" },
+                "icon": "share",
+                "action": { "fn": "shareProject", "args": { "table": "entries", "id": "trip_root" } }
+              },
+              {
+                "type": "button",
+                "label": { "en": "Trip settings", "ko": "여행 설정" },
+                "icon": "settings",
+                "action": { "fn": "projectSettings", "args": { "table": "entries", "id": "trip_root" } }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "schedule": {
+      "title": { "en": "Schedule", "ko": "일정" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Schedule", "ko": "일정" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": { "en": "Dated and timed plan items. Tap a day or item to open it; whoever added it shows as a small badge.", "ko": "날짜와 시간이 있는 계획 항목입니다. 날짜나 항목을 눌러 열어 보세요. 추가한 사람은 작은 배지로 표시됩니다." }
+          },
+          {
+            "type": "calendar",
+            "table": "entries",
+            "titleColumn": "title",
+            "dateColumns": ["date"],
+            "dateColumn": "date",
+            "initialView": "firstWithData",
+            "action": { "fn": "editRow" },
+            "addAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "schedule", "status": "idea", "author": "$setting:krtravelplanMemberId", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "trip_root", "type": "contains" }
+              }
+            }
+          },
+          { "type": "divider" },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": { "en": "All schedule items, list view -- swipe left to edit or delete.", "ko": "모든 일정 항목을 목록으로 봅니다 -- 왼쪽으로 밀어 편집하거나 삭제할 수 있습니다." }
+          },
+          {
+            "type": "cards",
+            "table": "entries",
+            "filter": { "column": "kind", "value": "schedule" },
+            "sortBy": "date",
+            "title": "title",
+            "subtitle": "place",
+            "tags": [
+              { "column": "status" },
+              { "column": "author" }
+            ],
+            "accentColumn": "status",
+            "accentColors": { "idea": "gray", "confirmed": "amber", "done": "green" },
+            "expandable": true,
+            "expandChevron": true,
+            "expandFields": [
+              { "column": "date", "label": { "en": "Date", "ko": "날짜" } },
+              { "column": "timeLabel", "label": { "en": "Time", "ko": "시간" } },
+              { "column": "place", "label": { "en": "Place", "ko": "장소" } },
+              { "column": "body", "label": { "en": "Notes", "ko": "메모" } },
+              { "column": "assignee", "label": { "en": "Assigned to", "ko": "담당자" } },
+              { "column": "author", "label": { "en": "Added by", "ko": "추가한 사람" } }
+            ],
+            "action": { "fn": "editRow" },
+            "swipeActions": ["edit", "delete"],
+            "tableView": false,
+            "emptyIcon": "event_note",
+            "emptyTitle": { "en": "No schedule items yet", "ko": "아직 일정이 없습니다" },
+            "emptyText": { "en": "Add the first dated item and it'll show up here.", "ko": "첫 번째 일정 항목을 추가하면 여기에 표시됩니다." },
+            "emptyAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "schedule", "status": "idea", "author": "$setting:krtravelplanMemberId", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "trip_root", "type": "contains" }
+              }
+            },
+            "emptyActionLabel": { "en": "New schedule item", "ko": "새 일정 추가" }
+          },
+          {
+            "type": "button",
+            "label": { "en": "New schedule item", "ko": "새 일정 추가" },
+            "icon": "add",
+            "action": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "schedule", "status": "idea", "author": "$setting:krtravelplanMemberId", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "trip_root", "type": "contains" }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "research": {
+      "title": { "en": "Research", "ko": "조사" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Research", "ko": "조사" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Notes, links, and candidate places you're weighing -- routes, stations, food, lodging. Give one a rating to compare it against the others; give it a place and it can show on a map.",
+              "ko": "고민 중인 메모, 링크, 후보 장소입니다 -- 경로, 역, 식당, 숙소. 평가를 남기면 다른 후보와 비교할 수 있고, 장소를 지정하면 지도에도 표시됩니다."
+            }
+          },
+          {
+            "type": "button",
+            "label": { "en": "New research item", "ko": "새 조사 항목" },
+            "icon": "add",
+            "action": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "research", "type": "note", "rating": "unrated", "author": "$setting:krtravelplanMemberId", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "trip_root", "type": "contains" }
+              }
+            }
+          },
+          {
+            "type": "cards",
+            "table": "entries",
+            "filter": { "column": "kind", "value": "research" },
+            "groupByOptions": [
+              { "label": { "en": "Category", "ko": "분류" }, "column": "category" },
+              { "label": { "en": "Rating", "ko": "평가" }, "column": "rating" }
+            ],
+            "groupBy": "category",
+            "sortBy": "updatedAt",
+            "sortDir": "desc",
+            "title": "title",
+            "subtitle": "body",
+            "tags": [
+              { "column": "rating" },
+              { "column": "author" }
+            ],
+            "accentColumn": "rating",
+            "accentColors": { "unrated": "gray", "maybe": "amber", "good": "teal", "top pick": "purple" },
+            "expandable": true,
+            "expandChevron": true,
+            "expandFields": [
+              { "column": "category", "label": { "en": "Category", "ko": "분류" } },
+              { "column": "place", "label": { "en": "Place", "ko": "장소" } },
+              { "column": "url", "label": { "en": "Link", "ko": "링크" } },
+              { "column": "rating", "label": { "en": "Rating", "ko": "평가" } },
+              { "column": "body", "label": { "en": "Notes", "ko": "메모" } },
+              { "column": "author", "label": { "en": "Added by", "ko": "추가한 사람" } }
+            ],
+            "action": { "fn": "editRow" },
+            "swipeActions": ["edit", "delete"],
+            "tableView": false,
+            "emptyIcon": "travel_explore",
+            "emptyTitle": { "en": "Nothing researched yet", "ko": "아직 조사한 내용이 없습니다" },
+            "emptyText": { "en": "Add a note, link, or candidate place and it'll show up here.", "ko": "메모, 링크, 후보 장소를 추가하면 여기에 표시됩니다." },
+            "emptyAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "research", "type": "note", "rating": "unrated", "author": "$setting:krtravelplanMemberId", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "trip_root", "type": "contains" }
+              }
+            },
+            "emptyActionLabel": { "en": "New research item", "ko": "새 조사 항목" }
+          },
+          { "type": "divider" },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": { "en": "Research and schedule items with a location, on one map.", "ko": "위치가 있는 조사 및 일정 항목을 지도에서 함께 봅니다." }
+          },
+          {
+            "type": "glmap",
+            "id": "planMap",
+            "table": "entries",
+            "latColumn": "lat",
+            "lonColumn": "lon",
+            "labelColumn": "title",
+            "height": "360",
+            "action": { "fn": "editRow" }
+          }
+        ]
+      }
+    },
+    "members": {
+      "title": { "en": "Who's here", "ko": "참여자" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Who's here", "ko": "참여자" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "No sign-in, no account -- add a card, then tap it to become that person. Your name is visible to anyone who can see this plan, so it's shared information, not a private setting. You can leave it blank and stay a neutral contributor.",
+              "ko": "로그인도 계정도 필요 없습니다 -- 카드를 추가한 뒤 눌러서 그 사람으로 설정하세요. 입력한 이름은 이 계획을 볼 수 있는 모두에게 보입니다. 즉 개인 설정이 아니라 공유되는 정보입니다. 비워두면 이름 없이 참여할 수도 있습니다."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "The Badge fills in on its own from your name (e.g. \"Alex Kim\" -> \"AK\", one letter for a one-word name, the given-name part for a Korean name) -- type your own instead any time and it sticks. If two people end up with the same badge, their card color and emoji still tell them apart.",
+              "ko": "배지는 이름에서 자동으로 채워집니다 (예: 알렉스 김 -> \"AK\", 한 단어 이름은 한 글자, 한국 이름은 이름 부분) -- 언제든 직접 입력하면 그 값이 유지됩니다. 두 사람이 같은 배지를 갖게 되더라도 카드 색상과 이모지로 구분할 수 있습니다."
+            }
+          },
+          {
+            "type": "button",
+            "label": { "en": "Add a card", "ko": "카드 추가" },
+            "icon": "person_add",
+            "action": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "member", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "trip_root", "type": "contains" }
+              }
+            }
+          },
+          {
+            "type": "cards",
+            "table": "entries",
+            "filter": { "column": "kind", "value": "member" },
+            "title": "title",
+            "density": "row",
+            "dotColumn": "color",
+            "colors": {
+              "blue": "blue", "pink": "pink", "teal": "teal", "green": "green",
+              "purple": "purple", "gray": "gray", "amber": "amber", "coral": "coral", "red": "red"
+            },
+            "tags": [
+              { "column": "initials" },
+              { "column": "emoji" }
+            ],
+            "accentColumn": "color",
+            "accentColors": {
+              "blue": "blue", "pink": "pink", "teal": "teal", "green": "green",
+              "purple": "purple", "gray": "gray", "amber": "amber", "coral": "coral", "red": "red"
+            },
+            "action": { "fn": "setSetting", "args": { "key": "krtravelplanMemberId" } },
+            "menuActions": [
+              { "label": { "en": "Edit", "ko": "편집" }, "action": { "fn": "editRow" } }
+            ],
+            "tableView": false,
+            "emptyIcon": "people",
+            "emptyTitle": { "en": "Nobody yet", "ko": "아직 아무도 없습니다" },
+            "emptyText": { "en": "Tap \"Add a card\" above -- name and badge are both optional.", "ko": "위의 \"카드 추가\"를 눌러보세요 -- 이름과 배지는 모두 선택 사항입니다." },
+            "emptyAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "entries",
+                "values": { "kind": "member", "createdBy": "$playerId" },
+                "link": { "table": "relations", "fromId": "trip_root", "type": "contains" }
+              }
+            },
+            "emptyActionLabel": { "en": "Add a card", "ko": "카드 추가" }
+          },
+          { "type": "divider" },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": { "en": "Every row you add elsewhere in this app is stamped with whichever card is selected here.", "ko": "이 화면에서 선택한 카드로 다른 화면에서 추가하는 모든 항목에 서명됩니다." }
+          }
+        ]
+      }
+    },
+    "activity": {
+      "title": { "en": "Activity", "ko": "활동" },
+      "body": {
+        "type": "column",
+        "crossAxis": "start",
+        "children": [
+          { "type": "text", "style": "eyebrow", "value": { "en": "Activity", "ko": "활동" } },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": { "en": "Every row, most recently updated first -- no whole-plan undo (unsafe with 2+ writers); per-row delete still gives an Undo toast.", "ko": "가장 최근에 업데이트된 순서로 모든 항목을 보여줍니다 -- 계획 전체 실행 취소는 없습니다(2인 이상 동시 편집 시 안전하지 않음). 항목별 삭제는 실행 취소 알림을 제공합니다." }
+          },
+          {
+            "type": "cards",
+            "table": "entries",
+            "filter": { "column": "kind", "in": ["trip", "member", "schedule", "research"] },
+            "title": "title",
+            "subtitle": "kind",
+            "density": "row",
+            "tags": [
+              { "column": "author" },
+              { "column": "updatedAt" }
+            ],
+            "accentColumn": "kind",
+            "accentColors": { "trip": "teal", "member": "gray", "schedule": "amber", "research": "purple" },
+            "sortBy": "updatedAt",
+            "sortDir": "desc",
+            "action": { "fn": "editRow" },
+            "tableView": false,
+            "emptyIcon": "history",
+            "emptyTitle": { "en": "Nothing yet", "ko": "아직 아무것도 없습니다" },
+            "emptyText": { "en": "Add a schedule or research item and it'll show up here.", "ko": "일정이나 조사 항목을 추가하면 여기에 표시됩니다." }
+          }
+        ]
+      }
+    }
+  }
+}

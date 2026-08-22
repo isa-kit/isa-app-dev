@@ -1,0 +1,1819 @@
+{
+  "app": {
+    "title": {
+      "en": "Wikipick",
+      "ko": "위키픽"
+    },
+    "primaryColor": "#2F3E46",
+    "theme": "minimal",
+    "languages": [
+      "en",
+      "ko"
+    ],
+    "translatable": true,
+    "sync": {
+      "pocketbase": false,
+      "drive": false,
+      "room": false,
+      "mesh": false
+    },
+    "appDataTools": true,
+    "preferences": [
+      {
+        "key": "autoCacheLinks",
+        "label": {
+          "en": "Auto-save linked pages (1 layer)",
+          "ko": "연결된 문서 자동 저장 (1단계)"
+        },
+        "hint": {
+          "en": "When on, saving an article offline also saves its direct links automatically (bounded to 25 pages / 2 MB per run). Turn off to only save linked pages with the \"Save linked pages\" button.",
+          "ko": "켜면 문서를 오프라인으로 저장할 때 직접 연결된 문서도 자동으로 저장합니다 (실행당 25개 문서 / 2MB 제한). 끄면 \"연결된 문서 저장\" 버튼으로만 저장합니다."
+        },
+        "default": true,
+        "whenOn": {
+          "screens.library.body.children.0.value": {
+            "en": "Offline Wikipedia — images are optional per save. Search Wikipedia and tap a result to read it right away; nothing is saved until you tap \"Save offline\" — its linked pages are then saved automatically, bounded to 25 pages / 2 MB per run, without ever re-downloading a page already saved from another article.",
+            "ko": "오프라인 위키백과 — 저장할 때 이미지 포함 여부를 선택할 수 있습니다. 위키백과를 검색해 결과를 탭하면 바로 읽을 수 있습니다 — \"오프라인 저장\"을 탭하기 전까지는 아무것도 저장되지 않습니다. 저장하면 연결된 문서가 자동으로 저장됩니다 (실행당 25개 문서 / 2MB 제한). 다른 문서에서 이미 저장된 문서는 다시 내려받지 않습니다."
+          },
+          "screens.search.body.children.4.value": {
+            "en": "Read now, or save anything for later. Search Wikipedia in any language and tap a result to open it — or tap \"+ Save\" to keep it, without opening, for reading offline. Saving also picks up the pages an article links to. Everything you save is in your Library.",
+            "ko": "지금 읽거나, 나중을 위해 저장하세요. 어느 언어로든 위키백과를 검색하고 결과를 탭하면 바로 열립니다 — \"+ 저장\"을 탭하면 열지 않고 보관해 오프라인에서 읽을 수 있습니다. 저장하면 문서가 연결한 다른 문서도 함께 가져옵니다. 저장한 문서는 모두 라이브러리에 있습니다."
+          }
+        },
+        "whenOff": {
+          "screens.library.body.children.0.value": {
+            "en": "Offline Wikipedia — images are optional per save. Search Wikipedia and tap a result to read it right away; nothing is saved until you tap \"Save offline\". Auto-saving linked pages is off — use \"Save linked pages\" on a saved article instead, without ever re-downloading a page already saved from another article.",
+            "ko": "오프라인 위키백과 — 저장할 때 이미지 포함 여부를 선택할 수 있습니다. 위키백과를 검색해 결과를 탭하면 바로 읽을 수 있습니다 — \"오프라인 저장\"을 탭하기 전까지는 아무것도 저장되지 않습니다. 연결된 문서 자동 저장이 꺼져 있습니다 — 저장된 문서에서 \"연결된 문서 저장\"을 사용하세요. 다른 문서에서 이미 저장된 문서는 다시 내려받지 않습니다."
+          },
+          "screens.search.body.children.4.value": {
+            "en": "Read now, or save anything for later. Search Wikipedia in any language and tap a result to open it — or tap \"+ Save\" to keep it, without opening, for reading offline. Everything you save is in your Library.",
+            "ko": "지금 읽거나, 나중을 위해 저장하세요. 어느 언어로든 위키백과를 검색하고 결과를 탭하면 바로 열립니다 — \"+ 저장\"을 탭하면 열지 않고 보관해 오프라인에서 읽을 수 있습니다. 저장한 문서는 모두 라이브러리에 있습니다."
+          }
+        }
+      }
+    ],
+    "prefsInfo": [
+      {
+        "type": "row",
+        "children": [
+          {
+            "type": "stat",
+            "table": "articles",
+            "agg": "count",
+            "label": {
+              "en": "Saved articles",
+              "ko": "저장된 문서"
+            },
+            "color": "blue"
+          },
+          {
+            "type": "stat",
+            "table": "articles",
+            "agg": "sum",
+            "valueColumn": "totalBytes",
+            "format": "compact",
+            "unit": "B",
+            "label": {
+              "en": "saved size (text + images)",
+              "ko": "저장 용량 (텍스트 + 이미지)"
+            },
+            "color": "amber"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "style": "caption",
+        "value": {
+          "en": "Save depth and lead images are per-save choices — pick them next to the \"Save offline\"/\"+ Save\" controls on the search or reader screen before saving.",
+          "ko": "저장 깊이와 대표 이미지는 저장 시 선택하는 옵션입니다 — 검색 또는 리더 화면의 \"오프라인 저장\"/\"+ 저장\" 옆에서 저장하기 전에 선택하세요."
+        }
+      }
+    ],
+    "prefsLink": {
+      "label": {
+        "en": "Open Saving offline",
+        "ko": "오프라인 저장 열기"
+      },
+      "screen": "queue"
+    },
+    "settings": [
+      {
+        "label": {
+          "en": "Saving offline",
+          "ko": "오프라인 저장"
+        },
+        "hint": {
+          "en": "How much to download when you save an article, and what is still downloading.",
+          "ko": "문서를 저장할 때 내려받을 범위와 현재 내려받는 중인 항목입니다."
+        },
+        "icon": "cloud_download",
+        "action": "goto",
+        "args": {
+          "screen": "queue"
+        }
+      }
+    ]
+  },
+  "nav": [
+    {
+      "id": "home",
+      "label": {
+        "en": "Home",
+        "ko": "홈"
+      },
+      "icon": "public",
+      "screen": "search"
+    },
+    {
+      "id": "library",
+      "label": {
+        "en": "Library",
+        "ko": "라이브러리"
+      },
+      "icon": "menu_book",
+      "screen": "library"
+    }
+  ],
+  "screens": {
+    "library": {
+      "title": {
+        "en": "Library",
+        "ko": "라이브러리"
+      },
+      "body": {
+        "type": "column",
+        "children": [
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Offline Wikipedia — images are optional per save. Search Wikipedia and tap a result to read it right away; nothing is saved until you tap \"Save offline\" — its linked pages are then saved automatically, bounded to 25 pages / 2 MB per run, without ever re-downloading a page already saved from another article.",
+              "ko": "오프라인 위키백과 — 저장할 때 이미지 포함 여부를 선택할 수 있습니다. 위키백과를 검색해 결과를 탭하면 바로 읽을 수 있습니다 — \"오프라인 저장\"을 탭하기 전까지는 아무것도 저장되지 않습니다. 저장하면 연결된 문서가 자동으로 저장됩니다 (실행당 25개 문서 / 2MB 제한). 다른 문서에서 이미 저장된 문서는 다시 내려받지 않습니다."
+            }
+          },
+          {
+            "type": "row",
+            "children": [
+              {
+                "type": "stat",
+                "table": "articles",
+                "agg": "count",
+                "label": {
+                  "en": "Saved articles",
+                  "ko": "저장된 문서"
+                },
+                "color": "blue"
+              },
+              {
+                "type": "stat",
+                "table": "articles",
+                "agg": "count",
+                "filter": {
+                  "column": "seed",
+                  "value": true
+                },
+                "label": {
+                  "en": "Seeds",
+                  "ko": "직접 저장"
+                },
+                "color": "green"
+              },
+              {
+                "type": "stat",
+                "table": "articles",
+                "agg": "sum",
+                "valueColumn": "totalBytes",
+                "format": "compact",
+                "unit": "B",
+                "label": {
+                  "en": "Saved size (text + images)",
+                  "ko": "저장 용량 (텍스트 + 이미지)"
+                },
+                "color": "amber"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "state",
+              "equals": "libraryFull"
+            },
+            "value": {
+              "en": "Offline library is full (200 articles or 20 MB, whichever comes first) — remove some saved articles before saving more. Nothing was deleted automatically.",
+              "ko": "오프라인 라이브러리가 가득 찼습니다 (문서 200개 또는 20MB 중 먼저 도달하는 기준) — 더 저장하려면 기존 문서를 먼저 삭제하세요. 자동으로 삭제된 문서는 없습니다."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "keptBucket",
+              "equals": "1"
+            },
+            "value": {
+              "en": "Kept — also in 1 other collection.",
+              "ko": "보관됨 — 다른 컬렉션 1개에도 있습니다."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "keptBucket",
+              "equals": "2"
+            },
+            "value": {
+              "en": "Kept — also in 2 other collections.",
+              "ko": "보관됨 — 다른 컬렉션 2개에도 있습니다."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "keptBucket",
+              "equals": "3"
+            },
+            "value": {
+              "en": "Kept — also in 3 other collections.",
+              "ko": "보관됨 — 다른 컬렉션 3개에도 있습니다."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "keptBucket",
+              "equals": "many"
+            },
+            "value": {
+              "en": "Kept — also in several other collections.",
+              "ko": "보관됨 — 여러 다른 컬렉션에도 있습니다."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "keptBucket",
+              "equals": "seed1"
+            },
+            "value": {
+              "en": "Kept as article — its own collection was removed (still in 1 other collection).",
+              "ko": "문서로 보관됨 — 자체 컬렉션은 삭제되었습니다 (다른 컬렉션 1개에는 여전히 있습니다)."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "keptBucket",
+              "equals": "seed2"
+            },
+            "value": {
+              "en": "Kept as article — its own collection was removed (still in 2 other collections).",
+              "ko": "문서로 보관됨 — 자체 컬렉션은 삭제되었습니다 (다른 컬렉션 2개에는 여전히 있습니다)."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "keptBucket",
+              "equals": "seed3"
+            },
+            "value": {
+              "en": "Kept as article — its own collection was removed (still in 3 other collections).",
+              "ko": "문서로 보관됨 — 자체 컬렉션은 삭제되었습니다 (다른 컬렉션 3개에는 여전히 있습니다)."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "keptBucket",
+              "equals": "seedmany"
+            },
+            "value": {
+              "en": "Kept as article — its own collection was removed (still in several other collections).",
+              "ko": "문서로 보관됨 — 자체 컬렉션은 삭제되었습니다 (여러 다른 컬렉션에는 여전히 있습니다)."
+            }
+          },
+          {
+            "type": "cards",
+            "table": "articles",
+            "search": true,
+            "searchColumns": [
+              "title"
+            ],
+            "title": "title",
+            "subtitle": "description",
+            "imageColumn": "thumbnailUrl",
+            "expandable": false,
+            "sortBy": "fetchedAt",
+            "sortDir": "desc",
+            "tableView": false,
+            "valueLabels": {
+              "depth": {
+                "0": {
+                  "en": "",
+                  "ko": ""
+                },
+                "1": "1 layer",
+                "2": "2 layers"
+              },
+              "seedLayersCached": {
+                "0": {
+                  "en": "",
+                  "ko": ""
+                },
+                "1": "1 layer saved",
+                "2": "2 layers saved"
+              }
+            },
+            "tags": [
+              {
+                "column": "wiki"
+              },
+              {
+                "column": "seed",
+                "colors": {
+                  "true": "green",
+                  "false": "gray"
+                }
+              },
+              {
+                "column": "depth",
+                "colors": {
+                  "1": "blue",
+                  "2": "purple"
+                }
+              },
+              {
+                "column": "seedLayersCached",
+                "colors": {
+                  "1": "blue",
+                  "2": "purple"
+                }
+              },
+              {
+                "column": "sizeLabel"
+              }
+            ],
+            "action": {
+              "fn": "wikiOpenSaved"
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Your library is your own — export it as one file to back it up or move it to another device, or import a file exported from wikipick to merge it in (already-saved articles are kept as-is).",
+              "ko": "라이브러리는 당신의 것입니다 — 파일 하나로 내보내 백업하거나 다른 기기로 옮기세요. wikipick에서 내보낸 파일을 가져와 병합할 수도 있습니다 (이미 저장된 문서는 그대로 유지됩니다)."
+            }
+          },
+          {
+            "type": "row",
+            "children": [
+              {
+                "type": "button",
+                "variant": "outlined",
+                "icon": "upload",
+                "label": {
+                  "en": "Export library",
+                  "ko": "라이브러리 내보내기"
+                },
+                "action": {
+                  "fn": "wikiExportLibrary"
+                }
+              },
+              {
+                "type": "button",
+                "variant": "outlined",
+                "icon": "file_download",
+                "label": {
+                  "en": "Import library",
+                  "ko": "라이브러리 가져오기"
+                },
+                "action": {
+                  "fn": "wikiImportLibrary"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "search": {
+      "title": {
+        "en": "Wikipick",
+        "ko": "위키픽"
+      },
+      "body": {
+        "type": "column",
+        "children": [
+          {
+            "type": "textinput",
+            "hint": {
+              "en": "Search Wikipedia…",
+              "ko": "위키백과 검색…"
+            },
+            "debounceMs": 350,
+            "action": {
+              "fn": "wikiSearch",
+              "args": {
+                "query": "$value"
+              }
+            }
+          },
+          {
+            "type": "row",
+            "wrap": true,
+            "children": [
+              {
+                "type": "button",
+                "dense": true,
+                "label": {
+                  "en": "EN",
+                  "ko": "EN"
+                },
+                "action": {
+                  "fn": "wikiSetLang",
+                  "args": {
+                    "lang": "en"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "label": {
+                  "en": "KO",
+                  "ko": "KO"
+                },
+                "action": {
+                  "fn": "wikiSetLang",
+                  "args": {
+                    "lang": "ko"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "label": {
+                  "en": "JA",
+                  "ko": "JA"
+                },
+                "action": {
+                  "fn": "wikiSetLang",
+                  "args": {
+                    "lang": "ja"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "label": {
+                  "en": "ES",
+                  "ko": "ES"
+                },
+                "action": {
+                  "fn": "wikiSetLang",
+                  "args": {
+                    "lang": "es"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "label": {
+                  "en": "FR",
+                  "ko": "FR"
+                },
+                "action": {
+                  "fn": "wikiSetLang",
+                  "args": {
+                    "lang": "fr"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "label": {
+                  "en": "DE",
+                  "ko": "DE"
+                },
+                "action": {
+                  "fn": "wikiSetLang",
+                  "args": {
+                    "lang": "de"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "label": {
+                  "en": "ZH",
+                  "ko": "ZH"
+                },
+                "action": {
+                  "fn": "wikiSetLang",
+                  "args": {
+                    "lang": "zh"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "label": {
+                  "en": "RU",
+                  "ko": "RU"
+                },
+                "action": {
+                  "fn": "wikiSetLang",
+                  "args": {
+                    "lang": "ru"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "label": {
+                  "en": "AR",
+                  "ko": "AR"
+                },
+                "action": {
+                  "fn": "wikiSetLang",
+                  "args": {
+                    "lang": "ar"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "label": {
+                  "en": "PT",
+                  "ko": "PT"
+                },
+                "action": {
+                  "fn": "wikiSetLang",
+                  "args": {
+                    "lang": "pt"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "textinput",
+            "hint": {
+              "en": "Or type any Wikipedia language code (e.g. it, nl, sv)",
+              "ko": "다른 위키백과 언어 코드를 입력하세요 (예: it, nl, sv)"
+            },
+            "debounceMs": 600,
+            "action": {
+              "fn": "wikiSetLang",
+              "args": {
+                "lang": "$value"
+              }
+            }
+          },
+          {
+            "type": "spacer"
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Read now, or save anything for later. Search Wikipedia in any language and tap a result to open it — or tap \"+ Save\" to keep it, without opening, for reading offline. Saving also picks up the pages an article links to. Everything you save is in your Library.",
+              "ko": "지금 읽거나, 나중을 위해 저장하세요. 어느 언어로든 위키백과를 검색하고 결과를 탭하면 바로 열립니다 — \"+ 저장\"을 탭하면 열지 않고 보관해 오프라인에서 읽을 수 있습니다. 저장하면 문서가 연결한 다른 문서도 함께 가져옵니다. 저장한 문서는 모두 라이브러리에 있습니다."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "state",
+              "equals": "loading"
+            },
+            "value": {
+              "en": "Searching…",
+              "ko": "검색 중…"
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "state",
+              "equals": "empty"
+            },
+            "value": {
+              "en": "No results — try a different search or language.",
+              "ko": "검색 결과가 없습니다 — 다른 검색어나 언어를 시도해 보세요."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "state",
+              "equals": "libraryFull"
+            },
+            "value": {
+              "en": "Offline library is full (200 articles or 20 MB, whichever comes first) — remove some saved articles in your Library before saving another. Nothing was deleted automatically.",
+              "ko": "오프라인 라이브러리가 가득 찼습니다 (문서 200개 또는 20MB 중 먼저 도달하는 기준) — 새 문서를 저장하려면 라이브러리에서 기존 문서를 먼저 삭제하세요. 자동으로 삭제된 문서는 없습니다."
+            }
+          },
+          {
+            "type": "cards",
+            "table": "searchResults",
+            "title": "title",
+            "subtitle": "snippet",
+            "imageColumn": "thumbnailUrl",
+            "expandable": false,
+            "windowed": false,
+            "tableView": false,
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "state",
+              "equals": "results"
+            },
+            "tags": [
+              {
+                "column": "wiki"
+              },
+              {
+                "column": "cached",
+                "colors": {
+                  "true": "green"
+                }
+              }
+            ],
+            "cardActions": [
+              {
+                "label": {
+                  "en": "+ Save",
+                  "ko": "+ 저장"
+                },
+                "icon": "bookmark_add",
+                "action": {
+                  "fn": "wikiQuickSave"
+                },
+                "column": "cached",
+                "notEquals": true
+              }
+            ],
+            "swipeActions": [
+              {
+                "label": {
+                  "en": "+ Save",
+                  "ko": "+ 저장"
+                },
+                "icon": "bookmark_add",
+                "action": {
+                  "fn": "wikiQuickSave"
+                }
+              }
+            ],
+            "action": {
+              "fn": "wikiOpenSearchResult"
+            }
+          },
+          {
+            "type": "text",
+            "style": "eyebrow",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "state",
+              "notEquals": "results"
+            },
+            "value": {
+              "en": "Recently read",
+              "ko": "최근 읽음"
+            }
+          },
+          {
+            "type": "cards",
+            "table": "recentReads",
+            "title": "title",
+            "expandable": false,
+            "sortBy": "when",
+            "sortDir": "desc",
+            "windowed": false,
+            "tableView": false,
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "state",
+              "notEquals": "results"
+            },
+            "tags": [
+              {
+                "column": "wiki"
+              }
+            ],
+            "emptyIcon": "history",
+            "emptyTitle": {
+              "en": "Nothing read yet",
+              "ko": "아직 읽은 문서가 없습니다"
+            },
+            "emptyText": {
+              "en": "Articles you open show up here, whether or not you save them.",
+              "ko": "열어본 문서는 저장 여부와 관계없이 여기에 표시됩니다."
+            },
+            "action": {
+              "fn": "wikiOpenRecent"
+            }
+          },
+          {
+            "type": "text",
+            "style": "eyebrow",
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "state",
+              "notEquals": "results"
+            },
+            "value": {
+              "en": "Saved offline",
+              "ko": "오프라인 저장됨"
+            }
+          },
+          {
+            "type": "cards",
+            "table": "articles",
+            "title": "title",
+            "subtitle": "description",
+            "imageColumn": "thumbnailUrl",
+            "expandable": false,
+            "sortBy": "fetchedAt",
+            "sortDir": "desc",
+            "windowed": false,
+            "tableView": false,
+            "showIf": {
+              "table": "searchStatus",
+              "id": "s1",
+              "column": "state",
+              "notEquals": "results"
+            },
+            "valueLabels": {
+              "depth": {
+                "0": {
+                  "en": "",
+                  "ko": ""
+                },
+                "1": "1 layer",
+                "2": "2 layers"
+              },
+              "seedLayersCached": {
+                "0": {
+                  "en": "",
+                  "ko": ""
+                },
+                "1": "1 layer saved",
+                "2": "2 layers saved"
+              }
+            },
+            "tags": [
+              {
+                "column": "wiki"
+              },
+              {
+                "column": "seed",
+                "colors": {
+                  "true": "green",
+                  "false": "gray"
+                }
+              },
+              {
+                "column": "depth",
+                "colors": {
+                  "1": "blue",
+                  "2": "purple"
+                }
+              },
+              {
+                "column": "seedLayersCached",
+                "colors": {
+                  "1": "blue",
+                  "2": "purple"
+                }
+              },
+              {
+                "column": "sizeLabel"
+              }
+            ],
+            "emptyIcon": "menu_book",
+            "emptyTitle": {
+              "en": "Nothing saved yet",
+              "ko": "아직 저장한 문서가 없습니다"
+            },
+            "emptyText": {
+              "en": "Search above and tap \"Save offline\" (in the reader) or \"+ Save\" (on a result) to keep an article for offline reading.",
+              "ko": "위에서 검색한 뒤 리더에서 \"오프라인 저장\"을, 또는 검색 결과에서 \"+ 저장\"을 탭해 문서를 오프라인으로 보관하세요."
+            },
+            "action": {
+              "fn": "wikiOpenSaved"
+            }
+          },
+          {
+            "type": "spacer"
+          },
+          {
+            "type": "button",
+            "dense": true,
+            "variant": "text",
+            "icon": "volunteer_activism",
+            "label": {
+              "en": "Donate to Wikipedia",
+              "ko": "위키백과에 기부"
+            },
+            "action": {
+              "fn": "openLink",
+              "args": {
+                "url": "https://donate.wikimedia.org/"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "queue": {
+      "title": {
+        "en": "Saving offline",
+        "ko": "오프라인 저장"
+      },
+      "body": {
+        "type": "column",
+        "children": [
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "How much to download the next time you save an article for later.",
+              "ko": "다음에 문서를 오프라인으로 저장할 때 내려받을 범위입니다."
+            }
+          },
+          {
+            "type": "row",
+            "wrap": true,
+            "children": [
+              {
+                "type": "text",
+                "style": "caption",
+                "value": {
+                  "en": "Next save:",
+                  "ko": "다음 저장:"
+                }
+              },
+              {
+                "type": "pick",
+                "table": "saveOptions",
+                "rowId": "opt1",
+                "column": "includeImages",
+                "variant": "segmented",
+                "options": [
+                  {
+                    "value": false,
+                    "label": {
+                      "en": "No images",
+                      "ko": "이미지 없음"
+                    }
+                  },
+                  {
+                    "value": true,
+                    "label": {
+                      "en": "Images",
+                      "ko": "이미지 포함"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "pick",
+                "table": "saveOptions",
+                "rowId": "opt1",
+                "column": "cacheDepth",
+                "variant": "segmented",
+                "options": [
+                  {
+                    "value": 1,
+                    "label": {
+                      "en": "1 layer",
+                      "ko": "1단계"
+                    }
+                  },
+                  {
+                    "value": 2,
+                    "label": {
+                      "en": "2 layers",
+                      "ko": "2단계"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "spacer"
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Pages found while an article's links are being saved, and how each one went — waiting, saved or failed. \"Save linked pages\" on a Library article (1 layer, up to 25 pages / 2 MB per run) works through this list; a failed page is never retried automatically and never spends the run's budget. Resuming picks up where it left off.",
+              "ko": "문서의 연결 문서를 저장하는 동안 찾은 문서와 각각의 결과입니다 — 대기 중, 저장됨, 실패. 라이브러리 문서의 \"연결된 문서 저장\"(1단계, 실행당 25개 / 2MB 제한)이 이 목록을 처리합니다. 실패한 문서는 자동으로 다시 시도하지 않고 실행 예산도 쓰지 않습니다. 다시 시작하면 중단된 지점부터 이어집니다."
+            }
+          },
+          {
+            "type": "row",
+            "children": [
+              {
+                "type": "stat",
+                "table": "crawl_queue",
+                "agg": "count",
+                "filter": {
+                  "column": "status",
+                  "value": "pending"
+                },
+                "label": {
+                  "en": "Pending",
+                  "ko": "대기 중"
+                },
+                "color": "amber"
+              },
+              {
+                "type": "stat",
+                "table": "crawl_queue",
+                "agg": "count",
+                "filter": {
+                  "column": "status",
+                  "value": "fetched"
+                },
+                "label": {
+                  "en": "Saved",
+                  "ko": "저장됨"
+                },
+                "color": "green"
+              },
+              {
+                "type": "stat",
+                "table": "crawl_queue",
+                "agg": "count",
+                "filter": {
+                  "column": "status",
+                  "value": "failed"
+                },
+                "label": {
+                  "en": "Failed",
+                  "ko": "실패"
+                },
+                "color": "coral"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "queueStatus",
+              "id": "q1",
+              "column": "state",
+              "equals": "interrupted"
+            },
+            "value": {
+              "en": "Saving interrupted — downloading stops when the page reloads. The pending pages below are still queued; resume when ready.",
+              "ko": "저장이 중단되었습니다 — 페이지를 새로고침하면 다운로드가 멈춥니다. 아래 대기 중인 문서는 여전히 대기열에 있습니다 — 준비되면 다시 시작하세요."
+            }
+          },
+          {
+            "type": "row",
+            "children": [
+              {
+                "type": "button",
+                "variant": "filled",
+                "icon": "cloud_download",
+                "showIf": {
+                  "table": "queueStatus",
+                  "id": "q1",
+                  "column": "state",
+                  "equals": "resumable"
+                },
+                "label": {
+                  "en": "Resume saving",
+                  "ko": "저장 다시 시작"
+                },
+                "action": {
+                  "fn": "wikiResumeCrawls"
+                }
+              },
+              {
+                "type": "button",
+                "variant": "filled",
+                "icon": "cloud_download",
+                "showIf": {
+                  "table": "queueStatus",
+                  "id": "q1",
+                  "column": "state",
+                  "equals": "interrupted"
+                },
+                "label": {
+                  "en": "Resume saving",
+                  "ko": "저장 다시 시작"
+                },
+                "action": {
+                  "fn": "wikiResumeCrawls"
+                }
+              },
+              {
+                "type": "text",
+                "style": "caption",
+                "showIf": {
+                  "table": "queueStatus",
+                  "id": "q1",
+                  "column": "state",
+                  "equals": "running"
+                },
+                "value": {
+                  "en": "Saving now…",
+                  "ko": "저장 중…"
+                }
+              },
+              {
+                "type": "button",
+                "variant": "tonal",
+                "icon": "refresh",
+                "showIf": {
+                  "table": "queueStatus",
+                  "id": "q1",
+                  "column": "failedCount",
+                  "notEquals": "0"
+                },
+                "label": {
+                  "en": "Retry failed",
+                  "ko": "실패 항목 다시 시도"
+                },
+                "action": {
+                  "fn": "wikiRetryFailedQueue"
+                }
+              }
+            ]
+          },
+          {
+            "type": "cards",
+            "table": "crawl_queue",
+            "search": true,
+            "searchColumns": [
+              "title"
+            ],
+            "title": "title",
+            "subtitle": "status",
+            "expandable": true,
+            "tableView": false,
+            "valueLabels": {
+              "failureReason": {
+                "rateLimited": {
+                  "en": "rate limited",
+                  "ko": "요청 제한됨"
+                },
+                "networkError": {
+                  "en": "network error",
+                  "ko": "네트워크 오류"
+                },
+                "notFound": {
+                  "en": "not found",
+                  "ko": "찾을 수 없음"
+                }
+              }
+            },
+            "expandFields": [
+              {
+                "column": "wiki",
+                "label": {
+                  "en": "Wiki",
+                  "ko": "위키"
+                }
+              },
+              {
+                "column": "depth",
+                "label": {
+                  "en": "Depth",
+                  "ko": "깊이"
+                }
+              },
+              {
+                "column": "failureReason",
+                "label": {
+                  "en": "Why it failed",
+                  "ko": "실패 이유"
+                }
+              },
+              {
+                "column": "discoveredAt",
+                "label": {
+                  "en": "Discovered",
+                  "ko": "발견 시각"
+                },
+                "format": "relative"
+              },
+              {
+                "column": "sourceCrawlId",
+                "label": {
+                  "en": "Save run",
+                  "ko": "저장 실행"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "reader": {
+      "title": {
+        "en": "Article",
+        "ko": "문서"
+      },
+      "titleFrom": {
+        "table": "liveArticle",
+        "id": "lr1",
+        "column": "title"
+      },
+      "body": {
+        "type": "column",
+        "children": [
+          {
+            "type": "text",
+            "style": "caption",
+            "showIf": {
+              "table": "readerStatus",
+              "id": "r1",
+              "column": "state",
+              "equals": "stale"
+            },
+            "value": {
+              "en": "Saved over 30 days ago — check for updates?",
+              "ko": "30일 넘게 지난 저장본입니다 — 업데이트를 확인할까요?"
+            }
+          },
+          {
+            "type": "button",
+            "dense": true,
+            "variant": "tonal",
+            "icon": "sync",
+            "showIf": {
+              "table": "readerStatus",
+              "id": "r1",
+              "column": "state",
+              "equals": "stale"
+            },
+            "label": {
+              "en": "Check for updates",
+              "ko": "업데이트 확인"
+            },
+            "action": {
+              "fn": "wikiCheckForUpdates"
+            }
+          },
+          {
+            "_comment": "r4wiki-0820: the disclosure is wrapped in `padding`, NOT a bare `column`. The engine's root fill-column path (renderer.dart `_rootFillColumn` / `_fillChromeTypes`) only fills the notepad when every OTHER top-level child of the screen's root column is a cheap chrome type — text/divider/spacer/button/row/padding. `column` is not in that set, so a bare column here silently drops the whole reader onto the page-scroll path and the notepad's Expanded lands under an unbounded height (caught red by wikipick_reader_scroll_test.dart's 900x460 case). Keep this wrapper a chrome type.",
+            "type": "padding",
+            "padding": 0,
+            "showIf": {
+              "table": "liveArticle",
+              "id": "lr1",
+              "column": "optionsOpen",
+              "equals": true
+            },
+            "child": {
+              "type": "column",
+              "children": [
+                {
+                  "type": "text",
+                  "style": "caption",
+                  "showIf": {
+                    "table": "liveArticle",
+                    "id": "lr1",
+                    "column": "formatVersion",
+                    "equals": 1
+                  },
+                  "value": {
+                    "en": "Saved in an older format — update for links & formatting?",
+                    "ko": "이전 형식으로 저장되었습니다 — 링크와 서식을 업데이트할까요?"
+                  }
+                },
+                {
+                  "type": "button",
+                  "dense": true,
+                  "variant": "tonal",
+                  "icon": "auto_fix_high",
+                  "showIf": {
+                    "table": "liveArticle",
+                    "id": "lr1",
+                    "column": "formatVersion",
+                    "equals": 1
+                  },
+                  "label": {
+                    "en": "Update formatting",
+                    "ko": "서식 업데이트"
+                  },
+                  "action": {
+                    "fn": "wikiUpgradeFormat"
+                  }
+                },
+                {
+                  "type": "text",
+                  "style": "caption",
+                  "showIf": {
+                    "table": "readerStatus",
+                    "id": "r1",
+                    "column": "state",
+                    "equals": "upToDate"
+                  },
+                  "value": {
+                    "en": "Up to date.",
+                    "ko": "최신 상태입니다."
+                  }
+                },
+                {
+                  "type": "text",
+                  "style": "caption",
+                  "showIf": {
+                    "table": "readerStatus",
+                    "id": "r1",
+                    "column": "state",
+                    "equals": "updated"
+                  },
+                  "value": {
+                    "en": "Updated to the latest revision.",
+                    "ko": "최신 리비전으로 업데이트했습니다."
+                  }
+                },
+                {
+                  "type": "text",
+                  "style": "caption",
+                  "showIf": {
+                    "table": "liveArticle",
+                    "id": "lr1",
+                    "column": "isSaved",
+                    "equals": false
+                  },
+                  "value": {
+                    "en": "Reading live — not saved.",
+                    "ko": "실시간으로 읽는 중 — 저장되지 않음."
+                  }
+                },
+                {
+                  "type": "row",
+                  "wrap": true,
+                  "showIf": {
+                    "table": "liveArticle",
+                    "id": "lr1",
+                    "column": "isSaved",
+                    "equals": false
+                  },
+                  "children": [
+                    {
+                      "type": "column",
+                      "children": [
+                        {
+                          "type": "text",
+                          "style": "eyebrow",
+                          "value": {
+                            "en": "Include images",
+                            "ko": "이미지 포함"
+                          }
+                        },
+                        {
+                          "type": "pick",
+                          "table": "saveOptions",
+                          "rowId": "opt1",
+                          "column": "includeImages",
+                          "variant": "segmented",
+                          "options": [
+                            {
+                              "value": false,
+                              "label": {
+                                "en": "Off",
+                                "ko": "끄기"
+                              }
+                            },
+                            {
+                              "value": true,
+                              "label": {
+                                "en": "On",
+                                "ko": "켜기"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "column",
+                      "children": [
+                        {
+                          "type": "text",
+                          "style": "eyebrow",
+                          "value": {
+                            "en": "Save depth",
+                            "ko": "저장 깊이"
+                          }
+                        },
+                        {
+                          "type": "pick",
+                          "table": "saveOptions",
+                          "rowId": "opt1",
+                          "column": "cacheDepth",
+                          "variant": "segmented",
+                          "options": [
+                            {
+                              "value": 1,
+                              "label": {
+                                "en": "1 layer",
+                                "ko": "1단계"
+                              }
+                            },
+                            {
+                              "value": 2,
+                              "label": {
+                                "en": "2 layers",
+                                "ko": "2단계"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "row",
+                  "children": [
+                    {
+                      "type": "stat",
+                      "table": "liveArticle",
+                      "agg": "max",
+                      "valueColumn": "fetchedAt",
+                      "format": "relative",
+                      "label": {
+                        "en": "Saved",
+                        "ko": "저장됨"
+                      },
+                      "color": "blue",
+                      "showIf": {
+                        "table": "liveArticle",
+                        "id": "lr1",
+                        "column": "isSaved",
+                        "equals": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "row",
+                  "wrap": true,
+                  "children": [
+                    {
+                      "type": "row",
+                      "showIf": {
+                        "table": "liveArticle",
+                        "id": "lr1",
+                        "column": "isSaved",
+                        "equals": true
+                      },
+                      "children": [
+                        {
+                          "type": "button",
+                          "dense": true,
+                          "variant": "outlined",
+                          "icon": "cloud_download",
+                          "showIf": {
+                            "table": "liveArticle",
+                            "id": "lr1",
+                            "column": "depthCap",
+                            "notEquals": "2"
+                          },
+                          "label": {
+                            "en": "Save linked pages — 1 layer",
+                            "ko": "연결된 문서 저장 — 1단계"
+                          },
+                          "action": {
+                            "fn": "wikiFetchLayer",
+                            "args": {
+                              "table": "liveArticle",
+                              "id": "lr1"
+                            }
+                          }
+                        },
+                        {
+                          "type": "button",
+                          "dense": true,
+                          "variant": "outlined",
+                          "icon": "cloud_download",
+                          "showIf": {
+                            "table": "liveArticle",
+                            "id": "lr1",
+                            "column": "depthCap",
+                            "equals": "2"
+                          },
+                          "label": {
+                            "en": "Save linked pages — 2 layers",
+                            "ko": "연결된 문서 저장 — 2단계"
+                          },
+                          "action": {
+                            "fn": "wikiFetchLayer",
+                            "args": {
+                              "table": "liveArticle",
+                              "id": "lr1"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "button",
+                      "dense": true,
+                      "variant": "text",
+                      "icon": "delete_outline",
+                      "showIf": {
+                        "table": "liveArticle",
+                        "id": "lr1",
+                        "column": "isSaved",
+                        "equals": true
+                      },
+                      "label": {
+                        "en": "Remove from Library",
+                        "ko": "라이브러리에서 제거"
+                      },
+                      "action": {
+                        "fn": "wikiRemoveArticle"
+                      }
+                    },
+                    {
+                      "type": "button",
+                      "dense": true,
+                      "variant": "text",
+                      "icon": "volunteer_activism",
+                      "label": {
+                        "en": "Donate to Wikipedia",
+                        "ko": "위키백과에 기부"
+                      },
+                      "action": {
+                        "fn": "openLink",
+                        "args": {
+                          "url": "https://donate.wikimedia.org/"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "type": "notepad",
+            "table": "liveArticle",
+            "rowId": "lr1",
+            "column": "displayText",
+            "readOnly": true,
+            "chromeless": true,
+            "document": true,
+            "serifH1": true,
+            "lazyBlocks": true,
+            "jumpToSectionSetting": "wikiReaderJump",
+            "findEnabledSetting": "wikiFindOpen",
+            "onLinkTap": {
+              "fn": "wikiLinkTap",
+              "args": {
+                "target": "$value"
+              }
+            },
+            "imagesTable": "articleImages",
+            "imageSrcColumn": "b64"
+          },
+          {
+            "_comment": "wikiparity-0820wp2 (tester finding #2): compact BOTTOM icon action bar, replacing the old top text-link row. Placed as the LAST child of the root column (same 'cheap chrome type' rule as the padding-wrapped disclosure above) so the notepad above still gets Expanded fill — this bar renders pinned below the article, not part of its scroll. Save/Saved, Language (cheap fallback: opens the real Wikipedia page, where its own language switcher lives — no interlanguage-links fetch added), Find, Contents and Open-on-Wikipedia are always-reachable; Remove/Cache-links/Donate stay in the existing Reading-options disclosure, now reached via this bar's own toggle (same action/label as before, just relocated) — that disclosure IS the overflow.",
+            "type": "row",
+            "wrap": true,
+            "children": [
+              {
+                "type": "button",
+                "dense": true,
+                "variant": "tonal",
+                "icon": "bookmark_add",
+                "showIf": {
+                  "table": "liveArticle",
+                  "id": "lr1",
+                  "column": "isSaved",
+                  "equals": false
+                },
+                "label": {
+                  "en": "Save",
+                  "ko": "저장"
+                },
+                "action": {
+                  "fn": "wikiSaveOffline"
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "variant": "text",
+                "icon": "bookmark",
+                "showIf": {
+                  "table": "liveArticle",
+                  "id": "lr1",
+                  "column": "isSaved",
+                  "equals": true
+                },
+                "label": {
+                  "en": "Saved",
+                  "ko": "저장됨"
+                },
+                "action": {
+                  "fn": "wikiToggleToc",
+                  "args": {
+                    "column": "optionsOpen"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "variant": "text",
+                "icon": "language",
+                "showIf": {
+                  "table": "liveArticle",
+                  "id": "lr1",
+                  "column": "title",
+                  "notEquals": ""
+                },
+                "label": {
+                  "en": "Language",
+                  "ko": "언어"
+                },
+                "action": {
+                  "fn": "openLink",
+                  "args": {
+                    "table": "liveArticle",
+                    "id": "lr1",
+                    "urlColumn": "canonicalUrl"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "variant": "text",
+                "icon": "search",
+                "label": {
+                  "en": "Find",
+                  "ko": "찾기"
+                },
+                "action": {
+                  "fn": "setSetting",
+                  "args": {
+                    "key": "wikiFindOpen",
+                    "value": true
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "variant": "text",
+                "icon": "toc",
+                "showIf": {
+                  "table": "liveArticle",
+                  "id": "lr1",
+                  "column": "tocOpen",
+                  "equals": true
+                },
+                "label": {
+                  "en": "Hide contents",
+                  "ko": "목차 숨기기"
+                },
+                "action": {
+                  "fn": "wikiToggleToc"
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "variant": "text",
+                "icon": "toc",
+                "showIf": {
+                  "table": "liveArticle",
+                  "id": "lr1",
+                  "column": "tocOpen",
+                  "equals": false
+                },
+                "label": {
+                  "en": "Contents",
+                  "ko": "목차"
+                },
+                "action": {
+                  "fn": "wikiToggleToc"
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "variant": "text",
+                "icon": "open_in_new",
+                "showIf": {
+                  "table": "liveArticle",
+                  "id": "lr1",
+                  "column": "title",
+                  "notEquals": ""
+                },
+                "label": {
+                  "en": "Open on Wikipedia",
+                  "ko": "위키백과에서 열기"
+                },
+                "action": {
+                  "fn": "openLink",
+                  "args": {
+                    "table": "liveArticle",
+                    "id": "lr1",
+                    "urlColumn": "canonicalUrl"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "variant": "text",
+                "icon": "tune",
+                "showIf": {
+                  "table": "liveArticle",
+                  "id": "lr1",
+                  "column": "optionsOpen",
+                  "equals": false
+                },
+                "label": {
+                  "en": "Reading options",
+                  "ko": "읽기 옵션"
+                },
+                "action": {
+                  "fn": "wikiToggleToc",
+                  "args": {
+                    "column": "optionsOpen"
+                  }
+                }
+              },
+              {
+                "type": "button",
+                "dense": true,
+                "variant": "tonal",
+                "icon": "tune",
+                "showIf": {
+                  "table": "liveArticle",
+                  "id": "lr1",
+                  "column": "optionsOpen",
+                  "equals": true
+                },
+                "label": {
+                  "en": "Hide options",
+                  "ko": "옵션 숨기기"
+                },
+                "action": {
+                  "fn": "wikiToggleToc",
+                  "args": {
+                    "column": "optionsOpen"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "linkChoice": {
+      "title": {
+        "en": "Open this article?",
+        "ko": "이 문서를 열까요?"
+      },
+      "body": {
+        "type": "column",
+        "scroll": true,
+        "children": [
+          {
+            "type": "cards",
+            "table": "linkChoiceStatus",
+            "title": "title",
+            "expandable": false,
+            "windowed": false,
+            "tableView": false,
+            "tags": [
+              {
+                "column": "wiki"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Not saved for offline yet. Reading it downloads it from Wikipedia now; you can save it once it opens.",
+              "ko": "아직 오프라인으로 저장되지 않았습니다. 지금 읽으면 위키백과에서 내려받으며, 열린 뒤 저장할 수 있습니다."
+            }
+          },
+          {
+            "type": "spacer"
+          },
+          {
+            "type": "button",
+            "variant": "filled",
+            "icon": "auto_stories",
+            "label": {
+              "en": "Read now",
+              "ko": "지금 읽기"
+            },
+            "action": {
+              "chain": [
+                {
+                  "fn": "wikiChoiceReadNow"
+                },
+                {
+                  "fn": "wikiComputeFreshness"
+                }
+              ]
+            }
+          },
+          {
+            "type": "button",
+            "variant": "outlined",
+            "icon": "hourglass_bottom",
+            "label": {
+              "en": "Save for later",
+              "ko": "나중을 위해 저장"
+            },
+            "action": {
+              "chain": [
+                {
+                  "fn": "wikiChoiceQueue"
+                }
+              ]
+            }
+          },
+          {
+            "type": "button",
+            "variant": "text",
+            "icon": "open_in_new",
+            "label": {
+              "en": "Open on Wikipedia",
+              "ko": "위키백과에서 열기"
+            },
+            "action": {
+              "fn": "openLink",
+              "args": {
+                "table": "linkChoiceStatus",
+                "id": "lc1",
+                "urlColumn": "sourceUrl"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

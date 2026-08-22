@@ -1,0 +1,170 @@
+{
+  "entries": [
+    {
+      "name": "title",
+      "type": "text",
+      "label": "Title",
+      "description": "Trip name / member's chosen name / schedule item title / research item title."
+    },
+    {
+      "name": "body",
+      "type": "text",
+      "label": "Notes",
+      "description": "Freeform note text -- the trip's own description, a schedule item's detail, or a research item's write-up (what you learned about this place/route)."
+    },
+    {
+      "name": "kind",
+      "type": "enum",
+      "label": "Kind",
+      "options": ["trip", "member", "schedule", "research"],
+      "required": true,
+      "description": "What this row IS -- the single discriminator every view filters on. `trip` = the one root row; `member` = a person on the trip; `schedule` = a dated/timed plan item; `research` = a gathered note, link, or candidate place (station, food, lodging, activity) evaluated before or during planning."
+    },
+    {
+      "name": "type",
+      "type": "text",
+      "label": "Sync type",
+      "rules": { "hidden": true },
+      "description": "Compatibility discriminator for the SHARE pipeline only (isan's share_sink.dart levelMayPush checks Dispatch's `type` vocabulary, not this app's own `kind`). Stamped 'note' on research-kind rows only, mirroring tripboard's note-kind stamping. Never shown in the record editor."
+    },
+    {
+      "name": "status",
+      "type": "enum",
+      "label": "Status",
+      "options": ["idea", "confirmed", "done"],
+      "default": "idea",
+      "description": "For a schedule item: idea (unconfirmed) / confirmed / done. Unused on research rows."
+    },
+    {
+      "name": "rating",
+      "type": "enum",
+      "label": "Rating",
+      "options": ["unrated", "maybe", "good", "top pick"],
+      "default": "unrated",
+      "description": "For a research item: how this candidate compares against alternatives -- lets a place/station/route research row double as a comparison, not just a bookmark."
+    },
+    {
+      "name": "date",
+      "type": "date",
+      "label": "Date",
+      "description": "For a schedule item: when it happens. Drives the Schedule calendar."
+    },
+    {
+      "name": "endDate",
+      "type": "date",
+      "label": "End date",
+      "description": "Optional multi-day schedule item end date."
+    },
+    {
+      "name": "timeLabel",
+      "type": "text",
+      "label": "Time",
+      "rules": { "time": true },
+      "description": "For a schedule item: a time-of-day label (e.g. 18:00)."
+    },
+    {
+      "name": "place",
+      "type": "text",
+      "label": "Place",
+      "description": "For a schedule or research item: a place/station name."
+    },
+    {
+      "name": "category",
+      "type": "text",
+      "label": "Category",
+      "description": "Optional free-text tag -- for research rows, e.g. 'station', 'food', 'lodging', 'activity', 'route'."
+    },
+    {
+      "name": "url",
+      "type": "text",
+      "label": "Link",
+      "description": "Optional reference link for a research item (listing, article, map link, booking page, timetable) or a schedule item (booking confirmation)."
+    },
+    {
+      "name": "lat",
+      "type": "number",
+      "label": "Latitude",
+      "description": "For a schedule or research item: pin location. Only rows with both lat and lon set show on a map."
+    },
+    {
+      "name": "lon",
+      "type": "number",
+      "label": "Longitude",
+      "description": "For a schedule or research item: pin location. Only rows with both lat and lon set show on a map."
+    },
+    {
+      "name": "assignee",
+      "type": "ref",
+      "refTable": "entries",
+      "label": "Assigned to",
+      "description": "For a schedule item: which member (a kind=member entry) is responsible for confirming/booking it."
+    },
+    {
+      "name": "author",
+      "type": "ref",
+      "refTable": "entries",
+      "label": "Added by",
+      "description": "Which member (a kind=member entry) created this row -- stamped at creation from the per-install `krtravelplanMemberId` setting, NOT from sign-in identity. Empty means the device hadn't picked a member yet -- shown as 'Unattributed', not an error or a raw id."
+    },
+    {
+      "name": "initials",
+      "type": "text",
+      "label": "Badge",
+      "rules": { "deriveFrom": "title", "deriveFn": "initials" },
+      "description": "For a member: a short (1-3 character) badge shown next to their name and on every row they add -- AUTO-DERIVED from the typed name (engine primitive `flutterboard/lib/src/data/text_transforms.dart`'s `initials`, wired via this column's `rules.deriveFrom`/`deriveFn`) as soon as the name is saved, e.g. 'AK' for 'Alex Kim', 'M' for a one-word name like 'Madonna', and the given-name syllables for a Korean full name (e.g. '철수' from '김철수'). Still fully editable -- type your own badge and it's kept from then on; clear it back to blank and save to return to auto-derive. Two members may end up with the same badge regardless; the member's own chip color and emoji disambiguate."
+    },
+    {
+      "name": "color",
+      "type": "enum",
+      "label": "Color",
+      "options": ["blue", "pink", "teal", "green", "purple", "gray", "amber", "coral", "red"],
+      "description": "For a member: their chip color."
+    },
+    {
+      "name": "emoji",
+      "type": "text",
+      "label": "Emoji",
+      "description": "For a member: their chip emoji."
+    },
+    {
+      "name": "updatedAt",
+      "type": "text",
+      "label": "Updated",
+      "rules": { "hidden": true, "date": true },
+      "description": "The engine's own auto-stamped per-row write time (ISO-8601, stamped by the reserved key name regardless of declared column type). DISPLAY-ONLY -- LWW-reserved, silently overwritten on every save, never listed as an addRow/editable value."
+    },
+    {
+      "name": "createdBy",
+      "type": "text",
+      "label": "Created by (sync)",
+      "rules": { "hidden": true },
+      "description": "Signed-in PocketBase user id when signed in, else this install's stable local actor id ($playerId) -- stamped at creation on every addRow action -- used ONLY by the sharing pipeline's per-row 'own row' gate, so a commenter-level collaborator can push their own research note. Separate from `author` (this app's own member-attribution column, which must never key off sign-in). Never shown in the record editor."
+    }
+  ],
+  "relations": [
+    {
+      "name": "fromId",
+      "type": "ref",
+      "refTable": "entries",
+      "label": "From",
+      "required": true,
+      "description": "The source node of this relationship (the trip root, for every edge in v1)."
+    },
+    {
+      "name": "toId",
+      "type": "ref",
+      "refTable": "entries",
+      "label": "To",
+      "required": true,
+      "description": "The target node of this relationship (the member/schedule/research item it links in)."
+    },
+    {
+      "name": "type",
+      "type": "enum",
+      "label": "Relationship",
+      "options": ["contains"],
+      "default": "contains",
+      "description": "`contains` is the only edge type v1 needs: structural trip-root -> item, walked by the share pipeline's subtree closure."
+    }
+  ]
+}

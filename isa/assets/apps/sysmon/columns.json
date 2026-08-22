@@ -1,0 +1,56 @@
+{
+  "headline": [
+    { "name": "state", "type": "text", "label": "State" },
+    { "name": "updated", "type": "text", "label": "Updated" },
+    { "name": "load1", "type": "number", "label": "Load (1 min)" },
+    { "name": "cores", "type": "number", "label": "Cores" },
+    { "name": "headroom", "type": "number", "label": "Spare cores" },
+    { "name": "pressure", "type": "number", "label": "Load per core" },
+    { "name": "claude_procs", "type": "number", "label": "Claude processes" },
+    { "name": "agents_live", "type": "number", "label": "Agents running" },
+    { "name": "sessions_active", "type": "number", "label": "Sessions active" },
+    { "name": "prompts_queued", "type": "number", "label": "Prompts queued" },
+    { "name": "gates", "type": "number", "label": "Test gates running" },
+    { "name": "testers", "type": "number", "label": "Test processes" },
+    { "name": "mem_gb", "type": "number", "label": "Memory (GB)" },
+    { "name": "disk_free_gb", "type": "number", "label": "Disk free (GB)" },
+    { "name": "uptime_h", "type": "number", "label": "Uptime (h)" },
+    { "name": "iso", "type": "text", "label": "Snapshot time" }
+  ],
+  "sessions": [
+    { "name": "n", "type": "number", "label": "#" },
+    { "name": "model", "type": "text", "label": "Model" },
+    { "name": "status", "type": "text", "label": "Status" },
+    { "name": "queued", "type": "number", "label": "Queued" },
+    { "name": "idle_s", "type": "number", "label": "Idle (s)" }
+  ],
+  "agents": [
+    { "name": "n", "type": "number", "label": "#" },
+    { "name": "running_min", "type": "number", "label": "Running (min)" },
+    { "name": "idle_s", "type": "number", "label": "Last write (s ago)" }
+  ],
+  "prompts": [
+    { "name": "when", "type": "text", "label": "When" },
+    { "name": "model", "type": "text", "label": "Model" },
+    { "name": "total_out", "type": "number", "label": "Total written" },
+    { "name": "out", "type": "number", "label": "Main session" },
+    { "name": "agent_out", "type": "number", "label": "Agents" },
+    { "name": "agents_spawned", "type": "number", "label": "Agents spawned" },
+    { "name": "turns", "type": "number", "label": "Turns" },
+    { "name": "agent_turns", "type": "number", "label": "Agent turns" },
+    { "name": "cache_read", "type": "number", "label": "Cache read" },
+    { "name": "dur_min", "type": "number", "label": "Took (min)" },
+    { "name": "chars", "type": "number", "label": "Prompt length" },
+    { "name": "ts", "type": "number", "label": "Timestamp" }
+  ],
+  "history": [
+    { "name": "when", "type": "text", "label": "When" },
+    { "name": "load1", "type": "number", "label": "Load" },
+    { "name": "pressure", "type": "number", "label": "Load per core" },
+    { "name": "agents", "type": "number", "label": "Agents" },
+    { "name": "sessions", "type": "number", "label": "Sessions" },
+    { "name": "queued", "type": "number", "label": "Queued" },
+    { "name": "out_tokens", "type": "number", "label": "Tokens written" },
+    { "name": "ts", "type": "number", "label": "Timestamp" }
+  ]
+}

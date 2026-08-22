@@ -1,0 +1,176 @@
+{
+  "articles": [
+    { "name": "title", "type": "text", "label": "Title", "required": true },
+    { "name": "wiki", "type": "text", "label": "Wiki", "required": true, "description": "Language subdomain the page was fetched from, e.g. \"en\", \"ko\" — page identity is the pair (wiki, title), not title alone." },
+    { "name": "revisionId", "type": "text", "label": "Revision ID", "description": "Wikipedia revision id at time of fetch — shown in the reader footer for attribution." },
+    { "name": "canonicalUrl", "type": "uri", "label": "Source URL" },
+    { "name": "extractText", "type": "richtext", "label": "Cached text", "description": "HTML-sourced markdown extract. W2 (0820): when saved with \"Include images\" on, a lead-image `![alt](local:<id>)` block is prepended ahead of the body, resolved via the articleImages table — text-only otherwise." },
+    { "name": "fetchedAt", "type": "dateTime", "label": "Fetched", "description": "Last time the content itself was downloaded. polish1-0818 fix: was `date` — the engine's own column coercion silently truncates a `date`-typed value to its calendar day (drops time-of-day) on every write, so a just-saved article's freshness badge computed its \"ago\" diff against MIDNIGHT, not the real save moment (looked like a UTC/timezone bug — it was column-type truncation)." },
+    { "name": "lastCheckedAt", "type": "dateTime", "label": "Last checked", "description": "Last time currency was verified against the live revision id — may be newer than fetchedAt when a check found no change. Drives the staleness prompt (see app setting staleDays). polish1-0818 fix: was `date`, same truncation bug as fetchedAt." },
+    { "name": "seed", "type": "boolean", "label": "Seed article", "default": false, "description": "True if the user picked this directly, false if reached by crawling links." },
+    { "name": "depth", "type": "integer", "label": "Degrees from nearest seed", "default": 0 },
+    { "name": "extractBytes", "type": "integer", "label": "Cached size (bytes)", "default": 0, "description": "utf-8 byte length of extractText at fetch time — drives the Library size stat and the aggregate 20 MB / 200-article storage cap (Unit D); never recomputed from extractText at read time so the cap check stays O(rows), not O(bytes)." },
+    { "name": "sizeLabel", "type": "text", "label": "Size", "description": "v3a (W1): human-readable rendering of extractBytes (e.g. \"44.2 KB\") computed once at fetch/save time — drives the Library/home size attribute chip; tags render text columns verbatim, so this stays a plain formatted string rather than requiring a chart-style number formatter in ui.json." },
+    { "name": "formatVersion", "type": "integer", "label": "Format version", "default": 1, "description": "1 = old explaintext/wiki-markers pipeline (pre wikipick-reader2-0817). 2 = HTML-sourced markdown with real headings, bold/italic, and tappable wikilinks. A row missing this column (pre-migration) is treated as 1. The reader shows an \"update formatting?\" banner on any row below 2." },
+    { "name": "seedLayersCached", "type": "integer", "label": "Layers cached", "default": 0, "description": "v3a (W1): for a SEED row only — the max crawl_members depth actually reached by this seed's crawl so far (recomputed after every wikiFetchLayer run, partial runs included). 0/absent on a non-seed row (its own `depth` column is its layer attribute instead) and on a seed whose crawl has not fetched anything yet." },
+    { "name": "imageBytes", "type": "integer", "label": "Image bytes", "default": 0, "description": "W2 (0820): raw bytes of this article's lead image (0 if none/off) — mirrors the matching articleImages row's bytes column. Counted toward the separate ~8 MB images sub-cap, never the 20 MB text cap (extractBytes stays text-only)." },
+    { "name": "totalBytes", "type": "integer", "label": "Total cached size (bytes)", "default": 0, "description": "W2 (0820): extractBytes + imageBytes, kept in sync at write time — the HONEST total for this article's Library footprint. The Library/home cache-size stat reads this column so images are never under-reported." },
+    { "name": "depthCap", "type": "integer", "label": "Depth cap", "default": 1, "description": "wikipick-0820perf cosmetic fix: for a SEED row only — the per-save \"Cache depth\" option this article was actually saved with (mirrors its own crawls.depthCap at save time), so the reader's \"Cache linked pages\" button can say the true configured depth (1 or 2) instead of a hardcoded \"1 layer\" regardless of what the user picked. 0/absent on a non-seed row." },
+    { "name": "description", "type": "text", "label": "Description", "description": "wikiparity-0820wp2: MediaWiki's one-line short description (Wikidata/pageprops `description`), fetched best-effort at save time — the italic subtitle Wikipedia's own app shows under a title, and the Library card snippet. Empty when the API had none; never fabricated." },
+    { "name": "thumbnailUrl", "type": "uri", "label": "Thumbnail URL", "description": "wikiparity-0820wp2: pageimages thumbnail URL (upload.wikimedia.org), fetched best-effort alongside `description` — a leading card thumbnail. Rendered through the engine's existing networkTrusted/media-richness-gated `imageColumn`, same as any other network image; never downloaded/stored as bytes here, just the URL string. Empty when the API had no image." }
+  ],
+  "links": [
+    { "name": "wiki", "type": "text", "label": "Wiki", "required": true, "description": "Language subdomain both endpoints belong to — v2 has no cross-wiki (langlink) links." },
+    { "name": "fromArticle", "type": "text", "label": "From article", "required": true },
+    { "name": "toArticleTitle", "type": "text", "label": "To article title", "required": true },
+    { "name": "resolved", "type": "boolean", "label": "Target cached", "default": false, "description": "Whether toArticleTitle has been fetched into Library yet." }
+  ],
+  "crawl_queue": [
+    { "name": "wiki", "type": "text", "label": "Wiki", "required": true, "description": "Language subdomain this queued title belongs to." },
+    { "name": "title", "type": "text", "label": "Article title", "required": true },
+    { "name": "depth", "type": "integer", "label": "Depth", "default": 1 },
+    {
+      "name": "status",
+      "type": "enum",
+      "label": "Status",
+      "options": ["pending", "fetched", "failed"],
+      "default": "pending"
+    },
+    { "name": "sourceCrawlId", "type": "text", "label": "Crawl ID" },
+    { "name": "discoveredAt", "type": "dateTime", "label": "Discovered" },
+    {
+      "name": "failureReason",
+      "type": "enum",
+      "label": "Why it failed",
+      "options": ["rateLimited", "networkError", "notFound"],
+      "description": "wikipick-crawl-throttle-0821: set only on a `failed` row, empty otherwise. `rateLimited`/`networkError` are transient (retried in-run before landing here, and eligible for the manual \"Retry failed\" action); `notFound` is a genuine 404/missing-page/unparseable response and is never retried."
+    }
+  ],
+  "crawls": [
+    { "name": "id", "type": "text", "label": "Crawl ID", "required": true, "description": "Stable business id referenced by crawl_queue.sourceCrawlId and crawl_members.crawlId." },
+    { "name": "wiki", "type": "text", "label": "Wiki", "required": true },
+    { "name": "seedTitle", "type": "text", "label": "Seed article", "required": true },
+    { "name": "depthCap", "type": "integer", "label": "Depth cap", "default": 2 },
+    { "name": "startedAt", "type": "dateTime", "label": "Started" },
+    {
+      "name": "status",
+      "type": "enum",
+      "label": "Status",
+      "options": ["running", "paused", "done", "failed"],
+      "default": "running"
+    },
+    {
+      "name": "seedSaved",
+      "type": "boolean",
+      "label": "Seed is saved",
+      "default": true,
+      "description": "N1 (0819 delta-check): true when this crawl was minted for an article the user actually saved (the normal case). false only for a one-off crawl wikiChoiceQueue mints from \"Queue for caching\" while reading an UNSAVED live article — its seedTitle is that unsaved article's own title, which can never resolve to an articles row by design (the user cached a linked page, not the page they were reading). _sweepOrphanCrawls's dead-seed reap only ever fires when this is NOT explicitly false, so a legitimately seedless crawl's still-pending queued intent is never destroyed by an unrelated delete."
+    }
+  ],
+  "crawl_members": [
+    { "name": "crawlId", "type": "text", "label": "Crawl ID", "required": true },
+    { "name": "wiki", "type": "text", "label": "Wiki", "required": true },
+    { "name": "title", "type": "text", "label": "Article title", "required": true },
+    { "name": "depth", "type": "integer", "label": "Depth", "default": 0 }
+  ],
+  "searchResults": [
+    { "name": "wiki", "type": "text", "label": "Wiki", "required": true },
+    { "name": "title", "type": "text", "label": "Title", "required": true },
+    { "name": "snippet", "type": "text", "label": "Snippet" },
+    { "name": "pageid", "type": "text", "label": "Page ID" },
+    { "name": "cached", "type": "boolean", "label": "Saved", "default": false, "description": "v3a (W5): stamped at search time from a Library lookup, and by wikiQuickSave immediately on a successful \"+ Save\" tap — drives the result row's saved-state chip." },
+    { "name": "thumbnailUrl", "type": "uri", "label": "Thumbnail URL", "description": "wikiparity-0820wp2: pageimages thumbnail URL for this result, fetched in one batched follow-up call after opensearch returns titles. Empty when the API had no image for that page." }
+  ],
+  "searchStatus": [
+    {
+      "name": "state",
+      "type": "enum",
+      "label": "State",
+      "options": ["idle", "loading", "empty", "results", "libraryFull"],
+      "default": "idle"
+    },
+    { "name": "query", "type": "text", "label": "Query" },
+    { "name": "lang", "type": "text", "label": "Language" },
+    {
+      "name": "keptBucket",
+      "type": "enum",
+      "label": "Kept elsewhere",
+      "options": ["", "1", "2", "3", "many", "seed1", "seed2", "seed3", "seedmany"],
+      "default": "",
+      "description": "W8 (reference-counted deletion): set right after a delete that kept a shared article alive (still referenced by another crawl) — bucketed since the engine's showIf only does exact-value matches, not a numeric >=. Empty when the last delete kept nothing (or on a fresh install). The `seed<N>` variants (0819 delta-check truthfulness nit) mark the case where the surviving article's OWN crawl/children were just removed by this same delete (it owned a crawl the delete found and reaped) — a plain \"kept\" banner would misleadingly read as \"nothing changed\" when its own collection is in fact gone."
+    }
+  ],
+  "readerStatus": [
+    { "name": "articleId", "type": "text", "label": "Article", "description": "Id of the articles row this status was last computed for." },
+    {
+      "name": "state",
+      "type": "enum",
+      "label": "State",
+      "options": ["idle", "stale", "upToDate", "updated"],
+      "default": "idle",
+      "description": "\"stale\" shows the freshness banner; \"upToDate\"/\"updated\" are brief captions after a check-for-updates tap; \"idle\" shows neither."
+    },
+    { "name": "staleDays", "type": "integer", "label": "Days since checked", "default": 0 }
+  ],
+  "liveArticle": [
+    { "name": "wiki", "type": "text", "label": "Wiki" },
+    { "name": "title", "type": "text", "label": "Title" },
+    { "name": "revisionId", "type": "text", "label": "Revision ID" },
+    { "name": "canonicalUrl", "type": "uri", "label": "Source URL" },
+    { "name": "extractText", "type": "richtext", "label": "Text" },
+    { "name": "extractBytes", "type": "integer", "label": "Size (bytes)", "default": 0 },
+    { "name": "formatVersion", "type": "integer", "label": "Format version", "default": 2 },
+    { "name": "fetchedAt", "type": "dateTime", "label": "Fetched", "description": "polish1-0818 fix: was `date` — see articles.fetchedAt's note. This is the exact column the reader's \"Cached\" freshness badge (format:relative) reads." },
+    { "name": "isSaved", "type": "boolean", "label": "Saved to Library", "default": false, "description": "False while reading a live (unsaved) fetch — true once \"Save offline\" has run, or when this row was populated by opening an already-saved Library article." },
+    { "name": "savedArticleId", "type": "text", "label": "Saved article id", "description": "The articles row id once saved/opened-from-Library; empty while reading live." },
+    { "name": "linksJson", "type": "text", "label": "Outgoing links (JSON)", "description": "JSON array of outgoing wikilink titles discovered on the last live fetch — consumed by \"Save offline\" to populate links/crawl_queue without a second fetch. Empty when this row came from an already-saved article (its links already exist)." },
+    { "name": "displayText", "type": "richtext", "label": "Rendered text", "description": "wikiread-0818: what the reader's notepad actually renders — extractText plus the presentational layers (back breadcrumb, in-article table of contents). Derived on every write; extractText stays the pristine article markdown that Save offline copies to Library and that the sections outline is parsed from." },
+    { "name": "hasBack", "type": "boolean", "label": "Has back", "default": false, "description": "wikiread-0818: true while this reading session has an article to step back to." },
+    { "name": "backTitle", "type": "text", "label": "Back to", "description": "wikiread-0818: title of the article one step back — the breadcrumb label, so the affordance says where it goes." },
+    { "name": "tocOpen", "type": "boolean", "label": "Contents shown", "default": true, "description": "wikiread-0818: reading preference — whether the in-article table of contents is expanded. Carried across article hops rather than reset per article." },
+    { "name": "optionsOpen", "type": "boolean", "label": "Reading options shown", "default": false, "description": "r4wiki-0820 (S1-B): reading preference — whether the reader's save/cache settings panel is expanded. Closed by default so the article gets the viewport height; the pinned reader chrome is then one action row. Carried across article hops, exactly like tocOpen." },
+    { "name": "depthCap", "type": "integer", "label": "Depth cap", "default": 1, "description": "wikipick-0820perf cosmetic fix: mirrors the open article's own articles.depthCap (when saved) so the reader's \"Cache linked pages\" button label reflects the article's TRUE configured cache depth (1 or 2) instead of a hardcoded value." },
+    { "name": "description", "type": "text", "label": "Description", "description": "wikiparity-0820wp2: mirrors articles.description (or a live best-effort fetch when reading unsaved) — the reader's serif-title subtitle line." }
+  ],
+  "sections": [
+    { "name": "order", "type": "integer", "label": "Order", "default": 0 },
+    { "name": "heading", "type": "text", "label": "Heading", "required": true },
+    { "name": "level", "type": "integer", "label": "Level", "default": 2 }
+  ],
+  "linkChoiceStatus": [
+    { "name": "wiki", "type": "text", "label": "Wiki" },
+    { "name": "title", "type": "text", "label": "Target title" },
+    { "name": "sourceUrl", "type": "uri", "label": "Source URL" }
+  ],
+  "recentReads": [
+    { "name": "wiki", "type": "text", "label": "Wiki", "required": true },
+    { "name": "title", "type": "text", "label": "Title", "required": true },
+    { "name": "canonicalUrl", "type": "uri", "label": "Source URL" },
+    { "name": "when", "type": "dateTime", "label": "Read at", "description": "polish1-0818 fix: was `date` — same truncation bug (see articles.fetchedAt's note); recentReads sorts by this column so a mid-day re-read no longer collapses to \"same day, order unspecified\"." }
+  ],
+  "queueStatus": [
+    {
+      "name": "state",
+      "type": "enum",
+      "label": "State",
+      "options": ["idle", "resumable", "interrupted", "running"],
+      "default": "idle",
+      "description": "polish1-0818: \"idle\" = no pending rows; \"resumable\" = pending rows exist, no run active, user (or auto-cache) previously paused/finished a budget-capped run this session; \"interrupted\" = pending rows already existed the moment this boot's very first check ran — i.e. a run from BEFORE this page load, which a reload always kills (the crawl drain is an in-memory fiber); \"running\" = a drain is active right now."
+    },
+    { "name": "pendingCount", "type": "integer", "label": "Pending count", "default": 0 },
+    { "name": "failedCount", "type": "integer", "label": "Failed count", "default": 0, "description": "wikipick-crawl-throttle-0821: live count of `crawl_queue` rows with status `failed`, recomputed alongside `pendingCount` in `_refreshQueueStatus` — drives the queue screen's \"Retry failed\" button visibility (showIf notEquals 0) without needing a per-value-templated label." },
+    { "name": "lastProgressAt", "type": "dateTime", "label": "Last progress", "description": "wikipick-0818p4: heartbeat written by the crawl drain loop while `state: 'running'` — a full ISO-8601 timestamp (dateTime, not date — see the 0818 MIGRATION note on the sibling timestamp columns), never set for any other state. A boot (or any read) that finds `state: 'running'` with no matching in-flight run reconciles it to interrupted/idle instead of trusting the label; see `_isRunningStale`/`ensureWikipickQueueStatus` in wikipick_net.dart." }
+  ],
+  "articleImages": [
+    { "name": "articleId", "type": "text", "label": "Article", "required": true, "description": "W2: id of the owning `articles` row. Deleted together with it — never orphaned (see _deleteArticleRefCounted)." },
+    { "name": "mime", "type": "text", "label": "MIME type", "description": "One of image/png, image/jpeg, image/webp — confirmed by BOTH magic bytes and the fetch response's content-type before storage; SVG is unsupported (thumb URLs always rasterize)." },
+    { "name": "b64", "type": "richtext", "label": "Image data (base64)", "description": "Local base64 bytes only — never a URL, never fetched at render time. Resolved by the reader's notepad node via imagesTable/imageSrcColumn." },
+    { "name": "w", "type": "integer", "label": "Width", "default": 0 },
+    { "name": "h", "type": "integer", "label": "Height", "default": 0 },
+    { "name": "bytes", "type": "integer", "label": "Bytes", "default": 0, "description": "Raw (pre-base64) byte length — rejected at fetch time above ~80 KB, no re-encode. Summed across all rows for the images sub-cap (~8 MB, see wikipick_net.dart _kMaxImageBytes)." }
+  ],
+  "saveOptions": [
+    { "name": "includeImages", "type": "boolean", "label": "Include images", "default": false, "description": "W7: per-save option read at the moment of \"Save offline\"/\"+ Save\" — default off (storage honesty). Fetches the article's lead image only; a miss/failure never blocks the text save." },
+    { "name": "cacheDepth", "type": "integer", "label": "Cache depth", "default": 1, "description": "W7: per-save option, 1 (default) or 2 — how many link layers to auto-cache from this save, still bounded by every existing per-run and aggregate budget cap." }
+  ]
+}

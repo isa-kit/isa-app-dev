@@ -1,0 +1,183 @@
+{
+ "board": {
+  "name": "Chronos — history timelapse"
+ },
+ "screens": [
+  {
+   "id": "cr_map",
+   "name": "Map",
+   "device": "phone",
+   "x": 0,
+   "y": 0
+  },
+  {
+   "id": "cr_battles",
+   "name": "Battles",
+   "device": "phone",
+   "x": 440,
+   "y": 0
+  },
+  {
+   "id": "cr_about",
+   "name": "About",
+   "device": "phone",
+   "x": 880,
+   "y": 0
+  },
+  {
+   "id": "cr_cannae_battle",
+   "name": "Cannae — 216 BC",
+   "device": "phone",
+   "x": 1320,
+   "y": 0
+  }
+ ],
+ "widgets": [
+  {
+   "id": "cr_map_title",
+   "screen": "cr_map",
+   "kind": "titlebar",
+   "label": "Chronos",
+   "region": "top",
+   "order": 0
+  },
+  {
+   "id": "cr_map_card",
+   "screen": "cr_map",
+   "kind": "card",
+   "label": "Historical map — empires & borders over time",
+   "region": "body",
+   "order": 0
+  },
+  {
+   "id": "cr_map_eras",
+   "screen": "cr_map",
+   "kind": "buttonrow",
+   "label": "All time · Bronze & Iron Age · Classical · Medieval · Early modern · Modern",
+   "region": "body",
+   "order": 1
+  },
+  {
+   "id": "cr_map_nav",
+   "screen": "cr_map",
+   "kind": "bottomnav",
+   "label": "Map · Battles · About",
+   "region": "bottom",
+   "order": 0
+  },
+  {
+   "id": "cr_battles_title",
+   "screen": "cr_battles",
+   "kind": "titlebar",
+   "label": "Battle recreations",
+   "region": "top",
+   "order": 0
+  },
+  {
+   "id": "cr_battles_text",
+   "screen": "cr_battles",
+   "kind": "text",
+   "label": "Recreated battles, walked through minute by minute",
+   "region": "body",
+   "order": 0
+  },
+  {
+   "id": "cr_battles_open_cannae",
+   "screen": "cr_battles",
+   "kind": "buttonrow",
+   "label": "Open Cannae",
+   "region": "body",
+   "order": 1
+  },
+  {
+   "id": "cr_battles_nav",
+   "screen": "cr_battles",
+   "kind": "bottomnav",
+   "label": "Map · Battles · About",
+   "region": "bottom",
+   "order": 0
+  },
+  {
+   "id": "cr_about_title",
+   "screen": "cr_about",
+   "kind": "titlebar",
+   "label": "About",
+   "region": "top",
+   "order": 0
+  },
+  {
+   "id": "cr_about_text",
+   "screen": "cr_about",
+   "kind": "text",
+   "label": "What this map is (and isn't)",
+   "region": "body",
+   "order": 0
+  },
+  {
+   "id": "cr_about_table",
+   "screen": "cr_about",
+   "kind": "list",
+   "label": "Provenance table",
+   "region": "body",
+   "order": 1
+  },
+  {
+   "id": "cr_about_nav",
+   "screen": "cr_about",
+   "kind": "bottomnav",
+   "label": "Map · Battles · About",
+   "region": "bottom",
+   "order": 0
+  },
+  {
+   "id": "cr_cannae_title",
+   "screen": "cr_cannae_battle",
+   "kind": "titlebar",
+   "label": "Cannae — 216 BC",
+   "region": "top",
+   "order": 0
+  },
+  {
+   "id": "cr_cannae_card",
+   "screen": "cr_cannae_battle",
+   "kind": "card",
+   "label": "Battle map — unit positions",
+   "region": "body",
+   "order": 0
+  },
+  {
+   "id": "cr_cannae_slider",
+   "screen": "cr_cannae_battle",
+   "kind": "text",
+   "label": "Battle time slider (minutes elapsed, 2 August 216 BC)",
+   "region": "body",
+   "order": 1
+  }
+ ],
+ "flows": [
+  {
+   "id": "cr_flow_0",
+   "fromWidget": "cr_map_nav",
+   "toScreen": "cr_battles",
+   "transition": "push"
+  },
+  {
+   "id": "cr_flow_1",
+   "fromWidget": "cr_battles_nav",
+   "toScreen": "cr_about",
+   "transition": "push"
+  },
+  {
+   "id": "cr_flow_2",
+   "fromWidget": "cr_about_nav",
+   "toScreen": "cr_map",
+   "transition": "push"
+  },
+  {
+   "id": "cr_flow_3",
+   "fromWidget": "cr_battles_open_cannae",
+   "toScreen": "cr_cannae_battle",
+   "transition": "push"
+  }
+ ]
+}

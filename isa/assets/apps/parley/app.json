@@ -1,0 +1,14 @@
+{
+  "id": "parley",
+  "name": "Parley",
+  "icon": "translate",
+  "category": "Life",
+  "description": "A chat that translates as you type.",
+  "store": {
+    "type": "sqflite",
+    "namespace": "isan_parley"
+  },
+  "seedVersion": "2026-08-21.1",
+  "seedContent": "initial-only",
+  "durableSettings": ["parleyMemberId", "parleyLinkRoom", "parleyLinkKey"]
+}
