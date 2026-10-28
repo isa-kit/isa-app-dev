@@ -1,0 +1,911 @@
+{
+  "app": {
+    "languages": [
+      "en",
+      "ko",
+      "zh",
+      "hi",
+      "es",
+      "fr",
+      "ar",
+      "pt",
+      "ru",
+      "de",
+      "ja",
+      "tr",
+      "vi",
+      "it",
+      "fa",
+      "pl",
+      "uk",
+      "nl",
+      "sv",
+      "cs",
+      "el"
+    ],
+    "translatable": true,
+    "primaryColor": "#B5651D",
+    "theme": "pastel",
+    "appDataTools": true
+  },
+  "nav": [
+    {
+      "label": {
+        "en": "Chats",
+        "ko": "대화",
+        "zh": "聊天",
+        "hi": "चैट",
+        "es": "Chats",
+        "fr": "Discussions",
+        "ar": "المحادثات",
+        "pt": "Conversas",
+        "ru": "Чаты",
+        "de": "Chats",
+        "ja": "チャット",
+        "tr": "Sohbetler",
+        "vi": "Cuộc trò chuyện",
+        "it": "Chat",
+        "fa": "گفتگوها",
+        "pl": "Czaty",
+        "uk": "Чати",
+        "nl": "Chats",
+        "sv": "Chattar",
+        "cs": "Chaty",
+        "el": "Συνομιλίες"
+      },
+      "icon": "forum",
+      "screen": "chats"
+    },
+    {
+      "label": {
+        "en": "About",
+        "ko": "정보",
+        "zh": "关于",
+        "hi": "परिचय",
+        "es": "Acerca de",
+        "fr": "À propos",
+        "ar": "حول",
+        "pt": "Sobre",
+        "ru": "О приложении",
+        "de": "Info",
+        "ja": "このアプリについて",
+        "tr": "Hakkında",
+        "vi": "Giới thiệu",
+        "it": "Informazioni",
+        "fa": "درباره",
+        "pl": "O aplikacji",
+        "uk": "Про застосунок",
+        "nl": "Over",
+        "sv": "Om",
+        "cs": "O aplikaci",
+        "el": "Σχετικά"
+      },
+      "icon": "help_outline",
+      "screen": "about"
+    }
+  ],
+  "screens": {
+    "chats": {
+      "title": {
+        "en": "Chats",
+        "ko": "대화",
+        "zh": "聊天",
+        "hi": "चैट",
+        "es": "Chats",
+        "fr": "Discussions",
+        "ar": "المحادثات",
+        "pt": "Conversas",
+        "ru": "Чаты",
+        "de": "Chats",
+        "ja": "チャット",
+        "tr": "Sohbetler",
+        "vi": "Cuộc trò chuyện",
+        "it": "Chat",
+        "fa": "گفتگوها",
+        "pl": "Czaty",
+        "uk": "Чати",
+        "nl": "Chats",
+        "sv": "Chattar",
+        "cs": "Chaty",
+        "el": "Συνομιλίες"
+      },
+      "body": {
+        "type": "column",
+        "crossAxis": "stretch",
+        "children": [
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Each chat holds sub-chats, each its own thread. Needs your own AI provider key in app settings.",
+              "ko": "각 대화에는 하위 대화가 있고, 각각 별도의 스레드입니다. 앱 설정에 본인의 AI 제공자 키가 필요합니다.",
+              "zh": "每个聊天包含多个子聊天，各自是独立的对话串。需要在应用设置中填入您自己的 AI 服务密钥。",
+              "hi": "हर चैट में उप-चैट होती हैं, हर एक का अपना थ्रेड है। ऐप सेटिंग में आपकी अपनी AI प्रदाता कुंजी चाहिए।",
+              "es": "Cada chat contiene subchats, cada uno con su propio hilo. Necesitas tu propia clave de proveedor de IA en los ajustes de la app.",
+              "fr": "Chaque discussion contient des sous-discussions, chacune avec son propre fil. Il faut votre propre clé de fournisseur d'IA dans les réglages de l'app.",
+              "ar": "تحتوي كل محادثة على محادثات فرعية، لكل منها سلسلتها الخاصة. تحتاج إلى مفتاح مزوّد الذكاء الاصطناعي الخاص بك في إعدادات التطبيق.",
+              "pt": "Cada conversa contém subconversas, cada uma com seu próprio tópico. É preciso ter sua própria chave de provedor de IA nas configurações do app.",
+              "ru": "В каждом чате есть подчаты, у каждого своя ветка. Нужен ваш собственный ключ ИИ-провайдера в настройках приложения.",
+              "de": "Jeder Chat enthält Unterchats, jeder mit eigenem Verlauf. Du brauchst deinen eigenen KI-Anbieter-Schlüssel in den App-Einstellungen.",
+              "ja": "各チャットにはサブチャットがあり、それぞれ独立したスレッドです。アプリ設定に自分のAIプロバイダーのキーが必要です。",
+              "tr": "Her sohbetin alt sohbetleri vardır, her biri kendi akışına sahiptir. Uygulama ayarlarında kendi yapay zekâ sağlayıcı anahtarınız gerekir.",
+              "vi": "Mỗi cuộc trò chuyện có các cuộc trò chuyện con, mỗi cái là một luồng riêng. Cần khóa nhà cung cấp AI của bạn trong phần cài đặt ứng dụng.",
+              "it": "Ogni chat contiene sotto-chat, ciascuna con il proprio thread. Serve la tua chiave del fornitore di IA nelle impostazioni dell'app.",
+              "fa": "هر گفتگو شامل زیرگفتگوهاست و هر کدام رشتهٔ جدایی دارند. به کلید ارائه‌دهندهٔ هوش مصنوعی خودتان در تنظیمات برنامه نیاز دارید.",
+              "pl": "Każdy czat zawiera podczaty, każdy z własnym wątkiem. Potrzebny jest własny klucz dostawcy AI w ustawieniach aplikacji.",
+              "uk": "Кожен чат містить підчати, кожен зі своєю гілкою. Потрібен ваш власний ключ постачальника ШІ в налаштуваннях застосунку.",
+              "nl": "Elke chat bevat subchats, elk met een eigen gesprek. Je hebt je eigen AI-providersleutel nodig in de app-instellingen.",
+              "sv": "Varje chatt innehåller underchattar, var och en med sin egen tråd. Du behöver din egen AI-leverantörsnyckel i appens inställningar.",
+              "cs": "Každý chat obsahuje podchaty, každý s vlastním vláknem. V nastavení aplikace je potřeba váš vlastní klíč poskytovatele AI.",
+              "el": "Κάθε συνομιλία περιέχει υποσυνομιλίες, καθεμία με το δικό της νήμα. Χρειάζεστε το δικό σας κλειδί παρόχου AI στις ρυθμίσεις της εφαρμογής."
+            }
+          },
+          {
+            "type": "button",
+            "label": {
+              "en": "New chat",
+              "ko": "새 대화",
+              "zh": "新建聊天",
+              "hi": "नई चैट",
+              "es": "Nuevo chat",
+              "fr": "Nouvelle discussion",
+              "ar": "محادثة جديدة",
+              "pt": "Nova conversa",
+              "ru": "Новый чат",
+              "de": "Neuer Chat",
+              "ja": "新しいチャット",
+              "tr": "Yeni sohbet",
+              "vi": "Cuộc trò chuyện mới",
+              "it": "Nuova chat",
+              "fa": "گفتگوی جدید",
+              "pl": "Nowy czat",
+              "uk": "Новий чат",
+              "nl": "Nieuwe chat",
+              "sv": "Ny chatt",
+              "cs": "Nový chat",
+              "el": "Νέα συνομιλία"
+            },
+            "icon": "add",
+            "action": {
+              "fn": "addRow",
+              "args": {
+                "table": "chats"
+              }
+            }
+          },
+          {
+            "type": "list",
+            "table": "chats",
+            "titleColumn": "name",
+            "subtitleColumns": [
+              "at"
+            ],
+            "sortColumn": "at",
+            "sortDir": "desc",
+            "action": {
+              "chain": [
+                {
+                  "fn": "selectRow",
+                  "args": {
+                    "table": "chats"
+                  }
+                },
+                {
+                  "fn": "hostCall",
+                  "args": {
+                    "name": "chatScope",
+                    "into": "subchats",
+                    "column": "chat"
+                  }
+                },
+                {
+                  "fn": "goto",
+                  "args": {
+                    "screen": "subchats"
+                  }
+                }
+              ]
+            },
+            "emptyIcon": "forum",
+            "emptyTitle": {
+              "en": "No chats yet",
+              "ko": "아직 대화가 없습니다",
+              "zh": "还没有聊天",
+              "hi": "अभी कोई चैट नहीं",
+              "es": "Aún no hay chats",
+              "fr": "Aucune discussion pour l'instant",
+              "ar": "لا توجد محادثات بعد",
+              "pt": "Nenhuma conversa ainda",
+              "ru": "Чатов пока нет",
+              "de": "Noch keine Chats",
+              "ja": "チャットはまだありません",
+              "tr": "Henüz sohbet yok",
+              "vi": "Chưa có cuộc trò chuyện nào",
+              "it": "Ancora nessuna chat",
+              "fa": "هنوز گفتگویی نیست",
+              "pl": "Brak czatów",
+              "uk": "Чатів ще немає",
+              "nl": "Nog geen chats",
+              "sv": "Inga chattar än",
+              "cs": "Zatím žádné chaty",
+              "el": "Δεν υπάρχουν συνομιλίες ακόμη"
+            },
+            "emptyText": {
+              "en": "Start a chat, then add a sub-chat.",
+              "ko": "대화를 시작한 다음 하위 대화를 추가하세요.",
+              "zh": "先创建聊天，再添加子聊天。",
+              "hi": "चैट शुरू करें, फिर उप-चैट जोड़ें।",
+              "es": "Crea un chat y luego añade un subchat.",
+              "fr": "Créez une discussion, puis ajoutez une sous-discussion.",
+              "ar": "ابدأ محادثة ثم أضف محادثة فرعية.",
+              "pt": "Crie uma conversa e depois adicione uma subconversa.",
+              "ru": "Создайте чат, затем добавьте подчат.",
+              "de": "Starte einen Chat und füge dann einen Unterchat hinzu.",
+              "ja": "チャットを作成し、サブチャットを追加しましょう。",
+              "tr": "Bir sohbet başlatın, ardından alt sohbet ekleyin.",
+              "vi": "Tạo một cuộc trò chuyện, rồi thêm cuộc trò chuyện con.",
+              "it": "Crea una chat, poi aggiungi una sotto-chat.",
+              "fa": "یک گفتگو بسازید و سپس زیرگفتگو اضافه کنید.",
+              "pl": "Utwórz czat, a potem dodaj podczat.",
+              "uk": "Створіть чат, потім додайте підчат.",
+              "nl": "Start een chat en voeg dan een subchat toe.",
+              "sv": "Starta en chatt och lägg sedan till en underchatt.",
+              "cs": "Vytvořte chat a pak přidejte podchat.",
+              "el": "Ξεκινήστε μια συνομιλία και μετά προσθέστε υποσυνομιλία."
+            },
+            "emptyAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "chats"
+              }
+            },
+            "emptyActionLabel": {
+              "en": "New chat",
+              "ko": "새 대화",
+              "zh": "新建聊天",
+              "hi": "नई चैट",
+              "es": "Nuevo chat",
+              "fr": "Nouvelle discussion",
+              "ar": "محادثة جديدة",
+              "pt": "Nova conversa",
+              "ru": "Новый чат",
+              "de": "Neuer Chat",
+              "ja": "新しいチャット",
+              "tr": "Yeni sohbet",
+              "vi": "Cuộc trò chuyện mới",
+              "it": "Nuova chat",
+              "fa": "گفتگوی جدید",
+              "pl": "Nowy czat",
+              "uk": "Новий чат",
+              "nl": "Nieuwe chat",
+              "sv": "Ny chatt",
+              "cs": "Nový chat",
+              "el": "Νέα συνομιλία"
+            }
+          }
+        ]
+      }
+    },
+    "subchats": {
+      "title": {
+        "en": "Sub-chats",
+        "ko": "하위 대화",
+        "zh": "子聊天",
+        "hi": "उप-चैट",
+        "es": "Subchats",
+        "fr": "Sous-discussions",
+        "ar": "المحادثات الفرعية",
+        "pt": "Subconversas",
+        "ru": "Подчаты",
+        "de": "Unterchats",
+        "ja": "サブチャット",
+        "tr": "Alt sohbetler",
+        "vi": "Cuộc trò chuyện con",
+        "it": "Sotto-chat",
+        "fa": "زیرگفتگوها",
+        "pl": "Podczaty",
+        "uk": "Підчати",
+        "nl": "Subchats",
+        "sv": "Underchattar",
+        "cs": "Podchaty",
+        "el": "Υποσυνομιλίες"
+      },
+      "body": {
+        "type": "column",
+        "crossAxis": "stretch",
+        "children": [
+          {
+            "type": "backbutton",
+            "label": {
+              "en": "All chats",
+              "ko": "모든 대화",
+              "zh": "所有聊天",
+              "hi": "सभी चैट",
+              "es": "Todos los chats",
+              "fr": "Toutes les discussions",
+              "ar": "كل المحادثات",
+              "pt": "Todas as conversas",
+              "ru": "Все чаты",
+              "de": "Alle Chats",
+              "ja": "すべてのチャット",
+              "tr": "Tüm sohbetler",
+              "vi": "Tất cả cuộc trò chuyện",
+              "it": "Tutte le chat",
+              "fa": "همهٔ گفتگوها",
+              "pl": "Wszystkie czaty",
+              "uk": "Усі чати",
+              "nl": "Alle chats",
+              "sv": "Alla chattar",
+              "cs": "Všechny chaty",
+              "el": "Όλες οι συνομιλίες"
+            },
+            "action": {
+              "fn": "goto",
+              "args": {
+                "screen": "chats"
+              }
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Open a sub-chat or start a new one. Model, system prompt and web access are set per sub-chat.",
+              "ko": "하위 대화를 열거나 새로 만드세요. 모델, 시스템 프롬프트, 웹 접근은 하위 대화별로 설정됩니다.",
+              "zh": "打开子聊天或新建一个。模型、系统提示和网页访问按子聊天分别设置。",
+              "hi": "उप-चैट खोलें या नई शुरू करें। मॉडल, सिस्टम प्रॉम्प्ट और वेब एक्सेस हर उप-चैट के लिए अलग तय होते हैं।",
+              "es": "Abre un subchat o crea uno nuevo. El modelo, el prompt del sistema y el acceso web se definen por subchat.",
+              "fr": "Ouvrez une sous-discussion ou créez-en une. Le modèle, l'invite système et l'accès web se règlent par sous-discussion.",
+              "ar": "افتح محادثة فرعية أو ابدأ واحدة جديدة. يُضبط النموذج وتعليمات النظام والوصول إلى الويب لكل محادثة فرعية.",
+              "pt": "Abra uma subconversa ou crie uma nova. Modelo, prompt do sistema e acesso à web são definidos por subconversa.",
+              "ru": "Откройте подчат или создайте новый. Модель, системная инструкция и доступ в интернет задаются для каждого подчата.",
+              "de": "Öffne einen Unterchat oder lege einen neuen an. Modell, System-Prompt und Webzugriff gelten pro Unterchat.",
+              "ja": "サブチャットを開くか、新しく作成します。モデル、システムプロンプト、Webアクセスはサブチャットごとに設定します。",
+              "tr": "Bir alt sohbet açın veya yenisini başlatın. Model, sistem istemi ve web erişimi alt sohbet başına ayarlanır.",
+              "vi": "Mở một cuộc trò chuyện con hoặc tạo mới. Mô hình, lời nhắc hệ thống và quyền truy cập web được đặt riêng cho từng cuộc trò chuyện con.",
+              "it": "Apri una sotto-chat o creane una nuova. Modello, prompt di sistema e accesso al web si impostano per ogni sotto-chat.",
+              "fa": "یک زیرگفتگو را باز کنید یا زیرگفتگوی تازه بسازید. مدل، دستور سیستمی و دسترسی به وب برای هر زیرگفتگو جداگانه تنظیم می‌شود.",
+              "pl": "Otwórz podczat lub utwórz nowy. Model, prompt systemowy i dostęp do sieci ustawia się dla każdego podczatu.",
+              "uk": "Відкрийте підчат або створіть новий. Модель, системна інструкція та доступ до вебу задаються для кожного підчату.",
+              "nl": "Open een subchat of maak een nieuwe. Model, systeemprompt en webtoegang gelden per subchat.",
+              "sv": "Öppna en underchatt eller skapa en ny. Modell, systemprompt och webbåtkomst anges per underchatt.",
+              "cs": "Otevřete podchat nebo vytvořte nový. Model, systémový prompt a přístup na web se nastavují pro každý podchat zvlášť.",
+              "el": "Ανοίξτε μια υποσυνομιλία ή δημιουργήστε νέα. Το μοντέλο, η προτροπή συστήματος και η πρόσβαση στον ιστό ορίζονται ανά υποσυνομιλία."
+            }
+          },
+          {
+            "type": "button",
+            "label": {
+              "en": "New sub-chat",
+              "ko": "새 하위 대화",
+              "zh": "新建子聊天",
+              "hi": "नई उप-चैट",
+              "es": "Nuevo subchat",
+              "fr": "Nouvelle sous-discussion",
+              "ar": "محادثة فرعية جديدة",
+              "pt": "Nova subconversa",
+              "ru": "Новый подчат",
+              "de": "Neuer Unterchat",
+              "ja": "新しいサブチャット",
+              "tr": "Yeni alt sohbet",
+              "vi": "Cuộc trò chuyện con mới",
+              "it": "Nuova sotto-chat",
+              "fa": "زیرگفتگوی جدید",
+              "pl": "Nowy podczat",
+              "uk": "Новий підчат",
+              "nl": "Nieuwe subchat",
+              "sv": "Ny underchatt",
+              "cs": "Nový podchat",
+              "el": "Νέα υποσυνομιλία"
+            },
+            "icon": "add",
+            "action": {
+              "fn": "addRow",
+              "args": {
+                "table": "subchats",
+                "values": {
+                  "chat": "$selected:chats.id"
+                }
+              }
+            }
+          },
+          {
+            "type": "list",
+            "table": "subchats",
+            "titleColumn": "name",
+            "subtitleColumns": [
+              "model"
+            ],
+            "action": {
+              "chain": [
+                {
+                  "fn": "selectRow",
+                  "args": {
+                    "table": "subchats"
+                  }
+                },
+                {
+                  "fn": "hostCall",
+                  "args": {
+                    "name": "chatScope",
+                    "into": "messages",
+                    "column": "subchat"
+                  }
+                },
+                {
+                  "fn": "goto",
+                  "args": {
+                    "screen": "thread"
+                  }
+                }
+              ]
+            },
+            "emptyIcon": "chat_bubble_outline",
+            "emptyTitle": {
+              "en": "No sub-chats yet",
+              "ko": "아직 하위 대화가 없습니다",
+              "zh": "还没有子聊天",
+              "hi": "अभी कोई उप-चैट नहीं",
+              "es": "Aún no hay subchats",
+              "fr": "Aucune sous-discussion pour l'instant",
+              "ar": "لا توجد محادثات فرعية بعد",
+              "pt": "Nenhuma subconversa ainda",
+              "ru": "Подчатов пока нет",
+              "de": "Noch keine Unterchats",
+              "ja": "サブチャットはまだありません",
+              "tr": "Henüz alt sohbet yok",
+              "vi": "Chưa có cuộc trò chuyện con nào",
+              "it": "Ancora nessuna sotto-chat",
+              "fa": "هنوز زیرگفتگویی نیست",
+              "pl": "Brak podczatów",
+              "uk": "Підчатів ще немає",
+              "nl": "Nog geen subchats",
+              "sv": "Inga underchattar än",
+              "cs": "Zatím žádné podchaty",
+              "el": "Δεν υπάρχουν υποσυνομιλίες ακόμη"
+            },
+            "emptyText": {
+              "en": "Add a sub-chat to start chatting.",
+              "ko": "하위 대화를 추가해 대화를 시작하세요.",
+              "zh": "添加子聊天即可开始聊天。",
+              "hi": "चैट शुरू करने के लिए उप-चैट जोड़ें।",
+              "es": "Añade un subchat para empezar a chatear.",
+              "fr": "Ajoutez une sous-discussion pour commencer.",
+              "ar": "أضف محادثة فرعية لبدء الدردشة.",
+              "pt": "Adicione uma subconversa para começar a conversar.",
+              "ru": "Добавьте подчат, чтобы начать общение.",
+              "de": "Füge einen Unterchat hinzu, um zu starten.",
+              "ja": "サブチャットを追加して会話を始めましょう。",
+              "tr": "Sohbete başlamak için bir alt sohbet ekleyin.",
+              "vi": "Thêm một cuộc trò chuyện con để bắt đầu.",
+              "it": "Aggiungi una sotto-chat per iniziare.",
+              "fa": "برای شروع، یک زیرگفتگو اضافه کنید.",
+              "pl": "Dodaj podczat, aby zacząć rozmawiać.",
+              "uk": "Додайте підчат, щоб розпочати розмову.",
+              "nl": "Voeg een subchat toe om te beginnen.",
+              "sv": "Lägg till en underchatt för att börja.",
+              "cs": "Přidejte podchat a začněte konverzovat.",
+              "el": "Προσθέστε μια υποσυνομιλία για να ξεκινήσετε."
+            },
+            "emptyAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "subchats",
+                "values": {
+                  "chat": "$selected:chats.id"
+                }
+              }
+            },
+            "emptyActionLabel": {
+              "en": "New sub-chat",
+              "ko": "새 하위 대화",
+              "zh": "新建子聊天",
+              "hi": "नई उप-चैट",
+              "es": "Nuevo subchat",
+              "fr": "Nouvelle sous-discussion",
+              "ar": "محادثة فرعية جديدة",
+              "pt": "Nova subconversa",
+              "ru": "Новый подчат",
+              "de": "Neuer Unterchat",
+              "ja": "新しいサブチャット",
+              "tr": "Yeni alt sohbet",
+              "vi": "Cuộc trò chuyện con mới",
+              "it": "Nuova sotto-chat",
+              "fa": "زیرگفتگوی جدید",
+              "pl": "Nowy podczat",
+              "uk": "Новий підчат",
+              "nl": "Nieuwe subchat",
+              "sv": "Ny underchatt",
+              "cs": "Nový podchat",
+              "el": "Νέα υποσυνομιλία"
+            }
+          }
+        ]
+      }
+    },
+    "thread": {
+      "title": {
+        "en": "Thread",
+        "ko": "스레드",
+        "zh": "对话串",
+        "hi": "थ्रेड",
+        "es": "Hilo",
+        "fr": "Fil",
+        "ar": "سلسلة",
+        "pt": "Tópico",
+        "ru": "Ветка",
+        "de": "Verlauf",
+        "ja": "スレッド",
+        "tr": "Akış",
+        "vi": "Luồng",
+        "it": "Thread",
+        "fa": "رشته",
+        "pl": "Wątek",
+        "uk": "Гілка",
+        "nl": "Gesprek",
+        "sv": "Tråd",
+        "cs": "Vlákno",
+        "el": "Νήμα"
+      },
+      "body": {
+        "type": "column",
+        "crossAxis": "stretch",
+        "children": [
+          {
+            "type": "backbutton",
+            "label": {
+              "en": "Sub-chats",
+              "ko": "하위 대화",
+              "zh": "子聊天",
+              "hi": "उप-चैट",
+              "es": "Subchats",
+              "fr": "Sous-discussions",
+              "ar": "المحادثات الفرعية",
+              "pt": "Subconversas",
+              "ru": "Подчаты",
+              "de": "Unterchats",
+              "ja": "サブチャット",
+              "tr": "Alt sohbetler",
+              "vi": "Cuộc trò chuyện con",
+              "it": "Sotto-chat",
+              "fa": "زیرگفتگوها",
+              "pl": "Podczaty",
+              "uk": "Підчати",
+              "nl": "Subchats",
+              "sv": "Underchattar",
+              "cs": "Podchaty",
+              "el": "Υποσυνομιλίες"
+            },
+            "action": {
+              "fn": "goto",
+              "args": {
+                "screen": "subchats"
+              }
+            }
+          },
+          {
+            "type": "disclosure",
+            "label": {
+              "en": "Settings",
+              "ko": "설정",
+              "zh": "设置",
+              "hi": "सेटिंग्स",
+              "es": "Ajustes",
+              "fr": "Paramètres",
+              "ar": "الإعدادات",
+              "pt": "Configurações",
+              "ru": "Настройки",
+              "de": "Einstellungen",
+              "ja": "設定",
+              "tr": "Ayarlar",
+              "vi": "Cài đặt",
+              "it": "Impostazioni",
+              "fa": "تنظیمات",
+              "pl": "Ustawienia",
+              "uk": "Налаштування",
+              "nl": "Instellingen",
+              "sv": "Inställningar",
+              "cs": "Nastavení",
+              "el": "Ρυθμίσεις"
+            },
+            "children": [
+              {
+                "type": "record",
+                "table": "subchats",
+                "rowId": "$selected:subchats",
+                "compact": true,
+                "fields": [
+                  "name",
+                  "model",
+                  "system",
+                  "web"
+                ],
+                "emptyText": "Go back and open a sub-chat to see its settings."
+              }
+            ]
+          },
+          {
+            "type": "list",
+            "table": "messages",
+            "titleColumn": "text",
+            "sortColumn": "at",
+            "sortDir": "asc",
+            "bubbles": {
+              "byColumn": "role",
+              "selfValue": "user"
+            },
+            "emptyIcon": "chat",
+            "emptyTitle": {
+              "en": "Say hello",
+              "ko": "인사해 보세요",
+              "zh": "打个招呼",
+              "hi": "नमस्ते कहें",
+              "es": "Saluda",
+              "fr": "Dites bonjour",
+              "ar": "قل مرحباً",
+              "pt": "Diga olá",
+              "ru": "Поздоровайтесь",
+              "de": "Sag Hallo",
+              "ja": "あいさつしてみましょう",
+              "tr": "Merhaba deyin",
+              "vi": "Hãy chào",
+              "it": "Saluta",
+              "fa": "سلام کنید",
+              "pl": "Przywitaj się",
+              "uk": "Привітайтеся",
+              "nl": "Zeg hallo",
+              "sv": "Säg hej",
+              "cs": "Pozdravte",
+              "el": "Πείτε γεια"
+            },
+            "emptyText": {
+              "en": "Type below to ask something.",
+              "ko": "아래에 입력해 질문해 보세요.",
+              "zh": "在下方输入即可提问。",
+              "hi": "कुछ पूछने के लिए नीचे लिखें।",
+              "es": "Escribe abajo para preguntar algo.",
+              "fr": "Écrivez ci-dessous pour poser une question.",
+              "ar": "اكتب أدناه لتطرح سؤالاً.",
+              "pt": "Digite abaixo para perguntar algo.",
+              "ru": "Напишите ниже, чтобы задать вопрос.",
+              "de": "Tippe unten, um etwas zu fragen.",
+              "ja": "下に入力して質問しましょう。",
+              "tr": "Bir şey sormak için aşağıya yazın.",
+              "vi": "Nhập bên dưới để đặt câu hỏi.",
+              "it": "Scrivi qui sotto per fare una domanda.",
+              "fa": "برای پرسیدن چیزی در پایین بنویسید.",
+              "pl": "Wpisz poniżej, aby o coś zapytać.",
+              "uk": "Введіть нижче, щоб поставити запитання.",
+              "nl": "Typ hieronder om iets te vragen.",
+              "sv": "Skriv nedan för att fråga något.",
+              "cs": "Napište níže a na něco se zeptejte.",
+              "el": "Πληκτρολογήστε παρακάτω για να ρωτήσετε κάτι."
+            },
+            "emptyAction": {
+              "fn": "addRow",
+              "args": {
+                "table": "messages",
+                "values": {
+                  "role": "user",
+                  "subchat": "$selected:subchats.id"
+                }
+              }
+            },
+            "emptyActionLabel": {
+              "en": "Write a message",
+              "ko": "메시지 쓰기",
+              "zh": "写消息",
+              "hi": "संदेश लिखें",
+              "es": "Escribir un mensaje",
+              "fr": "Écrire un message",
+              "ar": "اكتب رسالة",
+              "pt": "Escrever uma mensagem",
+              "ru": "Написать сообщение",
+              "de": "Nachricht schreiben",
+              "ja": "メッセージを書く",
+              "tr": "Mesaj yaz",
+              "vi": "Viết tin nhắn",
+              "it": "Scrivi un messaggio",
+              "fa": "نوشتن پیام",
+              "pl": "Napisz wiadomość",
+              "uk": "Написати повідомлення",
+              "nl": "Bericht schrijven",
+              "sv": "Skriv ett meddelande",
+              "cs": "Napsat zprávu",
+              "el": "Γράψτε μήνυμα"
+            }
+          },
+          {
+            "type": "button",
+            "label": {
+              "en": "Attach a file and ask",
+              "ko": "파일 첨부하고 질문하기",
+              "zh": "附加文件并提问",
+              "hi": "फ़ाइल जोड़ें और पूछें",
+              "es": "Adjuntar un archivo y preguntar",
+              "fr": "Joindre un fichier et demander",
+              "ar": "أرفق ملفاً واسأل",
+              "pt": "Anexar um arquivo e perguntar",
+              "ru": "Прикрепить файл и спросить",
+              "de": "Datei anhängen und fragen",
+              "ja": "ファイルを添付して質問",
+              "tr": "Dosya ekle ve sor",
+              "vi": "Đính kèm tệp và hỏi",
+              "it": "Allega un file e chiedi",
+              "fa": "پیوست فایل و پرسیدن",
+              "pl": "Załącz plik i zapytaj",
+              "uk": "Додати файл і запитати",
+              "nl": "Bestand bijvoegen en vragen",
+              "sv": "Bifoga en fil och fråga",
+              "cs": "Přiložit soubor a zeptat se",
+              "el": "Επισύναψη αρχείου και ερώτηση"
+            },
+            "icon": "attach_file",
+            "variant": "text",
+            "action": {
+              "fn": "addRow",
+              "args": {
+                "table": "messages",
+                "values": {
+                  "role": "user",
+                  "subchat": "$selected:subchats.id"
+                }
+              }
+            }
+          },
+          {
+            "type": "composer",
+            "table": "messages",
+            "column": "text",
+            "placeholder": {
+              "en": "Message the assistant…",
+              "ko": "어시스턴트에게 메시지 보내기…",
+              "zh": "给助手发消息…",
+              "hi": "सहायक को संदेश भेजें…",
+              "es": "Escribe al asistente…",
+              "fr": "Écrire à l'assistant…",
+              "ar": "راسل المساعد…",
+              "pt": "Escreva ao assistente…",
+              "ru": "Сообщение ассистенту…",
+              "de": "Nachricht an den Assistenten…",
+              "ja": "アシスタントにメッセージ…",
+              "tr": "Asistana mesaj yaz…",
+              "vi": "Nhắn tin cho trợ lý…",
+              "it": "Scrivi all'assistente…",
+              "fa": "پیام به دستیار…",
+              "pl": "Napisz do asystenta…",
+              "uk": "Повідомлення асистенту…",
+              "nl": "Bericht aan de assistent…",
+              "sv": "Skriv till assistenten…",
+              "cs": "Napište asistentovi…",
+              "el": "Μήνυμα στον βοηθό…"
+            },
+            "sendIcon": "send",
+            "values": {
+              "role": "user",
+              "subchat": "$selected:subchats.id",
+              "at": "now"
+            },
+            "action": {
+              "fn": "hostCall",
+              "args": {
+                "name": "chatSend"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "about": {
+      "title": {
+        "en": "About Chat",
+        "ko": "채팅 정보",
+        "zh": "关于聊天",
+        "hi": "चैट के बारे में",
+        "es": "Acerca de Chat",
+        "fr": "À propos de Chat",
+        "ar": "حول الدردشة",
+        "pt": "Sobre o Chat",
+        "ru": "О приложении Чат",
+        "de": "Über Chat",
+        "ja": "チャットについて",
+        "tr": "Sohbet hakkında",
+        "vi": "Giới thiệu về Chat",
+        "it": "Informazioni su Chat",
+        "fa": "درباره گفتگو",
+        "pl": "O aplikacji Czat",
+        "uk": "Про застосунок Чат",
+        "nl": "Over Chat",
+        "sv": "Om Chat",
+        "cs": "O aplikaci Chat",
+        "el": "Σχετικά με το Chat"
+      },
+      "body": {
+        "type": "column",
+        "crossAxis": "stretch",
+        "children": [
+          {
+            "type": "text",
+            "style": "title",
+            "value": {
+              "en": "Your AI, your key",
+              "ko": "나의 AI, 나의 키",
+              "zh": "您的 AI，您的密钥",
+              "hi": "आपका AI, आपकी कुंजी",
+              "es": "Tu IA, tu clave",
+              "fr": "Votre IA, votre clé",
+              "ar": "ذكاؤك الاصطناعي، مفتاحك",
+              "pt": "Sua IA, sua chave",
+              "ru": "Ваш ИИ, ваш ключ",
+              "de": "Deine KI, dein Schlüssel",
+              "ja": "あなたのAI、あなたのキー",
+              "tr": "Senin yapay zekân, senin anahtarın",
+              "vi": "AI của bạn, khóa của bạn",
+              "it": "La tua IA, la tua chiave",
+              "fa": "هوش مصنوعی شما، کلید شما",
+              "pl": "Twoja AI, twój klucz",
+              "uk": "Ваш ШІ, ваш ключ",
+              "nl": "Jouw AI, jouw sleutel",
+              "sv": "Din AI, din nyckel",
+              "cs": "Vaše AI, váš klíč",
+              "el": "Η δική σας AI, το δικό σας κλειδί"
+            }
+          },
+          {
+            "type": "text",
+            "value": {
+              "en": "1. Add your AI provider key in app settings.\n2. Make a chat, add a sub-chat, pick a model.\n3. Type and send. Turn on web access to let it read links you paste.\n4. For a photo, PDF or text file: Attach a file and ask, save, then tap the send arrow on that message.",
+              "ko": "1. 앱 설정에서 AI 제공자 키를 추가하세요.\n2. 대화를 만들고 하위 대화를 추가한 뒤 모델을 고르세요.\n3. 입력하고 보내세요. 웹 접근을 켜면 붙여넣은 링크를 읽을 수 있습니다.\n4. 사진, PDF, 텍스트 파일은 '파일 첨부하고 질문하기'를 눌러 저장한 뒤 해당 메시지의 보내기 화살표를 누르세요.",
+              "zh": "1. 在应用设置中添加 AI 服务密钥。\n2. 创建聊天、添加子聊天并选择模型。\n3. 输入并发送。开启网页访问后可读取您粘贴的链接。\n4. 发送照片、PDF 或文本文件：点“附加文件并提问”，保存后点该消息的发送箭头。",
+              "hi": "1. ऐप सेटिंग में अपनी AI प्रदाता कुंजी जोड़ें।\n2. चैट बनाएँ, उप-चैट जोड़ें, मॉडल चुनें।\n3. लिखें और भेजें। वेब एक्सेस चालू करने पर यह आपके चिपकाए लिंक पढ़ सकता है।\n4. फ़ोटो, PDF या टेक्स्ट फ़ाइल के लिए: “फ़ाइल जोड़ें और पूछें” दबाएँ, सहेजें, फिर उस संदेश के भेजें तीर पर टैप करें।",
+              "es": "1. Añade tu clave de proveedor de IA en los ajustes de la app.\n2. Crea un chat, añade un subchat y elige un modelo.\n3. Escribe y envía. Activa el acceso web para que lea los enlaces que pegues.\n4. Para una foto, PDF o archivo de texto: Adjuntar un archivo y preguntar, guarda y toca la flecha de envío de ese mensaje.",
+              "fr": "1. Ajoutez votre clé de fournisseur d'IA dans les réglages de l'app.\n2. Créez une discussion, ajoutez une sous-discussion, choisissez un modèle.\n3. Écrivez et envoyez. Activez l'accès web pour qu'il lise les liens collés.\n4. Pour une photo, un PDF ou un fichier texte : Joindre un fichier et demander, enregistrez, puis touchez la flèche d'envoi de ce message.",
+              "ar": "1. أضف مفتاح مزوّد الذكاء الاصطناعي في إعدادات التطبيق.\n2. أنشئ محادثة وأضف محادثة فرعية واختر نموذجاً.\n3. اكتب وأرسل. فعّل الوصول إلى الويب ليقرأ الروابط التي تلصقها.\n4. لصورة أو PDF أو ملف نصي: اضغط «أرفق ملفاً واسأل» ثم احفظ ثم اضغط سهم الإرسال في تلك الرسالة.",
+              "pt": "1. Adicione sua chave de provedor de IA nas configurações do app.\n2. Crie uma conversa, adicione uma subconversa e escolha um modelo.\n3. Digite e envie. Ative o acesso à web para ele ler os links que você colar.\n4. Para foto, PDF ou arquivo de texto: Anexar um arquivo e perguntar, salve e toque na seta de envio dessa mensagem.",
+              "ru": "1. Добавьте ключ ИИ-провайдера в настройках приложения.\n2. Создайте чат, добавьте подчат, выберите модель.\n3. Пишите и отправляйте. Включите доступ в интернет, чтобы читались вставленные ссылки.\n4. Для фото, PDF или текстового файла: «Прикрепить файл и спросить», сохраните и нажмите стрелку отправки у этого сообщения.",
+              "de": "1. Füge deinen KI-Anbieter-Schlüssel in den App-Einstellungen hinzu.\n2. Lege einen Chat und einen Unterchat an und wähle ein Modell.\n3. Schreibe und sende. Mit Webzugriff liest er eingefügte Links.\n4. Für Foto, PDF oder Textdatei: „Datei anhängen und fragen“, speichern und dann den Senden-Pfeil dieser Nachricht antippen.",
+              "ja": "1. アプリ設定でAIプロバイダーのキーを追加します。\n2. チャットとサブチャットを作り、モデルを選びます。\n3. 入力して送信します。Webアクセスをオンにすると貼り付けたリンクを読めます。\n4. 写真・PDF・テキストファイルは「ファイルを添付して質問」を押して保存し、そのメッセージの送信矢印をタップします。",
+              "tr": "1. Uygulama ayarlarına yapay zekâ sağlayıcı anahtarınızı ekleyin.\n2. Sohbet oluşturun, alt sohbet ekleyin, model seçin.\n3. Yazıp gönderin. Web erişimini açarsanız yapıştırdığınız bağlantıları okur.\n4. Fotoğraf, PDF veya metin dosyası için: “Dosya ekle ve sor”, kaydedin, sonra o mesajın gönder okuna dokunun.",
+              "vi": "1. Thêm khóa nhà cung cấp AI trong cài đặt ứng dụng.\n2. Tạo cuộc trò chuyện, thêm cuộc trò chuyện con, chọn mô hình.\n3. Nhập và gửi. Bật truy cập web để nó đọc các liên kết bạn dán.\n4. Với ảnh, PDF hoặc tệp văn bản: chọn “Đính kèm tệp và hỏi”, lưu, rồi chạm mũi tên gửi của tin nhắn đó.",
+              "it": "1. Aggiungi la chiave del fornitore di IA nelle impostazioni dell'app.\n2. Crea una chat, aggiungi una sotto-chat, scegli un modello.\n3. Scrivi e invia. Attiva l'accesso al web per fargli leggere i link incollati.\n4. Per foto, PDF o file di testo: «Allega un file e chiedi», salva e tocca la freccia di invio di quel messaggio.",
+              "fa": "۱. کلید ارائه‌دهندهٔ هوش مصنوعی را در تنظیمات برنامه اضافه کنید.\n۲. گفتگو و زیرگفتگو بسازید و مدل را انتخاب کنید.\n۳. بنویسید و بفرستید. با روشن کردن دسترسی به وب، پیوندهای چسبانده‌شده را می‌خواند.\n۴. برای عکس، PDF یا فایل متنی: «پیوست فایل و پرسیدن» را بزنید، ذخیره کنید و روی پیکان ارسال همان پیام بزنید.",
+              "pl": "1. Dodaj klucz dostawcy AI w ustawieniach aplikacji.\n2. Utwórz czat, dodaj podczat, wybierz model.\n3. Pisz i wysyłaj. Włącz dostęp do sieci, by czytał wklejone linki.\n4. Dla zdjęcia, PDF lub pliku tekstowego: „Załącz plik i zapytaj”, zapisz, a potem dotknij strzałki wysyłania przy tej wiadomości.",
+              "uk": "1. Додайте ключ постачальника ШІ в налаштуваннях застосунку.\n2. Створіть чат, додайте підчат, виберіть модель.\n3. Пишіть і надсилайте. Увімкніть доступ до вебу, щоб він читав вставлені посилання.\n4. Для фото, PDF чи текстового файлу: «Додати файл і запитати», збережіть і торкніться стрілки надсилання біля цього повідомлення.",
+              "nl": "1. Voeg je AI-providersleutel toe in de app-instellingen.\n2. Maak een chat, voeg een subchat toe en kies een model.\n3. Typ en verstuur. Zet webtoegang aan zodat hij geplakte links leest.\n4. Voor een foto, pdf of tekstbestand: Bestand bijvoegen en vragen, bewaar en tik op de verzendpijl van dat bericht.",
+              "sv": "1. Lägg till din AI-leverantörsnyckel i appens inställningar.\n2. Skapa en chatt, lägg till en underchatt och välj modell.\n3. Skriv och skicka. Slå på webbåtkomst så läser den länkar du klistrar in.\n4. För foto, PDF eller textfil: Bifoga en fil och fråga, spara och tryck på skicka-pilen vid meddelandet.",
+              "cs": "1. Přidejte klíč poskytovatele AI v nastavení aplikace.\n2. Vytvořte chat, přidejte podchat a vyberte model.\n3. Pište a odesílejte. Zapněte přístup na web, aby četl vložené odkazy.\n4. U fotky, PDF nebo textového souboru: „Přiložit soubor a zeptat se“, uložte a klepněte na šipku odeslání u zprávy.",
+              "el": "1. Προσθέστε το κλειδί παρόχου AI στις ρυθμίσεις της εφαρμογής.\n2. Δημιουργήστε συνομιλία, προσθέστε υποσυνομιλία, επιλέξτε μοντέλο.\n3. Πληκτρολογήστε και στείλτε. Ενεργοποιήστε την πρόσβαση στον ιστό για να διαβάζει συνδέσμους που επικολλάτε.\n4. Για φωτογραφία, PDF ή αρχείο κειμένου: «Επισύναψη αρχείου και ερώτηση», αποθηκεύστε και πατήστε το βέλος αποστολής του μηνύματος."
+            }
+          },
+          {
+            "type": "text",
+            "style": "caption",
+            "value": {
+              "en": "Replies arrive whole (no streaming yet).",
+              "ko": "답변은 한 번에 도착합니다(아직 스트리밍 없음).",
+              "zh": "回复会整体到达（暂不支持流式）。",
+              "hi": "जवाब पूरा एक साथ आता है (अभी स्ट्रीमिंग नहीं)।",
+              "es": "Las respuestas llegan completas (aún sin streaming).",
+              "fr": "Les réponses arrivent en entier (pas encore de streaming).",
+              "ar": "تصل الردود كاملة (لا يوجد بث تدريجي بعد).",
+              "pt": "As respostas chegam inteiras (ainda sem streaming).",
+              "ru": "Ответы приходят целиком (потоковой передачи пока нет).",
+              "de": "Antworten kommen komplett (noch kein Streaming).",
+              "ja": "返信は一度にまとめて届きます（ストリーミングは未対応）。",
+              "tr": "Yanıtlar bir bütün olarak gelir (henüz akış yok).",
+              "vi": "Phản hồi đến đầy đủ một lần (chưa hỗ trợ phát trực tiếp).",
+              "it": "Le risposte arrivano intere (ancora niente streaming).",
+              "fa": "پاسخ‌ها یکجا می‌رسند (هنوز پخش زنده نیست).",
+              "pl": "Odpowiedzi przychodzą w całości (jeszcze bez strumieniowania).",
+              "uk": "Відповіді надходять повністю (потокового режиму ще немає).",
+              "nl": "Antwoorden komen in één keer binnen (nog geen streaming).",
+              "sv": "Svar kommer i sin helhet (ingen strömning än).",
+              "cs": "Odpovědi přicházejí celé (zatím bez streamování).",
+              "el": "Οι απαντήσεις έρχονται ολόκληρες (χωρίς streaming ακόμη)."
+            }
+          }
+        ]
+      }
+    }
+  }
+}

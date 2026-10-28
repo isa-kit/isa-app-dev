@@ -1,0 +1,18 @@
+{
+  "id": "chat",
+  "name": "Chat",
+  "category": "Developer",
+  "description": "Chat with an AI assistant: chats, sub-chats, attachments and web reading, on your own API key.",
+  "icon": "chat",
+  "color": "#B5651D",
+  "store": {
+    "type": "sqflite",
+    "namespace": "isan_chat"
+  },
+  "seedVersion": "2026-10-28.chat1",
+  "seedContent": "initial-only",
+  "durableSettings": [
+    "aiProviders",
+    "aiProvider"
+  ]
+}

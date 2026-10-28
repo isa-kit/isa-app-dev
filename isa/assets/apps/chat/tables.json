@@ -1,0 +1,22 @@
+{
+  "tables": [
+    {
+      "name": "chats",
+      "label": "Chats",
+      "icon": "forum",
+      "description": "Top-level conversations. Each holds sub-chats."
+    },
+    {
+      "name": "subchats",
+      "label": "Sub-chats",
+      "icon": "chat_bubble_outline",
+      "description": "Threads inside a chat. Each carries its own model, system prompt and web switch."
+    },
+    {
+      "name": "messages",
+      "label": "Messages",
+      "icon": "chat",
+      "description": "What you and the assistant said, per sub-chat. Attachments are stored inside the row."
+    }
+  ]
+}
